@@ -1,0 +1,19 @@
+.login{
+    width: 100vw;
+    height: 100vh;
+    background-color: #369;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.content{
+    width: 400px;
+    height: 200px;
+    border: 1px solid #fff;
+    padding-top: 10px;
+    
+    h2{
+        text-align: center;
+    }
+}
