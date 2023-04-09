@@ -41,7 +41,6 @@ const Register = () => {
     }
     //提交表单   
     const onFinish = async (values) => {
-        
         const userInfo = {
             username: values.username,
             password: values.password,
