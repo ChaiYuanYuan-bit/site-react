@@ -42,7 +42,7 @@ const Register = () => {
     }
     //提交表单   
     const onFinish = async (values) => {
-        
+        //整理用户注册信息
         const userInfo = {
             username: values.username,
             password: encrypt(values.password), //加密

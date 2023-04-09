@@ -6,6 +6,8 @@ import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import store from "./redux";
 import './index.css'
+import ReactMarkdown from 'react-markdown'
+import rehypeRaw from 'rehype-raw'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

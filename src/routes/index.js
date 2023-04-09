@@ -15,7 +15,8 @@ const routes = (props)=>[
     },
     {
         path:'/',
-        element:<Login {...props}/>
+        // element:<Login {...props}/>
+        element:<Layout {...props}/>
     },
     {
         path:'*',

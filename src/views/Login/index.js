@@ -85,7 +85,9 @@ const Login = ({loadUserInfo}) => {
                         },
                         ]}
                     >
-                        <Input />
+                        <Input 
+                        bordered
+                        />
                     </Form.Item>
                         
                     <Form.Item
