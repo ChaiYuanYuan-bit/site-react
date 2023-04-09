@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import { setMsg } from '../../redux/Notification';
 import { pwd_regex, phone_regex } from '../../config';
 import { $getRole,$regUser } from '../../api/roleApi';
+import encrypt from '../../utils/encrypt'
 
 const Register = () => {
     // 表单实例
@@ -44,7 +45,7 @@ const Register = () => {
         
         const userInfo = {
             username: values.username,
-            password: values.password,
+            password: encrypt(values.password), //加密
             phone: values.phone,
             email:values.email,
             roleType:roleType.find(item=>item.id===values.roleTypeId),
