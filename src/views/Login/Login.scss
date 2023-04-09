@@ -1,19 +1,66 @@
-.login{
-    width: 100vw;
-    height: 100vh;
-    background-color: #369;
+.login-page{
+    min-width: 100vw;
+    min-height: 100vh;
+    background-image: url("http://localhost:3000/login-bg.png");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center center;
+    background-size: cover;
     display: flex;
-    justify-content: center;
+    justify-content: space-evenly;
     align-items: center;
 }
-
-.content{
-    width: 400px;
-    height: 200px;
-    border: 1px solid #fff;
-    padding-top: 10px;
-    
-    h2{
-        text-align: center;
-    }
+.logo-name {
+    color: #e6e6e6;
+    font-size: 160px;
+    font-weight: 650;
+    letter-spacing: -5px;
+    flex-shrink:7;
+    //flex-wrap:nowrap;
 }
+.first-letter{
+    color: #1678ff;
+    font-size: 160px;
+    font-weight: 650;
+    letter-spacing: -5px;
+    flex-shrink:7
+}
+.login{
+    font-weight: 100;
+    color: #424445;
+    text-align: center;
+    font-size: 24px;
+    font-weight: 520;
+    letter-spacing: 2px;
+    font-family: "Microsoft YaHei", "Courier New", Serif;
+}
+.card{
+    position: relative;
+    flex-direction:column;
+    width: 430px;
+    height:450px;
+    margin: 30px;
+    /* 设置阴影 */
+    box-shadow: 20px 20px 50px rgba(0, 0, 0, 0.5);
+    border-radius: 15px;
+    /* 设置card的背景色 */
+    background: rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.5);
+    border-left: 1px solid rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(5px);
+}
+.welcome {
+    font-size: 32px;
+    font-weight: 600;
+}
+.login-form-button {
+    width: 100%;
+}
+.register-link{
+    float: right;
+}
+

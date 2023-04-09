@@ -1,101 +1,128 @@
 import React, {useEffect} from "react";
-import {useNavigate} from 'react-router-dom'
+import { Link } from "react-router-dom";
+import {useNavigate} from 'react-router-dom';
+import {ShoppingCartOutlined,} from '@ant-design/icons';
 import { Button, Form, Input } from "antd";
 import encrypt from '../../utils/encrypt'
 import {$login} from '../../api/userApi'
+import { setMsg } from "../../redux/Notification";
+import { useDispatch } from "react-redux";
 import "./Login.scss";
 
-const Login = ({setNoteMsg,loadUserInfo}) => {
+const Login = ({loadUserInfo}) => {
     //表单
     let [form] = Form.useForm();
     //导航;
-    let navigate = useNavigate()
+    let navigate = useNavigate();
+    //
+    let dispatch = useDispatch();
 
     //判断是否已登录
     useEffect(()=>{
         if(sessionStorage.getItem('token')){
-            navigate('/layout');
+            navigate('/home');
         }
     },[]);
     
     //表单成功提交方法
     const onFinish = async (values) => {
-        //对密码进行加密
-        values.password  = encrypt(values.password);
-        const {message,success} = await $login(values);
-        //判断是否登录成功
-        if(success){
-            navigate('/layout')
-            setNoteMsg({type:'success',description:message})
-            loadUserInfo();
+        try{
+            //对密码进行加密
+            values.password  = encrypt(values.password);
+            const {message,success} = await $login(values);
+            //判断是否登录成功
+            if(success){
+                navigate('/home')
+                dispatch(setMsg({msg:{type:'success',description:message}}))
+                loadUserInfo();
+            }
+            else{
+                dispatch(setMsg({msg:{type:'error',description:message}}))
+            }
         }
-        else{
-            setNoteMsg({type:'error',description:message})
+        catch(err)
+        {
+            dispatch(setMsg({msg:{type:'error',description:err.message}}))
         }
     };
 
     return (
-        <div className="login">
-            <div className="content">
-                <h2>酒店后台管理系统</h2>
+        <div className="login-page">
+            <div>
+                <h1 className="logo-name">
+                    <div><span className="first-letter">E</span>nterprise</div>
+                    <div><span className="first-letter">&nbsp;I</span>nternal</div>
+                    <div><span className="first-letter">S</span>hopping<ShoppingCartOutlined rotate={330} style={{ fontSize: '240px', color: '#1678ff' }}/></div>
+                </h1>
+            </div>
+            <div className="login">EIS：一款面向企业员工的内部购物网站
+            <div className="card">
+                <h2 className="welcome">Hi，欢迎登录</h2>
                 <Form
-                name="basic"
-                form={form}
-                labelCol={{
-                    span: 4,
-                }}
-                wrapperCol={{
-                    span: 18,
-                }}
-                initialValues={{
-                    username: '',
-                    password:''
-                }}
-                onFinish={onFinish}
-                autoComplete="off"
-                >
-                <Form.Item
-                    label="账号"
-                    name="username"
-                    rules={[
-                    {
-                        required: true,
-                        message: "请输入账号",
-                    },
-                    ]}
-                >
-                    <Input />
-                </Form.Item>
-                    
-                <Form.Item
-                    label="密码"
-                    name="password"
-                    rules={[
-                    {
-                        required: true,
-                        message: "请输入密码",
-                    },
-                    ]}
-                >
-                    <Input.Password />
-                </Form.Item>
-
-                <Form.Item
-                    wrapperCol={{
-                    offset: 4,
-                    span: 16,
+                    name="basic"
+                    form={form}
+                    labelCol={{
+                        span: 5,
                     }}
-                >
-                    <Button type="primary" htmlType="submit">
-                        登录
-                    </Button>
-                    <Button onClick={()=>{
-                        form.resetFields()
-                    }} style={{marginLeft:'10px'}} type="primary" htmlType="submit">
-                        取消
-                    </Button>
-                </Form.Item>
+                    wrapperCol={{
+                        span: 20,
+                    }}
+                    initialValues={{
+                        username:'',
+                        password:''
+                    }}
+                    onFinish={onFinish}
+                    autoComplete="off"
+                    >
+
+                    <Form.Item
+                        label="账号"
+                        name="username"
+                        rules={[
+                        {
+                            required: true,
+                            message: "请输入账号",
+                        },
+                        ]}
+                    >
+                        <Input />
+                    </Form.Item>
+                        
+                    <Form.Item
+                        label="密码"
+                        name="password"
+                        rules={[
+                        {
+                            required: true,
+                            message: "请输入密码",
+                        },
+                        ]}
+                    >
+                    <Input.Password />
+                    </Form.Item>
+
+                    <Form.Item
+                        wrapperCol={{
+                        offset: 5,
+                        span: 22,
+                        }}
+                    >
+                        <Form.Item>
+                        <Button type="primary" htmlType="submit" className="login-form-button">
+                            登录
+                        </Button >
+                        <br/>
+                        <p className="register-link">没有账号？<Link to="/register">点击注册</Link></p>
+                        </Form.Item>
+                        {/*
+                        <Button onClick={()=>{
+                            form.resetFields()
+                        }} style={{marginLeft:'10px'}} type="primary" htmlType="submit" className="btn-login">
+                            取消
+                        </Button>*/}
+                    </Form.Item>
                 </Form>
+            </div>
             </div>
         </div>
     );

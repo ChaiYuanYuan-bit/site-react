@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 const Layout = () => {
     //跳转路由
-    const navigate = useNavigate()  
+    const navigate = useNavigate()
     //退出
     const handleExit = ()=>{
         //清除系统缓存

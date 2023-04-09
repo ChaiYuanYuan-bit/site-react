@@ -1,5 +1,5 @@
 import axios from "axios";
-import baseURL from '../config'
+import {baseURL} from '../config'
 
 const axiosInstance = axios.create({
     baseURL:baseURL,
@@ -15,6 +15,7 @@ axiosInstance.interceptors.request.use(function (config){
     }
     return config;
 },function (error){
+    
     return Promise.reject(error);
 });
 
@@ -22,6 +23,7 @@ axiosInstance.interceptors.request.use(function (config){
 axiosInstance.interceptors.response.use(function (response){
     return response;
 },function (error){
+    
     return Promise.reject(error);
 })
 
