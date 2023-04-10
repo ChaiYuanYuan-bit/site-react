@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 import { setMsg } from '../../redux/Notification';
 import { pwd_regex, phone_regex } from '../../config';
 import { $getRole,$regUser } from '../../api/roleApi';
+import encrypt from '../../utils/encrypt'
 import "./Register.scss";
 
 const Register = () => {
@@ -46,7 +47,7 @@ const Register = () => {
         //整理用户注册信息
         const userInfo = {
             username: values.username,
-            password: values.password,
+            password: encrypt(values.password),
             phone: values.phone,
             email:values.email,
             roleType:roleType.find(item=>item.id===values.roleTypeId),
