@@ -1,0 +1,16 @@
+.ant-layout {
+    display: flex;
+    width: 100vw;
+    min-height: 100vh;
+    .logo {
+      height: 32px;
+      margin: 16px;
+      padding: auto 0;
+      color: white;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.2);
+      p{
+        line-height: 32px;
+      }
+    }
+  }

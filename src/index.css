@@ -10,8 +10,8 @@
 
 html,body,#root{
     all:unset;
-    min-width: 100%;
-    min-height: 100%;
+    width: 100vw;
+    min-height: 100vh;
     font-family: 'Poppins', sans-serif;
     background-color: var(--main-background-color);
     color: var(--main-text-color);
