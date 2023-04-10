@@ -51,7 +51,7 @@ const Login = ({loadUserInfo}) => {
                 <h1 className="logo-name">
                     <div><span className="first-letter">E</span>nterprise</div>
                     <div><span className="first-letter">&nbsp;I</span>nternal</div>
-                    <div><span className="first-letter">S</span>hopping<ShoppingCartOutlined rotate={330} style={{ fontSize: '240px', color: '#1678ff' }}/></div>
+                    <div style={{whiteSpace:'nowrap'}}><span className="first-letter">S</span>hopping<ShoppingCartOutlined rotate={330} style={{display:"inline-block", fontSize: '240px', color: '#1678ff' }}/></div>
                 </h1>
             <div className="login">EIS：一款面向企业员工的内购网站
             <div className="card">
@@ -112,12 +112,7 @@ const Login = ({loadUserInfo}) => {
                         <br/>
                         <p className="register-link">没有账号？<Link to="/register">点击注册</Link></p>
                         </Form.Item>
-                        {/*
-                        <Button onClick={()=>{
-                            form.resetFields()
-                        }} style={{marginLeft:'10px'}} type="primary" htmlType="submit" className="btn-login">
-                            取消
-                        </Button>*/}
+                        
                     </Form.Item>
                 </Form>
             </div>
