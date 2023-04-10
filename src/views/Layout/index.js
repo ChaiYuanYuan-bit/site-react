@@ -17,7 +17,7 @@ export default () => {
     // 配置默认路由路径
     const [route,setRoute] = useState('/home/mall')
     useEffect(()=>{
-
+      navigate('/home/mall');
     },[])
     //退出
     const handleExit = ()=>{
@@ -34,8 +34,8 @@ export default () => {
     } = theme.useToken();
 
     return (
-        <div>
-          <button onClick={handleExit}>退出</button>
+        <Layout>
+          {/* <button onClick={handleExit}>退出</button> */}
           <Sider trigger={null}
           collapsible 
           collapsed={collapsed} 
@@ -95,6 +95,6 @@ export default () => {
               <Outlet/>
             </Content>
           </Layout>
-        </div>
+        </Layout>
     );
 }

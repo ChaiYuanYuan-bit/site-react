@@ -9,13 +9,11 @@ import { setMsg } from "../../redux/Notification";
 import { useDispatch } from "react-redux";
 import "./Login.scss";
 
-const Login = ({loadUserInfo}) => {
+const Login = ({loadUserInfo,sendNotification}) => {
     //表单
     let [form] = Form.useForm();
     //导航;
     let navigate = useNavigate();
-    //
-    let dispatch = useDispatch();
 
     //判断是否已登录
     useEffect(()=>{
@@ -32,17 +30,17 @@ const Login = ({loadUserInfo}) => {
             const {message,success} = await $login(values);
             //判断是否登录成功
             if(success){
-                navigate('/home')
-                dispatch(setMsg({msg:{type:'success',description:message}}))
+                navigate('/home');
+                sendNotification('success',message);
                 loadUserInfo();
             }
             else{
-                dispatch(setMsg({msg:{type:'error',description:message}}))
+                sendNotification('error',message);
             }
         }
         catch(err)
         {
-            dispatch(setMsg({msg:{type:'error',description:err.message}}))
+            sendNotification('error',err.message);
         }
     };
 

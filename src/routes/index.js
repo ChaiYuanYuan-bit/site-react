@@ -12,7 +12,7 @@ const routes = (props)=>[
         children:[
             {
                 path:'mall',
-		        element:<Mall/>,
+		        element:<Mall {...props}/>,
             },
         ]
     },
@@ -27,7 +27,7 @@ const routes = (props)=>[
     },
     {
         path:'*',
-        element:<NotFound/>
+        element:<NotFound {...props}/>
     }
 ]
 export default routes;

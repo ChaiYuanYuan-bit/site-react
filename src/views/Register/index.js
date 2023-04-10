@@ -2,18 +2,14 @@ import React,{useState,useEffect} from 'react';
 import {Button,Form, Input, Select} from 'antd'
 import {LeftOutlined} from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { setMsg } from '../../redux/Notification';
 import { pwd_regex, phone_regex } from '../../config';
 import { $getRole,$regUser } from '../../api/roleApi';
 import encrypt from '../../utils/encrypt'
 import "./Register.scss";
 
-const Register = () => {
+const Register = ({sendNotification}) => {
     // 表单实例
     const [form] = Form.useForm();
-    // 引入redux dispatch
-    const distpatch = useDispatch();
     // 路由跳转
     const navigate = useNavigate();
     // 角色列表
@@ -39,7 +35,7 @@ const Register = () => {
             setShowRoleType(roleType);
         }
         catch(err){
-            distpatch(setMsg({type:'error',description:err.message}));
+            sendNotification('error',err.message);
         }
     }
     //提交表单   
@@ -57,16 +53,16 @@ const Register = () => {
             const {success,message} = await $regUser(userInfo);
             if(success)
             {
-                distpatch(setMsg({msg:{type:'success',description:message}}));
+                sendNotification('success',message);
                 navigate('/');
             }
             else{
-                distpatch(setMsg({msg:{type:'error',description:message}}));
+                sendNotification('error',message);
             }
 
         } 
         catch (err) {
-            distpatch(setMsg({msg:{type:'error',description:err.message}}));
+          sendNotification('error',err.message);
         }
     };
     //重置表单
