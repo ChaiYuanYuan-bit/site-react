@@ -83,7 +83,7 @@ const Login = ({loadUserInfo}) => {
                         },
                         ]}
                     >
-                        <Input prefix={<UserOutlined />}/>
+                    <Input prefix={<UserOutlined />}/>
                     </Form.Item>
                         
                     <Form.Item

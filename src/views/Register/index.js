@@ -237,7 +237,7 @@ const Register = () => {
                     <Button  type="primary" htmlType="submit">
                         注册
                     </Button>
-                    <Button onClick={onReset} style={{marginLeft:'1em'}} type="primary">
+                    <Button onClick={onReset} style={{marginLeft:'5em'}} type="primary">
                         重置
                     </Button>
                   </div>
