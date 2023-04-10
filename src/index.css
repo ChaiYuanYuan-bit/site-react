@@ -8,7 +8,7 @@
     -webkit-user-drag: none;
 }
 
-html,body{
+html,body,#root{
     all:unset;
     min-width: 100%;
     min-height: 100%;

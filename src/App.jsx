@@ -47,11 +47,11 @@ function App() {
   //路由组件
   const element = useRoutes(routes({loadUserInfo}));
   return (
-    <div>
+    <>
       {element}
       {/* 全局消息通知 */}
       <GlobalNotification/>
-    </div>
+    </>
   );
 }
 
