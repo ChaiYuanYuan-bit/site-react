@@ -24,7 +24,7 @@ const Login = ({loadUserInfo}) => {
         }
     },[]);
     
-    //表单成功提交方法
+    //表单成功提交方法.
     const onFinish = async (values) => {
         try{
             //对密码进行加密
