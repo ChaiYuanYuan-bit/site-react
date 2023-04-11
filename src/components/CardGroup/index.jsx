@@ -6,13 +6,8 @@ const { Meta } = Card;
 
 const CardGroup = ({allGoods,handleCardClick}) => {
     return (
-        <div style={{
-            display:'flex',
-            flexDirection:'row',
-            alignItems:'stretch',
-            flexWrap:'wrap',
-            margin:'0,auto'
-            }}>
+        <div className='card-content' >
+            <div className='card-roll'>
                 {
                     allGoods.map(item=>(
                         <Card
@@ -30,7 +25,7 @@ const CardGroup = ({allGoods,handleCardClick}) => {
                     </Card>
                     ))
                 }
-           
+            </div>
         </div>
     );
 }
