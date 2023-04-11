@@ -1,20 +1,3 @@
-.card-content{
-    height: 100%;
-    max-height: 730px; 
-    width: 100%;
-    padding: 0;
-    display: block;
-    overflow:scroll;
-}
-.card-content .card-roll{
-    display: flex;
-    flex-direction: row;
-    padding-right: 10px;
-    justify-content: space-between;
-    align-items: stretch;
-    flex-wrap: wrap;
-    margin: 0, auto;
-}
 .mycard-image-cover{
     overflow: hidden;
 }
