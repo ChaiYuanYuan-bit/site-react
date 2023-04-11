@@ -7,17 +7,17 @@
 }
 .row-allclass .col-name,
 .row-eachclass .col-name{
-    background: #1890ff;
-    color: #fff;
+    background: #eee;
+    color: #000;
     display: flex;
     justify-content: center;
-    border: 1px solid white;
+    border: 1px solid #fff;
     border-radius: 6px;
 }
 .row-allclass .col-content,
 .row-eachclass .col-content{
-    background: #eee;
+    background: #fff;
     padding-left:2em;
-    border: 1px solid white;
+    border-bottom: 2px solid #eee;
     border-radius: 6px;
 }
