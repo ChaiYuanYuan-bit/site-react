@@ -1,0 +1,13 @@
+.mycard-image-cover{
+    overflow: hidden;
+}
+
+.mycard-image-cover:hover{
+    .mycard-image{
+        transform: scale(1.05);
+    }
+}
+
+.mycard-image{
+    transition: 0.5s;
+}

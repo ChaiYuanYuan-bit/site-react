@@ -21,3 +21,16 @@
     border: 1px solid white;
     border-radius: 6px;
 }
+.my-alltag{
+    text-align: center !important;
+    transition: 0.7s;
+    cursor: pointer;
+}
+.mytag-css{
+    text-align: center !important;
+    transition: 0.3s;
+}
+
+.mytag-css:hover{
+    letter-spacing: 0.2em;
+}

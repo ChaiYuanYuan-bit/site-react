@@ -7,55 +7,59 @@ const { CheckableTag } = Tag;
 const NavGroup = ({goodsType,currentTypeId,selectedTags,setSelectedTags,featuresMap,setFeaturesMap}) => {
     // 商品特点表
     const [goodsFeatures,setGoodsFeatures] = useState([]);
-
     useEffect(()=>{
         loadFeatures();
-    },[goodsType,currentTypeId])
+    },[goodsType.length,currentTypeId,goodsFeatures.length])
     // 加载商品特点
     const loadFeatures = ()=>{
         const currentGoods = goodsType.find(item=>item.id===currentTypeId);
         if(currentGoods)
         {
             const features = currentGoods.features;
-            let _featuresMap = new Map();
             let initialTags = {}
             features.map(goods=>{
               //设置已选tags的初始结构
               initialTags[goods.id]=[];
-              //并且添加feature对应表，方便查询
-              goods.details.map(feature=>_featuresMap.set(feature.id,feature.name));
             })
-            console.log(_featuresMap);
+            //添加一个length属性
+            initialTags.length=0;
             setGoodsFeatures(features);
             setSelectedTags(initialTags);
-            setFeaturesMap(_featuresMap);
         }
     };
     //CheckableTag onchange事件处理
     const handleChange = (tagClass,tagName, checked) => {
-      //记录选择到的标签
       let nextSelectedTags = {};
       if(checked)
       {
-        nextSelectedTags = {...selectedTags,...{[tagClass]:[...selectedTags[tagClass], tagName]}};
+        nextSelectedTags = {...selectedTags,...{[tagClass]:[...selectedTags[tagClass], tagName]},length:selectedTags.length+1};
       }
       else{
-        nextSelectedTags = {...selectedTags,...{[tagClass]:selectedTags[tagClass].filter((t) => t !== tagName)}}
+        nextSelectedTags = {...selectedTags,...{[tagClass]:selectedTags[tagClass].filter((t) => t !== tagName)},length:selectedTags.length-1}
       }
+      console.log(nextSelectedTags)
       setSelectedTags(nextSelectedTags);
     };
+    //处理标签删除的函数
+    const handleTagClose = (tagClass,tagName)=>{
+      let nextSelectedTags = {...selectedTags,...{[tagClass]:selectedTags[tagClass].filter((t) => t !== tagName)},length:selectedTags.length-1}
+      setSelectedTags(nextSelectedTags);
+    }
     // 生成所有分类的标签函数
     const generateTags = ()=>{
       let tags = [];
-      for(var obj in selectedTags)
+      for(let obj in selectedTags)
       {
-        if(selectedTags[obj].length>0)
+        if(obj!='length')
         {
-          tags = [...tags,selectedTags[obj].map((tag)=>(
-          <Tag key={tag} color='geekblue' closable>
-            {tag}
-          </Tag>
-        ))]
+          if(selectedTags[obj].length>0)
+          {
+            tags = [...tags,selectedTags[obj].map((tag)=>(
+            <Tag className='my-alltag' key={tag} color='geekblue' closable onClick={()=>{handleTagClose(obj,tag)}}>
+              {tag}
+            </Tag>
+          ))]
+          }
         }
       }
       if(tags.length>0)
@@ -68,7 +72,7 @@ const NavGroup = ({goodsType,currentTypeId,selectedTags,setSelectedTags,features
     }
     // 每个标签选择状态控制
     const ifTagsChecked = (tagId)=>{
-      for(var obj in selectedTags)
+      for(let obj in selectedTags)
       {
         if(selectedTags[obj].length>0)
         {
@@ -100,6 +104,7 @@ const NavGroup = ({goodsType,currentTypeId,selectedTags,setSelectedTags,features
                     <Space size={[0, 8]} wrap>
                     {item.details.map((tag) => (
                         <CheckableTag
+                        className='mytag-css'
                         key={tag.id}
                         // checked={selectedTags.includes(tag.id)}
                         checked={ifTagsChecked(tag.id)}
