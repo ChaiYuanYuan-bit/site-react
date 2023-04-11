@@ -52,7 +52,7 @@ export default () => {
             collapsible 
             collapsed={collapsed} 
             >
-              <div className="back-firstpage"><a onClick={handleExit}>首页</a></div>
+              <div className="back-firstpage"><a onClick={()=>{navigate('/home/mall')}}>首页</a></div>
               <Menu
                 theme="dark"
                 mode="inline"
