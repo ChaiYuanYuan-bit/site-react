@@ -17,7 +17,6 @@ export default () => {
     // 配置默认路由路径
     const [route,setRoute] = useState('/home/mall')
     useEffect(()=>{
-      navigate('/home/mall');
     },[])
     //退出
     const handleExit = ()=>{
@@ -36,7 +35,6 @@ export default () => {
     return (
         <Layout>
           <Sider 
-          style={{minHeight:'100vh'}}
           background={colorBgContainer}
           trigger={null}
           collapsible 
@@ -69,7 +67,6 @@ export default () => {
           <Layout
             style={{
               background: '#eee',
-              flex:1,
               display:'flex',
               flexDirection:'column',
             }}
@@ -82,6 +79,7 @@ export default () => {
               }}
             >
               <button onClick={handleExit}>退出</button>
+              <button onClick={()=>{navigate('/home/mall')}}>去购物</button>
               {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
                 className: 'trigger',
                 onClick: () => setCollapsed(!collapsed),
@@ -94,7 +92,6 @@ export default () => {
                 padding: 24,
                 minHeight: 280,
                 background: colorBgContainer,
-                overflow:'auto',
               }}
             >
               <Outlet/>

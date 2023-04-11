@@ -2,59 +2,105 @@ import React,{useState,useEffect} from 'react';
 import {Row,Col,Tag, Space } from 'antd';
 const { CheckableTag } = Tag;
 
-const NavGroup = ({goodsType,currentTypeId}) => {
-    
-    const [selectedTags, setSelectedTags] = useState([]);
+const NavGroup = ({goodsType,currentTypeId,selectedTags,setSelectedTags,featuresMap,setFeaturesMap}) => {
+    // 商品特点表
     const [goodsFeatures,setGoodsFeatures] = useState([]);
+
     useEffect(()=>{
         loadFeatures();
     },[goodsType,currentTypeId])
-    //
+    // 加载商品特点
     const loadFeatures = ()=>{
         const currentGoods = goodsType.find(item=>item.id===currentTypeId);
-        // setTagsData(features);
         if(currentGoods)
         {
             const features = currentGoods.features;
+            let _featuresMap = new Map();
+            let initialTags = {}
+            features.map(goods=>{
+              //设置已选tags的初始结构
+              initialTags[goods.id]=[];
+              //并且添加feature对应表，方便查询
+              goods.details.map(feature=>_featuresMap.set(feature.id,feature.name));
+            })
+            console.log(_featuresMap);
             setGoodsFeatures(features);
-            setSelectedTags([]);
+            setSelectedTags(initialTags);
+            setFeaturesMap(_featuresMap);
         }
     };
-    const handleChange = (tag, checked) => {
-      const nextSelectedTags = checked
-        ? [...selectedTags, tag]
-        : selectedTags.filter((t) => t !== tag);
-      console.log('You are interested in: ', nextSelectedTags);
+    //CheckableTag onchange事件处理
+    const handleChange = (tagClass,tagName, checked) => {
+      //记录选择到的标签
+      let nextSelectedTags = {};
+      if(checked)
+      {
+        nextSelectedTags = {...selectedTags,...{[tagClass]:[...selectedTags[tagClass], tagName]}};
+      }
+      else{
+        nextSelectedTags = {...selectedTags,...{[tagClass]:selectedTags[tagClass].filter((t) => t !== tagName)}}
+      }
       setSelectedTags(nextSelectedTags);
     };
-    const onClose = (tag) => {
-        console.log(tag);
-      };
+    // 生成所有分类的标签函数
+    const generateTags = ()=>{
+      let tags = [];
+      for(var obj in selectedTags)
+      {
+        if(selectedTags[obj].length>0)
+        {
+          tags = [...tags,selectedTags[obj].map((tag)=>(
+          <Tag key={tag} color='geekblue' closable>
+            {tag}
+          </Tag>
+        ))]
+        }
+      }
+      if(tags.length>0)
+      {
+        return (tags);
+      }
+      else{
+        return (<></>);
+      }
+    }
+    // 每个标签选择状态控制
+    const ifTagsChecked = (tagId)=>{
+      for(var obj in selectedTags)
+      {
+        if(selectedTags[obj].length>0)
+        {
+          if(selectedTags[obj].includes(featuresMap.get(tagId)))
+          {
+            return true
+          }
+        }
+      }
+      return false;
+    }
+
     return (
         <>
-            <Row wrap={false} style={{height:'3em',lineHeight:'2em'}}>
-                <Col span={4} style={{background: 'green',paddingLeft:'3em',minWidth:'130px'}}>所有分类</Col>
-
-                <Col span={20} style={{background: '#eee',paddingLeft:'2em'}}>
+            <Row wrap={false}>
+                <Col span={4}>所有分类</Col>
+                
+                <Col span={20}>
                   <Space size={[0, 8]} wrap>
-                    {selectedTags.map((tag) => (
-                     <Tag key={tag} color='geekblue' closable onClose={()=>onClose(tag)}>
-                      {tag}
-                    </Tag>
-                    ))}
+                    {generateTags()}
                   </Space>
                 </Col>
               </Row>
-              { goodsFeatures ? goodsFeatures.map(item=>{
-                    return (<Row key={item.id} style={{height:'3em',lineHeight:'2em',minHeight:'20px',width:'100%'}}>
-                    <Col   style={{background: 'green',paddingLeft:'3em'}}>{item.description}</Col>
-                    <Col  style={{background: '#eee',paddingLeft:'2em'}}>
+              {  goodsFeatures.map(item=>{
+                    return (<Row key={item.id} >
+                    <Col  span={4}>{item.description}</Col>
+                    <Col  span={20}>
                     <Space size={[0, 8]} wrap>
                     {item.details.map((tag) => (
                         <CheckableTag
                         key={tag.id}
-                        checked={selectedTags.includes(tag.id)}
-                        onChange={(checked) => handleChange(tag.id, checked)}
+                        // checked={selectedTags.includes(tag.id)}
+                        checked={ifTagsChecked(tag.id)}
+                        onChange={(checked) => handleChange(item.id,tag.name, checked)}
                         >
                         {tag.name}
                         </CheckableTag>
@@ -62,7 +108,7 @@ const NavGroup = ({goodsType,currentTypeId}) => {
                     </Space>
                     </Col>
                 </Row>);
-                }) : (<></>)
+                }) 
               }
         </>
     );
