@@ -2,49 +2,53 @@
     display: flex;
     width: 100vw;
     min-height: 100vh;
-    .logo {
+    .back-firstpage {
       height: 32px;
       margin: 16px;
       padding: auto 0;
       color: white;
       text-align: center;
       background: rgba(255, 255, 255, 0.3);
-      p{
+      a{
         line-height: 32px;
+        color: white;
       }
     }
   }
-.site-layout{
+
+.ant-layout-right{
     background: '#eee';
     display:'flex';
 }
-.site-layout header{
-  // background-image: url("http://localhost:3000/login-bg.png");
-  // background-repeat: no-repeat;
-  // background-size: 100% 100%;
+.ant-layout-right header{
+  width: 100%;
+  padding: 0;
+  background-color: #ffffff;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content:space-between;
 }
-// .site-layout header .video{
-//   object-fit: cover;
-//   clip-path: ellipse(0% 0% at 0% 50%);
-//   margin: 0;
-//   padding: 0;
-// }
 
-.site-layout header .exit{
-  margin-right: 20px;
+.ant-layout-right header .exit{
+  margin-right: 32px;
   margin-left: 10px;
 }
-.site-layout header .trigger {
+.ant-layout-right header .trigger {
     padding: 0 24px;
     font-size: 18px;
     line-height: 64px;
     cursor: pointer;
     transition: color 0.3s;
   }
-.site-layout header .trigger:hover {
+.ant-layout-right header .trigger:hover {
     color: #1890ff;
   }
+
+.ant-layout-right .content{
+  background-color: #ffffff;
+  margin: 24px 16px;
+  padding: 24px;
+  min-height: 280;
+  overflow:'auto';
+}

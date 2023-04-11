@@ -46,18 +46,14 @@ export default () => {
       };
     }
 
-
     return (
       <Layout>
           <Sider 
-            style={{minHeight:'100vh'}}
-            background={colorBgContainer}
             trigger={null}
             collapsible 
             collapsed={collapsed} 
-            height={'100%'}
             >
-              <div className="logo" ><p>EIS系统</p></div>
+              <div className="back-firstpage"><a onClick={handleExit}>首页</a></div>
               <Menu
                 theme="dark"
                 mode="inline"
@@ -72,24 +68,15 @@ export default () => {
                   ]),
                 ]}
               />
-
           </Sider>
 
-          <Layout className="site-layout" >
-            <Header
-               style={{
-                padding: 0,
-                background: colorBgContainer, 
-               }}
-            >
-              <button onClick={handleExit}>退出</button>
+          <Layout className="ant-layout-right" >
+            <Header >
               {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
                 className: 'trigger',
                 onClick: () => setCollapsed(!collapsed),
               })}
-              {/* <div className='video'>
-                <video src="http://localhost:3000/island.mp4" autoplay muted loop></video>
-              </div> */}
+
               <Button
                 className='exit'
                 onClick={handleExit}
@@ -100,15 +87,7 @@ export default () => {
               </Button>
             </Header>
          
-            <Content
-              style={{
-                margin: '24px 16px',
-                padding: 24,
-                minHeight: 280,
-                background: colorBgContainer,
-                overflow:'auto',
-              }}
-            >
+            <Content className='content'>
               <Outlet/>
             </Content>
           </Layout>

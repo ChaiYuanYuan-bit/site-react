@@ -1,0 +1,23 @@
+.row-allclass,
+.row-eachclass{
+    width:100%;
+    height:3em;
+    line-height:3em;
+    min-height:20px;
+}
+.row-allclass .col-name,
+.row-eachclass .col-name{
+    background: #1890ff;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    border: 1px solid white;
+    border-radius: 6px;
+}
+.row-allclass .col-content,
+.row-eachclass .col-content{
+    background: #eee;
+    padding-left:2em;
+    border: 1px solid white;
+    border-radius: 6px;
+}

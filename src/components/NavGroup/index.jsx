@@ -1,5 +1,7 @@
 import React,{useState,useEffect} from 'react';
 import {Row,Col,Tag, Space } from 'antd';
+import './navgroup.scss'
+
 const { CheckableTag } = Tag;
 
 const NavGroup = ({goodsType,currentTypeId}) => {
@@ -32,10 +34,9 @@ const NavGroup = ({goodsType,currentTypeId}) => {
       };
     return (
         <>
-            <Row wrap={false} style={{height:'3em',lineHeight:'2em'}}>
-                <Col span={4} style={{background: 'green',paddingLeft:'3em',minWidth:'130px'}}>所有分类</Col>
-
-                <Col span={20} style={{background: '#eee',paddingLeft:'2em'}}>
+            <Row className='row-allclass' wrap={false} >
+                <Col className='col-name' span={2}>所有分类</Col>
+                <Col className='col-content' span={22}>
                   <Space size={[0, 8]} wrap>
                     {selectedTags.map((tag) => (
                      <Tag key={tag} color='geekblue' closable onClose={()=>onClose(tag)}>
@@ -44,11 +45,13 @@ const NavGroup = ({goodsType,currentTypeId}) => {
                     ))}
                   </Space>
                 </Col>
+
               </Row>
               { goodsFeatures ? goodsFeatures.map(item=>{
-                    return (<Row key={item.id} style={{height:'3em',lineHeight:'2em',minHeight:'20px',width:'100%'}}>
-                    <Col   style={{background: 'green',paddingLeft:'3em'}}>{item.description}</Col>
-                    <Col  style={{background: '#eee',paddingLeft:'2em'}}>
+                    return (
+                    <Row key={item.id} className='row-eachclass' >
+                    <Col className='col-name' span={2}>{item.description}</Col>
+                    <Col className='col-content' span={22}>
                     <Space size={[0, 8]} wrap>
                     {item.details.map((tag) => (
                         <CheckableTag

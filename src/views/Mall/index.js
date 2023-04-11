@@ -3,7 +3,7 @@ import {Tabs} from 'antd';
 import CardGroup from '../../components/CardGroup';
 import NavGroup from '../../components/NavGroup';
 import { $getGoodsType } from '../../api/mall';
-
+import './mall.scss'
 
 
 const Mall = ({sendNotification}) => {
@@ -29,16 +29,9 @@ const Mall = ({sendNotification}) => {
       };
     
     return (
-        <div style={{
-          maxWidth:'100%',
-          padding:'10px',
-          display:'flex',
-          alignItems:'center',
-          flexDirection:'column'
-          }}>
-           <Tabs
+        <div className='mall-content'>
+           <Tabs  className='tab'
             defaultActiveKey="1"
-            style={{paddingLeft:'20px',paddingBottom:0,margin:0,alignSelf:'start'}}
             onChange={handleTagChange}
             items={ goodsType.map((item) => {
               return {
