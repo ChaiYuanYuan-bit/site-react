@@ -1,5 +1,5 @@
 import { useRoutes } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch } from 'react-redux';
 import jwtDecode from "jwt-decode";
 import { setInfo } from "./redux/UserInfo";
@@ -39,19 +39,24 @@ function App() {
        
     }
   }
+
+  //全局消息设置
+  const sendNotification = (type,description)=>{
+    dispatch(setMsg({msg:{type,description}}));
+  }
   
   useEffect(()=>{
     loadUserInfo();
 },[]);
   
   //路由组件
-  const element = useRoutes(routes({loadUserInfo}));
+  const element = useRoutes(routes({loadUserInfo,sendNotification}));
   return (
-    <div>
+    <>
       {element}
       {/* 全局消息通知 */}
       <GlobalNotification/>
-    </div>
+    </>
   );
 }
 
