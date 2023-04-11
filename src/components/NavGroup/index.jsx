@@ -6,10 +6,9 @@ const NavGroup = ({goodsType,currentTypeId}) => {
     
     const [selectedTags, setSelectedTags] = useState([]);
     const [goodsFeatures,setGoodsFeatures] = useState([]);
-    const [tagsData, setTagsData] = useState([]);
     useEffect(()=>{
         loadFeatures();
-    },[goodsType])
+    },[goodsType,currentTypeId])
     //
     const loadFeatures = ()=>{
         const currentGoods = goodsType.find(item=>item.id===currentTypeId);
@@ -18,8 +17,8 @@ const NavGroup = ({goodsType,currentTypeId}) => {
         {
             const features = currentGoods.features;
             setGoodsFeatures(features);
+            setSelectedTags([]);
         }
-        
     };
     const handleChange = (tag, checked) => {
       const nextSelectedTags = checked
@@ -33,30 +32,29 @@ const NavGroup = ({goodsType,currentTypeId}) => {
       };
     return (
         <>
-            <Row wrap={false} style={{height:'3em',lineHeight:'2em',maxWidth:'100%'}}>
-                <Col span={2} style={{background: 'green',paddingLeft:'3em',minWidth:'130px'}}>所有分类</Col>
+            <Row wrap={false} style={{height:'3em',lineHeight:'2em'}}>
+                <Col span={4} style={{background: 'green',paddingLeft:'3em',minWidth:'130px'}}>所有分类</Col>
 
-                <Col span={22} style={{background: '#eee',paddingLeft:'2em'}}>
+                <Col span={20} style={{background: '#eee',paddingLeft:'2em'}}>
                   <Space size={[0, 8]} wrap>
                     {selectedTags.map((tag) => (
-                     <Tag key={tag} closable onClose={()=>onClose(tag)}>
+                     <Tag key={tag} color='geekblue' closable onClose={()=>onClose(tag)}>
                       {tag}
                     </Tag>
                     ))}
                   </Space>
                 </Col>
               </Row>
-              {
-                goodsFeatures ? goodsFeatures.map(item=>{
-                    return (<Row key={item.id} wrap={false} style={{height:'3em',lineHeight:'2em',minHeight:'20px'}}>
-                    <Col span={2} style={{background: 'green',paddingLeft:'3em',minWidth:'130px'}}>{item.description}</Col>
-                    <Col span={22} style={{background: '#eee',paddingLeft:'2em'}}>
+              { goodsFeatures ? goodsFeatures.map(item=>{
+                    return (<Row key={item.id} style={{height:'3em',lineHeight:'2em',minHeight:'20px',width:'100%'}}>
+                    <Col   style={{background: 'green',paddingLeft:'3em'}}>{item.description}</Col>
+                    <Col  style={{background: '#eee',paddingLeft:'2em'}}>
                     <Space size={[0, 8]} wrap>
                     {item.details.map((tag) => (
                         <CheckableTag
                         key={tag.id}
-                        checked={selectedTags.includes(tag.name)}
-                        onChange={(checked) => handleChange(tag.name, checked)}
+                        checked={selectedTags.includes(tag.id)}
+                        onChange={(checked) => handleChange(tag.id, checked)}
                         >
                         {tag.name}
                         </CheckableTag>

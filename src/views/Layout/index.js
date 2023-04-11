@@ -35,11 +35,12 @@ export default () => {
 
     return (
         <Layout>
-          {/* <button onClick={handleExit}>退出</button> */}
-          <Sider trigger={null}
+          <Sider 
+          style={{minHeight:'100vh'}}
+          background={colorBgContainer}
+          trigger={null}
           collapsible 
           collapsed={collapsed} 
-          height={'100%'}
           >
             <div className="logo" ></div>
             <Menu
@@ -68,7 +69,9 @@ export default () => {
           <Layout
             style={{
               background: '#eee',
-              display:'flex'
+              flex:1,
+              display:'flex',
+              flexDirection:'column',
             }}
           >
             <Header
@@ -78,6 +81,7 @@ export default () => {
                 display:'flex'
               }}
             >
+              <button onClick={handleExit}>退出</button>
               {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
                 className: 'trigger',
                 onClick: () => setCollapsed(!collapsed),
@@ -90,6 +94,7 @@ export default () => {
                 padding: 24,
                 minHeight: 280,
                 background: colorBgContainer,
+                overflow:'auto',
               }}
             >
               <Outlet/>
