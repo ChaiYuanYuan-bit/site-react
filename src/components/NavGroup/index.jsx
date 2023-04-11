@@ -1,5 +1,7 @@
 import React,{useState,useEffect} from 'react';
 import {Row,Col,Tag, Space } from 'antd';
+import './navgroup.scss'
+
 const { CheckableTag } = Tag;
 
 const NavGroup = ({goodsType,currentTypeId,selectedTags,setSelectedTags,featuresMap,setFeaturesMap}) => {
@@ -81,19 +83,20 @@ const NavGroup = ({goodsType,currentTypeId,selectedTags,setSelectedTags,features
 
     return (
         <>
-            <Row wrap={false}>
-                <Col span={4}>所有分类</Col>
-                
-                <Col span={20}>
+            <Row className='row-allclass' wrap={false} >
+                <Col className='col-name' span={2}>所有分类</Col>
+                <Col className='col-content' span={22}>
                   <Space size={[0, 8]} wrap>
                     {generateTags()}
                   </Space>
                 </Col>
+
               </Row>
-              {  goodsFeatures.map(item=>{
-                    return (<Row key={item.id} >
-                    <Col  span={4}>{item.description}</Col>
-                    <Col  span={20}>
+              { goodsFeatures ? goodsFeatures.map(item=>{
+                    return (
+                    <Row key={item.id} className='row-eachclass' >
+                    <Col className='col-name' span={2}>{item.description}</Col>
+                    <Col className='col-content' span={22}>
                     <Space size={[0, 8]} wrap>
                     {item.details.map((tag) => (
                         <CheckableTag
@@ -108,7 +111,7 @@ const NavGroup = ({goodsType,currentTypeId,selectedTags,setSelectedTags,features
                     </Space>
                     </Col>
                 </Row>);
-                }) 
+                }) : (<></>)
               }
         </>
     );

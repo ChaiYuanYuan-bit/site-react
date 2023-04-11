@@ -2,11 +2,14 @@ import React,{useState,useEffect} from 'react';
 import {
     MenuFoldOutlined,
     MenuUnfoldOutlined,
-    UploadOutlined,
     UserOutlined,
-    VideoCameraOutlined,
+    PoweroffOutlined,
+    FileTextOutlined,
+    UsergroupAddOutlined,
+    ToolOutlined,
+    FileDoneOutlined
   } from '@ant-design/icons';
-import { Layout, Menu, theme} from 'antd';
+import { Layout, Menu, theme,Button,Carousel} from 'antd';
 import { useNavigate,Outlet } from 'react-router-dom';
 import './Layout.scss'
 const { Header, Sider, Content } = Layout;
@@ -31,72 +34,62 @@ export default () => {
     const {
         token: { colorBgContainer },
     } = theme.useToken();
+    
+    function getItem(label, key, icon, children, type) {
+      return {
+        key,
+        icon,
+        children,
+        label,
+        type,
+      };
+    }
 
     return (
-        <Layout>
+      <Layout>
           <Sider 
-          background={colorBgContainer}
-          trigger={null}
-          collapsible 
-          collapsed={collapsed} 
-          >
-            <div className="logo" ></div>
-            <Menu
-              theme="dark"
-              mode="inline"
-              defaultSelectedKeys={['1']}
-              items={[
-                {
-                  key: '1',
-                  icon: <UserOutlined />,
-                  label: 'nav 1',
-                },
-                {
-                  key: '2',
-                  icon: <VideoCameraOutlined />,
-                  label: 'nav 2',
-                },
-                {
-                  key: '3',
-                  icon: <UploadOutlined />,
-                  label: 'nav 3',
-                },
-              ]}
-            />
-          </Sider>
-          <Layout
-            style={{
-              background: '#eee',
-              display:'flex',
-              flexDirection:'column',
-            }}
-          >
-            <Header
-              style={{
-                padding: 0,
-                background: colorBgContainer,
-                display:'flex'
-              }}
+            trigger={null}
+            collapsible 
+            collapsed={collapsed} 
             >
-              <button onClick={handleExit}>退出</button>
-              <button onClick={()=>{navigate('/home/mall')}}>去购物</button>
+              <div className="back-firstpage"><a onClick={handleExit}>首页</a></div>
+              <Menu
+                theme="dark"
+                mode="inline"
+                defaultSelectedKeys={['1']}
+                items={[
+                  getItem('我的', 'sub1', <UserOutlined />, [
+                    getItem('订单信息', '1',<FileTextOutlined />),
+                  ]),
+                  getItem('后台管理', 'sub2', <ToolOutlined />, [
+                    getItem('订单管理', '2',<FileDoneOutlined />),
+                    getItem('用户管理', '3',<UsergroupAddOutlined />),
+                  ]),
+                ]}
+              />
+          </Sider>
+
+          <Layout className="ant-layout-right" >
+            <Header >
               {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
                 className: 'trigger',
                 onClick: () => setCollapsed(!collapsed),
               })}
+
+              <Button
+                className='exit'
+                onClick={handleExit}
+                type="primary"
+                icon={<PoweroffOutlined />}
+              >
+                退出登录
+              </Button>
             </Header>
          
-            <Content
-              style={{
-                margin: '24px 16px',
-                padding: 24,
-                minHeight: 280,
-                background: colorBgContainer,
-              }}
-            >
+            <Content className='content'>
               <Outlet/>
             </Content>
           </Layout>
-        </Layout>
+      </Layout>
     );
 }

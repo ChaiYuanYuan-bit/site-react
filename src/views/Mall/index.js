@@ -2,6 +2,7 @@ import React,{useState,useEffect} from 'react';
 import {Tabs,Layout} from 'antd';
 import CardGroup from '../../components/CardGroup';
 import NavGroup from '../../components/NavGroup';
+import './mall.scss'
 import { $getGoodsType,$getItems } from '../../api/mall';
 
 
@@ -35,8 +36,8 @@ const Mall = ({sendNotification}) => {
       };
     
     return (
-        <Layout>
-           <Tabs
+        <div className='mall-content'>
+           <Tabs  className='tab'
             defaultActiveKey="1"
             onChange={handleTagChange}
             items={ goodsType.map((item) => {
@@ -60,7 +61,7 @@ const Mall = ({sendNotification}) => {
             <br></br>
             <CardGroup 
              />
-        </Layout>
+        </div>
     );
 }
 
