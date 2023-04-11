@@ -37,7 +37,6 @@ const NavGroup = ({goodsType,currentTypeId,selectedTags,setSelectedTags,features
       else{
         nextSelectedTags = {...selectedTags,...{[tagClass]:selectedTags[tagClass].filter((t) => t !== tagName)},length:selectedTags.length-1}
       }
-      console.log(nextSelectedTags)
       setSelectedTags(nextSelectedTags);
     };
     //处理标签删除的函数
@@ -55,7 +54,7 @@ const NavGroup = ({goodsType,currentTypeId,selectedTags,setSelectedTags,features
           if(selectedTags[obj].length>0)
           {
             tags = [...tags,selectedTags[obj].map((tag)=>(
-            <Tag className='my-alltag' key={tag} color='geekblue' closable onClick={()=>{handleTagClose(obj,tag)}}>
+            <Tag className='my-alltag' key={tag} color='geekblue' closable onClose={()=>{handleTagClose(obj,tag)}} onClick={()=>{handleTagClose(obj,tag)}}>
               {tag}
             </Tag>
           ))]

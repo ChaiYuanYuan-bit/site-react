@@ -13,7 +13,7 @@ const GlobalNotification = () => {
         api[type]({
             message:'系统提示',
             description,
-            duration:1.2,
+            duration:0.8,
             });
         }
     },[msg,api])
