@@ -1,6 +1,7 @@
 import ReactMarkdown from 'react-markdown';
 import React,{useState,useEffect} from 'react';
 import axios from 'axios';
+import {LoadingOutlined} from '@ant-design/icons'
 import './MarkDown.scss'
 
 const MarkDown = ({src}) => {
@@ -13,22 +14,23 @@ const MarkDown = ({src}) => {
                 setMdText(response.data)
             })
             .catch((err)=>{
-                setMdText('# **出错啦！**');
                 console.error(err);
             });
         } catch (error) {
             console.error(error);
         }
-        
-    },[])
+        src = '';
+    },[src])
     return (
         <>
-             <ReactMarkdown 
-             className='mark-down-style'
-             components={{
-                a:({node, ...props}) => <a target='_blank' {...props} />
-             }}
-             children={mdText}/>
+        {
+            mdText?<ReactMarkdown 
+            className='mark-down-style'
+            components={{
+               a:({node, ...props}) => <a target='_blank' {...props} />
+            }}
+            children={mdText.trim()}/>:<LoadingOutlined/>
+        }   
         </>
     );
 }

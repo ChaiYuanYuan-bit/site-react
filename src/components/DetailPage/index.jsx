@@ -1,4 +1,5 @@
 import React,{ useState,useEffect } from 'react';
+import {CloseCircleOutlined} from '@ant-design/icons'
 import MarkDown from '../MarkDown';
 import './DetailPage.scss'
 
@@ -7,7 +8,7 @@ const DetailPage = ({detailOpen,setDetailOpen,getGoodsInfo}) => {
     const [currentGoodsInfo,setCurrentGoodsInfo] = useState({});
     useEffect(() => {
       setCurrentGoodsInfo(getGoodsInfo());
-    },[])
+    },[getGoodsInfo()])
 
 
     //关闭详情页
@@ -25,8 +26,7 @@ const DetailPage = ({detailOpen,setDetailOpen,getGoodsInfo}) => {
             <div className='detail-page-box'>
             <div className="close-logo" onClick={closeDetailPage}></div>
               <div className='detail-page-box-content'>
-               <MarkDown src= 'http://localhost:3000/test.md'/>
-               {/* <button>做一些事情</button> */}
+               <MarkDown src= {currentGoodsInfo?.detail?.mdUrl}/>
               </div>
             </div>
           </div>
