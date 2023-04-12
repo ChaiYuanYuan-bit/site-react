@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import {Layout,Card} from 'antd'
 import './CardGroup.scss'
 
@@ -12,6 +12,7 @@ const CardGroup = ({allGoods,handleCardClick}) => {
                     allGoods.map(item=>(
                         <Card
                         key={item.id}
+                        onClick={()=>{handleCardClick(item.id)}}
                         className='mycard-image-cover'
                         hoverable
                         style={{

@@ -12,7 +12,7 @@ import {
     ShoppingCartOutlined,
     GiftOutlined
   } from '@ant-design/icons';
-import { Layout, Menu, theme,Button,Carousel} from 'antd';
+import { Layout, Menu, theme,Button} from 'antd';
 import { useNavigate,Outlet } from 'react-router-dom';
 import './Layout.scss'
 const { Header, Sider, Content } = Layout;
@@ -21,7 +21,7 @@ export default () => {
     // 跳转路由
     const navigate = useNavigate();
     // 配置默认路由路径
-    const [route,setRoute] = useState('/home/mall')
+    const [route,setRoute] = useState('/home/mall');
     useEffect(()=>{
     },[])
     //退出
@@ -79,12 +79,12 @@ export default () => {
               />
           </Sider>
 
-          <Layout className="ant-layout-right" >
-            <Header >
-              {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
-                className: 'trigger',
-                onClick: () => setCollapsed(!collapsed),
-              })}
+            <Layout className="ant-layout-right" >
+              <Header >
+                {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
+                  className: 'trigger',
+                  onClick: () => setCollapsed(!collapsed),
+                })}
 
               <Button
                 className='exit'
