@@ -24,8 +24,6 @@ export const $getItems = async ({goodsType,queryList})=>{
         let {data} = await axiosInstance.get(`/${goodsType}`);
         final_data = data;
     }
-    // console.log(goodsType,queryList)
-    // console.log(final_data)
     return final_data;
 };
 

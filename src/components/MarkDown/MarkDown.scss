@@ -1,0 +1,15 @@
+.mark-down-style{
+    user-select: text;
+}
+
+.mark-down-style img{
+    width: 60%;
+    border-radius: 5px;
+    box-shadow: 2px 4px 8px rgba(0,0,0,0.5), -2px -2px 8px rgba(255,255,255,0.1);
+}
+
+.mark-down-style p{
+   letter-spacing: 0.1em;
+   line-height: 1.5em;
+   
+}

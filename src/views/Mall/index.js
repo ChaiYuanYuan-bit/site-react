@@ -1,4 +1,5 @@
 import React,{useState,useEffect,useRef} from 'react';
+import DetailPage from '../../components/DetailPage';
 import {Tabs,Layout} from 'antd';
 import CardGroup from '../../components/CardGroup';
 import NavGroup from '../../components/NavGroup';
@@ -17,10 +18,16 @@ const Mall = ({sendNotification}) => {
     const [featuresMap,setFeaturesMap] = useState(new Map())
     // 对应所选类型的所有商品
     const [allGoods, setAllGoods] = useState([]);
+    // 详情页开关
+    const [detailOpen, setDetailOpen] = useState(false);
+    // 记录当前所选商品id
+    const [currentGoodsId,setCurrentGoodsId] = useState(0);
+
     useEffect(() => {
       // prevTypeId && 
       loadGoodsType();
     },[currentTypeId,selectedTags.length])
+    
     // 加载商品类型
     const loadGoodsType = async()=>{
       try{
@@ -81,7 +88,6 @@ const Mall = ({sendNotification}) => {
         return {goodsType};
       }
     }
-
     // 根据value寻找key值的方法
     const findKey=(map, value)=>{
       let key = undefined;
@@ -93,45 +99,57 @@ const Mall = ({sendNotification}) => {
       })
       return key;
     }
-
     // Tag切换时，记录当所选前商品类型Id
     const handleTagChange = (key) => {
       setCurrentTypeId(key);
       };
-
     // 卡片点击事件
-    const handleCardClick = ()=>{
-
+    const handleCardClick = (itemId)=>{
+      setCurrentGoodsId(itemId);
+      setDetailOpen(true);
+    }
+    // 详情页所需信息
+    const getGoodsInfo = ()=>{
+      return allGoods.find(item=>item.id===currentGoodsId);
     }
     return (
+      <>
         <div className='mall-content'>
-           <Tabs  className='tab'
-            defaultActiveKey="1"
-            onChange={handleTagChange}
-            items={ goodsType.map((item) => {
-              return {
-                label: (
-                  <span>
-                    {item.description}
-                  </span>
-                ),
-                key: item.id,
-              };
-            })}/>
-            <NavGroup 
-            goodsType={goodsType} 
-            currentTypeId = {currentTypeId}
-            featuresMap={featuresMap} 
-            setFeaturesMap={setFeaturesMap} 
-            selectedTags={selectedTags}
-            setSelectedTags = {setSelectedTags}
-            />
-            <br></br>
-            <CardGroup 
-            allGoods = {allGoods}
-            handleCardClick = {handleCardClick}
-             />
-        </div>
+            <Tabs  className='tab'
+              defaultActiveKey="1"
+              onChange={handleTagChange}
+              items={ goodsType.map((item) => {
+                return {
+                  label: (
+                    <span>
+                      {item.description}
+                    </span>
+                  ),
+                  key: item.id,
+                };
+              })}/>
+              <NavGroup 
+              goodsType={goodsType} 
+              currentTypeId = {currentTypeId}
+              featuresMap={featuresMap} 
+              setFeaturesMap={setFeaturesMap} 
+              selectedTags={selectedTags}
+              setSelectedTags = {setSelectedTags}
+              />
+              <br></br>
+              <CardGroup 
+              allGoods = {allGoods}
+              handleCardClick = {handleCardClick}
+              />
+          </div>
+          {
+            currentGoodsId>0?<DetailPage
+            detailOpen={detailOpen} 
+            setDetailOpen={setDetailOpen}
+            getGoodsInfo = {getGoodsInfo}
+            />:<></>
+          }
+      </> 
     );
 }
 
