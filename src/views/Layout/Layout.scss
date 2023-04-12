@@ -2,17 +2,17 @@
     display: flex;
     width: 100vw;
     min-height: 100vh;
-    .back-firstpage {
-      height: 32px;
+    .logo {
+      display: flex;
+      height: 36px;
       margin: 16px;
+      font-size: 18px;
       padding: auto 0;
-      color: white;
-      text-align: center;
+      color: #fff;
+      align-items: center;
+      justify-content: center;
       background: rgba(255, 255, 255, 0.3);
-      a{
-        line-height: 32px;
-        color: white;
-      }
+      background-image: url("http://localhost:3000/logo.gif");
     }
   }
 

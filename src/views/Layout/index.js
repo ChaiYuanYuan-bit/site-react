@@ -7,7 +7,10 @@ import {
     FileTextOutlined,
     UsergroupAddOutlined,
     ToolOutlined,
-    FileDoneOutlined
+    FileDoneOutlined,
+    ShoppingOutlined,
+    ShoppingCartOutlined,
+    GiftOutlined
   } from '@ant-design/icons';
 import { Layout, Menu, theme,Button,Carousel} from 'antd';
 import { useNavigate,Outlet } from 'react-router-dom';
@@ -44,6 +47,9 @@ export default () => {
         type,
       };
     }
+    const onClick = (e) => {
+      navigate(e.key, { replace: true })
+    }
 
     return (
       <Layout>
@@ -52,16 +58,20 @@ export default () => {
             collapsible 
             collapsed={collapsed} 
             >
-              <div className="back-firstpage"><a onClick={()=>{navigate('/home/mall')}}>首页</a></div>
+              <div className="logo">
+                {/* EIS商城 &nbsp; <ShoppingCartOutlined rotate={330} style={{ fontSize: '22px', color: '#91caff' }}/> */}
+              </div>
               <Menu
                 theme="dark"
                 mode="inline"
                 defaultSelectedKeys={['1']}
+                onClick={onClick}
                 items={[
-                  getItem('我的', 'sub1', <UserOutlined />, [
+                  getItem('商城', '/home/mall', <ShoppingOutlined />),
+                  getItem('我的', 'sub2', <UserOutlined />, [
                     getItem('订单信息', '1',<FileTextOutlined />),
                   ]),
-                  getItem('后台管理', 'sub2', <ToolOutlined />, [
+                  getItem('后台管理', 'sub3', <ToolOutlined />, [
                     getItem('订单管理', '2',<FileDoneOutlined />),
                     getItem('用户管理', '3',<UsergroupAddOutlined />),
                   ]),
@@ -91,7 +101,7 @@ export default () => {
             </Content>
             <div className='footer'>
             <div>本网站为：携程前端训练营-结营大作业</div>
-            <div>Made by Group：“SHU高材生”  |  Group Member： 柴园园 & 卞钟晗</div>
+            <div>Create by Group：“SHU高材生”  |  Group Member： 柴园园 & 卞钟晗</div>
             </div>
           </Layout>
       </Layout>
