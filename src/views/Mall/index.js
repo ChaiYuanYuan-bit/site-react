@@ -1,6 +1,6 @@
-import React,{useState,useEffect,useRef} from 'react';
+import React,{useState,useEffect} from 'react';
 import DetailPage from '../../components/DetailPage';
-import {Tabs,Layout} from 'antd';
+import {Tabs} from 'antd';
 import CardGroup from '../../components/CardGroup';
 import NavGroup from '../../components/NavGroup';
 import './mall.scss'
@@ -107,6 +107,8 @@ const Mall = ({sendNotification}) => {
     const handleCardClick = (itemId)=>{
       setCurrentGoodsId(itemId);
       setDetailOpen(true);
+      //关闭底层页面滚动
+      document.body.style.overflow = 'hidden';
     }
     // 详情页所需信息
     const getGoodsInfo = ()=>{

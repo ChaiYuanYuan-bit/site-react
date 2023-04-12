@@ -13,10 +13,12 @@ const DetailPage = ({detailOpen,setDetailOpen,getGoodsInfo}) => {
     //关闭详情页
     const closeDetailPage = ()=>{
       setDetailOpen(false);
+      //打开底层页面滚动
+      document.body.style.overflow = 'auto';
     }
     return (
         <div 
-        className='detail-page-mask' 
+        className='detail-page-mask'
         style={{display:detailOpen?'block':'none'}}
         >
           <div className='detail-page' >
