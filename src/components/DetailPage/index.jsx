@@ -1,4 +1,5 @@
 import React,{ useState,useEffect } from 'react';
+import { Divider } from 'antd';
 import MarkDown from '../MarkDown';
 import './DetailPage.scss'
 
@@ -25,6 +26,10 @@ const DetailPage = ({detailOpen,setDetailOpen,getGoodsInfo}) => {
               <div className='detail-page-box-content'>
                <MarkDown src= 'http://localhost:3000/test.md'/>
                {/* <button>做一些事情</button> */}
+               <Divider orientation="left">选择类型</Divider>
+               <div className='choose-combo'>
+                
+               </div>
               </div>
             </div>
           </div>
