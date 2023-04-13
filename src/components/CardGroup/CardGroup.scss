@@ -38,11 +38,19 @@
     overflow: hidden;
     opacity: 92%;
 }
+
 .mycard-image-cover:hover{
     .mycard-image{
         transform: scale(1.05);
     }
 }
+
 .mycard-image{
+    height: 180px;
+    flex-shrink: 0;
     transition: 0.5s;
+}
+
+.mycard-meta{
+    flex: 1;
 }
