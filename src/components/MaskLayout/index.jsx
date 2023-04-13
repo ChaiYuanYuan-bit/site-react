@@ -17,7 +17,7 @@ const MaskLayout = (props) => {
         <div className='mask-layout-page-mask'>
         <div className='mask-layout-page' >
           <div className='mask-layout-page-box'>
-            <AiFillCloseCircle className="close-logo" />
+            <AiFillCloseCircle className="close-logo" onClick={props.onClose}/>
             <div className='mask-layout-page-box-content'>
                 {
                     props.children
