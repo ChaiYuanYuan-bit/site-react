@@ -22,13 +22,13 @@ const DetailPage = ({detailOpen,setDetailOpen,getGoodsInfo}) => {
       const data = getGoodsInfo();
       // 保存所有信息
       setCurrentGoodsInfo(data);
-      // 获取套餐类型
-      const type = data.detail.comboType.map(item => item.comboTypeName)
-      // 保存套餐类型
-      setComboType(type);
-      // 初始化当前所选套餐
-      console.log(data.detail.comboType[0])
-      setCurrentCombo(data.detail.comboType[0]);
+      // // 获取套餐类型
+      // const type = data.detail.comboType.map(item => item.comboTypeName)||[]
+      // // 保存套餐类型
+      // setComboType(type);
+      // // 初始化当前所选套餐
+      // console.log(data.detail.comboType[0])
+      // setCurrentCombo(data.detail.comboType[0]||{});
      
     }
     //关闭详情页
@@ -39,9 +39,9 @@ const DetailPage = ({detailOpen,setDetailOpen,getGoodsInfo}) => {
     }
     const handleComboChange = (comboTypeName)=>{
       console.log(comboTypeName)
-      const combo = currentGoodsInfo.detail.comboType.find(item=>item.comboTypeName === comboTypeName);
+      const combo = currentGoodsInfo.detail.comboType.find(item=>item.comboTypeName === comboTypeName)||{};
       console.log(combo)
-      setCurrentCombo(currentGoodsInfo.detail.comboType.find(item=>item.comboTypeName === comboTypeName))
+      setCurrentCombo(combo)
     }
     const onNumberChange = (value) => {
       console.log('changed', value);
