@@ -55,7 +55,7 @@ const DetailPage = ({detailOpen,setDetailOpen,getGoodsInfo}) => {
             <div className='detail-page-box'>
             <div className="close-logo" onClick={closeDetailPage}></div>
               <div className='detail-page-box-content'>
-                <MarkDown src= {currentCombo.comboImgUrl}/>
+                <MarkDown src= {currentGoodsInfo?.detail?.mdUrl}/>
                 {/* <button>做一些事情</button> */}
                 <Divider orientation="left" orientationMargin="0" >请选择购买类型</Divider>
                 <div className='combo'>
@@ -68,7 +68,7 @@ const DetailPage = ({detailOpen,setDetailOpen,getGoodsInfo}) => {
                 >
                 <Segmented block options={comboType} onChange={(comboTypeName)=>{handleComboChange(comboTypeName)}}/>
                   <div className='combo-content'>
-                    <div><img className='combo-img' src={currentGoodsInfo?.detail?.mdUrl}/> </div>
+                    <div><img className='combo-img' src={currentCombo.comboImgUrl}/> </div>
                     <div>价格：{currentCombo.comboPrice}</div>
                     <div>库存：{currentCombo.comboCount}</div>
                   </div>
