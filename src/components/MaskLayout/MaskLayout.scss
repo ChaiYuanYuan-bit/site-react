@@ -1,4 +1,4 @@
-.detail-page-mask{
+.mask-layout-page-mask{
     position: fixed;
     top: 0;
     left: 0;
@@ -10,7 +10,7 @@
     z-index: 100;
 }
 
-.detail-page{
+.mask-layout-page{
     position: absolute;
     display: flex;
     justify-content: center;
@@ -23,7 +23,7 @@
     width: 100%;
     height: 100%;
 }
-.detail-page-box{
+.mask-layout-page-box{
     min-width: 40%;
     min-height: 80%;
     max-width: 50%;
@@ -38,27 +38,20 @@
     box-shadow: 2px 4px 8px rgba(0,0,0,0.5), -2px -2px 8px rgba(255,255,255,0.1);
 }
 
-.detail-page-box .close-logo{
+.mask-layout-page-box .close-logo{
     align-self: end;
     flex-shrink: 0;
     width: 20px;
     height: 20px;
-    margin-bottom: 5px;
-    background: url("http://localhost:3000/close-fill.svg");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size:20px;
-    border-radius: 50%;
-    filter: invert(0.2);
+    margin-bottom: 10px;
     cursor: pointer;
     transition: 0.1s;
 }
-.detail-page-box .close-logo:hover{
-    background-color: #fff;
-    transform: scale(1.05);
+.mask-layout-page-box .close-logo:hover{
+    transform: scale(1.1);
 }
 
-.detail-page-box-content
+.mask-layout-page-box-content
 {
     display: flex;
     flex-direction: column;
@@ -66,51 +59,25 @@
     align-items: start;
     padding: 0.7em 1.5em;
     width: 100%;
+    min-height:60%;
     flex: 1;
     overflow-y: scroll;
     border: 1px dashed rgba(255,255,255,0);
     border-radius: 10px;
 }
 
-.detail-page-box-content::-webkit-scrollbar{
+.mask-layout-page-box-content::-webkit-scrollbar{
     width: 5px;
 }
 
-.detail-page-box-content::-webkit-scrollbar-track
+.mask-layout-page-box-content::-webkit-scrollbar-track
 {
     background-color:rgba(0,0,0,0);
     border-radius:10px;
 }
 
-.detail-page-box-content::-webkit-scrollbar-thumb
+.mask-layout-page-box-content::-webkit-scrollbar-thumb
 {
     border-radius:10px;
     background-color:rgba(0, 0, 0, .6);
-}
-.combo{
-    width: 100%;
-}
-.combo-content{
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    align-items: center;
-    justify-content: space-between;
-    .combo-img{
-        max-height: 200px;
-        max-width: 260px;
-        object-fit: contain;
-    }
-}
-.select-combo-order{
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    align-items: center;
-    justify-content: end;
-    gap:32px;
-    .comfirm-number{
-        display:flex;
-        align-items:center;
-    }
 }

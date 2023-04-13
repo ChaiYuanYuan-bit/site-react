@@ -2,7 +2,8 @@ import Login from "../views/Login";
 import Register from "../views/Register";
 import Layout from "../views/Layout";
 import Mall from "../views/Mall";
-import DetailPage from "../components/DetailPage";
+import Detail from "../views/Mall/Detail";
+import Buy from "../views/Mall/Buy";
 import NotFound from '../views/NotFound';
 
 //创建路由表
@@ -17,7 +18,11 @@ const routes = (props)=>[
                 children:[
                     {
                         path:'detail',
-		                element:<DetailPage {...props}/>,
+		                element:<Detail {...props}/>,
+                    },
+                    {
+                        path:'buy',
+		                element:<Buy {...props}/>,
                     }
                 ]
             },

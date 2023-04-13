@@ -1,8 +1,8 @@
 import React,{useState,useEffect} from 'react';
-import DetailPage from '../../components/DetailPage';
 import {Tabs} from 'antd';
 import CardGroup from '../../components/CardGroup';
 import NavGroup from '../../components/NavGroup';
+import { Outlet, useNavigate } from 'react-router-dom';
 import './mall.scss'
 import { $getGoodsType,$getItems } from '../../api/mall';
 
@@ -10,6 +10,8 @@ import { $getGoodsType,$getItems } from '../../api/mall';
 const Mall = ({sendNotification}) => {
     // 商品类型
     const [goodsType,setGoodsType] = useState([]);
+    // 路由
+    const navigate = useNavigate();
     // 记录当前所选商品类型Id
     const [currentTypeId,setCurrentTypeId] = useState(1);
     // 已选标签,用于商品分类查询
@@ -105,14 +107,13 @@ const Mall = ({sendNotification}) => {
       };
     // 卡片点击事件
     const handleCardClick = (itemId)=>{
-      setCurrentGoodsId(itemId);
-      setDetailOpen(true);
-      //关闭底层页面滚动
-      document.body.style.overflow = 'hidden';
-    }
-    // 详情页所需信息
-    const getGoodsInfo = ()=>{
-      return allGoods.find(item=>item.id===currentGoodsId);
+      const goodsTypeName = goodsType.find(item=>item.id===currentTypeId).goodsName;
+      const goodsId = itemId;
+      // 跳转到详情页
+      navigate(`/home/mall/detail?goodsTypeName=${goodsTypeName}&goodsId=${goodsId}`,{
+        replace:false,
+        state:{goodsTypeName,goodsId}
+      });
     }
     return (
       <>
@@ -144,13 +145,7 @@ const Mall = ({sendNotification}) => {
               handleCardClick = {handleCardClick}
               />
           </div>
-          {
-            currentGoodsId>0?<DetailPage
-            detailOpen={detailOpen} 
-            setDetailOpen={setDetailOpen}
-            getGoodsInfo = {getGoodsInfo}
-            />:<></>
-          }
+          <Outlet/>
       </> 
     );
 }

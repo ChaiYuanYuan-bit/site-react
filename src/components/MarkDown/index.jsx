@@ -29,7 +29,10 @@ const MarkDown = ({src}) => {
             components={{
                a:({node, ...props}) => <a target='_blank' {...props} />
             }}
-            children={mdText.trim()}/>:<LoadingOutlined/>
+            children={mdText.trim()}/>:
+            <div  className='mark-down-loading'>
+                <LoadingOutlined/>
+            </div>
         }   
         </>
     );
