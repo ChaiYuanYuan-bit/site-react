@@ -2,16 +2,20 @@
     user-select: text;
     transition: .3;
 }
-
-.mark-down-style img{
-    width: 60%;
-    border-radius: 5px;
-    box-shadow: 2px 4px 8px rgba(0,0,0,0.5), -2px -2px 8px rgba(255,255,255,0.1);
-    transition: 1.5s;
+.mark-down-style h1{
+    margin-bottom: 10px;
 }
 
-.mark-down-style img:hover{
-    margin-top: 20px;
+.mark-down-style p>img{
+    width: 60%;
+    max-height: 500px;
+    border-radius: 5px;
+    box-shadow: 2px 4px 8px rgba(0,0,0,0.5), -2px -2px 8px rgba(255,255,255,0.1);
+    transition: 1.3s;
+}
+
+.mark-down-style p>img:hover{
+    margin-top: 50px;
     margin-bottom: 20px;
     transform: translateX(30%) scale(1.2);
 }
