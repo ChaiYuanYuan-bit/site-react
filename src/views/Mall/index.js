@@ -20,13 +20,11 @@ const Mall = ({sendNotification}) => {
     const [featuresMap,setFeaturesMap] = useState(new Map())
     // 对应所选类型的所有商品
     const [allGoods, setAllGoods] = useState([]);
-    // 详情页开关
-    const [detailOpen, setDetailOpen] = useState(false);
     // 记录当前所选商品id
     const [currentGoodsId,setCurrentGoodsId] = useState(0);
 
     useEffect(() => {
-      // prevTypeId && 
+      // 
       loadGoodsType();
     },[currentTypeId,selectedTags.length])
     
