@@ -5,6 +5,7 @@ import Mall from "../views/Mall";
 import Detail from "../views/Mall/Detail";
 import Buy from "../views/Mall/Buy";
 import NotFound from '../views/NotFound';
+import Pay from "../views/Mall/Pay";
 
 //创建路由表
 const routes = (props)=>[
@@ -23,6 +24,10 @@ const routes = (props)=>[
                     {
                         path:'buy',
 		                element:<Buy {...props}/>,
+                    },
+                    {
+                        path:'pay',
+		                element:<Pay {...props}/>,
                     }
                 ]
             },

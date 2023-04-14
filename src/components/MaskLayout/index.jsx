@@ -21,7 +21,7 @@ const MaskLayout = (props) => {
           <div className='mask-layout-page-box'>
             <div className='header'>
               <span>
-                <AiFillLeftCircle className="back-logo" onClick={()=>{navgiate(-1)}}/>
+                <AiFillLeftCircle className="back-logo" onClick={props.onBack}/>
               </span>
               <AiFillCloseCircle className="close-logo" onClick={props.onClose}/>
             </div>
