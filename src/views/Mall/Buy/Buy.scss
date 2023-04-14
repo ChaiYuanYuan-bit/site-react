@@ -66,3 +66,15 @@
         margin-bottom: 10px;
     }
 }
+
+.my-react-multi-select{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #eee;
+    font-size: small;
+    span{
+        display: inline-block;
+        margin-right: 5px;
+    }
+}

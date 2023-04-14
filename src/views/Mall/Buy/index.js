@@ -1,7 +1,8 @@
 import React,{useEffect,useState,Component } from 'react';
 import Select, { components } from "react-select";
 import { useNavigate,useLocation } from 'react-router-dom';
-import { AiOutlineWechat,AiFillAlipayCircle } from 'react-icons/ai';
+import { AiFillMoneyCollect} from 'react-icons/ai';
+import {IoTicketOutline} from 'react-icons/io5'
 import {Button} from 'antd'
 import MaskLayout from '../../../components/MaskLayout';
 import './Buy.scss';
@@ -19,15 +20,16 @@ const IconOption = props => (
 
 const IconValue = ({children,...props}) => (
     <components.SingleValue {...props}>
-        <div style={{display:'flex',alignItems:'center'}}>
-            <span style={{margin:'5px'}}>{props.data.icon}</span>{children}
+        <div className='my-react-multi-select'>
+            <span style={{margin:'5px'}}>{props.data.icon}</span>
+            <span>{children}</span>
         </div>
          </components.SingleValue>
   );
 
 const options = [
-    { value: "wechatPay", label: "微信支付", icon: <AiOutlineWechat/>,color:'#1AAD19'},
-    { value: "aliPay", label: "支付宝支付", icon:<AiFillAlipayCircle/>,color:'#1678ff'}
+    { value: "wechatPay", label: "余额支付", icon: <AiFillMoneyCollect/>,color:'#1AAD19'},
+    { value: "aliPay", label: "使用代金券", icon:<IoTicketOutline/>,color:'#1678ff'}
   ];
 
 const Buy = () => {
@@ -45,8 +47,14 @@ const Buy = () => {
         // console.log(location.state.currentGoodsInfo)
         // setCurrentGoodsInfo(location.state.currentGoodsInfo);
     },[])
-      
-    const closeBuyPage = ()=>{
+    const onFinish = ()=>{
+        //向后台提交订单,并跳转到支付页
+        navigate('/home/mall/pay');
+    }
+    const handleBack = ()=>{
+        navigate(-1);
+    }
+    const handleClose = ()=>{
         console.log(location)
         navigate('/home/mall',
         {
@@ -54,7 +62,7 @@ const Buy = () => {
         });
     }
     return (
-        <MaskLayout onClose={closeBuyPage}>
+        <MaskLayout onBack={handleBack} onClose={handleClose}>
            <div className='buy-mycard-list'>
             <div className='buy-mycard-info'>
                 <h3>{location.state.currentGoodsInfo.detail.name}</h3>
@@ -72,17 +80,19 @@ const Buy = () => {
                     <span className='pay-logo'>选择支付方式</span>
                     <span  className='pay-select'>
                         <Select
+                        closeMenuOnSelect={true}
+                        isMulti = {true}
                         isSearchable={false}
                         defaultValue={options[0]}
                         options={options}
-                        components={{ Option: IconOption ,SingleValue:IconValue}}
+                        components={{ Option: IconOption ,MultiValue:IconValue}}
                         />
                     </span>
                 </div>
             </div>
             <div className='buy-mycard-little'>
                 <span>金额 ￥{location.state.comboNumber*location.state.currentCombo.comboPrice}</span>
-                <Button type="primary" >确认支付</Button>
+                <Button type="primary" onClick={onFinish}>提交订单</Button>
             </div>
            </div>
         </MaskLayout>

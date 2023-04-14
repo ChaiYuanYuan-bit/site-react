@@ -56,8 +56,12 @@ const Detail = () => {
         },2500);
       }
     }
+    //返回事件处理
+    const handleBack = ()=>{
+      navigate(-1);
+    }
     //关闭详情页
-    const closeDetailPage = ()=>{
+    const handleClose = ()=>{
       navigate(-1,{
         replace:true
       });
@@ -82,7 +86,7 @@ const Detail = () => {
       });
     }
     return (
-        <MaskLayout onClose = {closeDetailPage}>
+        <MaskLayout onBack = {handleBack} onClose = {handleClose}>
           {
             detailLoadState===0?<LoadingOutlined/>:
             detailLoadState===1?(
@@ -115,7 +119,7 @@ const Detail = () => {
                     <Button 
                     disabled={currentCombo.comboCount>0?false:true}
                     type="primary" 
-                    onClick={onFinish}>{currentCombo.comboCount?'确认下单':'暂无库存'}</Button>
+                    onClick={onFinish}>{currentCombo.comboCount?'立即购买':'暂无库存'}</Button>
                   </div>
                   </Space>
                 </div>
