@@ -26,7 +26,7 @@ function App() {
             if(success)
             {
               //保存用户到redux
-              dispatch(setInfo(userInfo));
+              dispatch(setInfo({info:{...userInfo}}));
             }
             else{
               dispatch(setMsg({msg:{type:'error',description:message}}));
@@ -43,8 +43,12 @@ function App() {
   //全局消息设置
   const sendNotification = (type,description)=>{
     dispatch(setMsg({msg:{type,description}}));
+    clearNotification();
   }
-  
+  // 重置全集消息框
+  const clearNotification = ()=>{
+    dispatch(setMsg({msg:{}}));
+  }
   useEffect(()=>{
     loadUserInfo();
 },[]);

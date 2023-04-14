@@ -1,17 +1,27 @@
 import React,{useState} from 'react';
-import { useNavigate } from 'react-router-dom';
-import MaskLayout from '../../../components/MaskLayout';
-import { 
-    LoadingOutlined, 
-    SmileOutlined, 
-    SolutionOutlined, 
-    UserOutlined 
-} from '@ant-design/icons';
+import { useSelector } from 'react-redux';
+import { useNavigate,useLocation } from 'react-router-dom';
+import {  LoadingOutlined, SmileOutlined, } from '@ant-design/icons';
+import { HiOutlineEmojiSad} from 'react-icons/hi'
+import {VscError} from 'react-icons/vsc'
+import {AiFillSafetyCertificate,AiOutlineVerified,} from 'react-icons/ai'
 import { Button,Steps,Popconfirm,Form,Input } from 'antd';
+import { $verifyPWD,$payOrder } from '../../../api/pay';
+import MaskLayout from '../../../components/MaskLayout';
+import encrypt from '../../../utils/encrypt';
 
-const Pay = ({sendNotification}) => {
+const Pay = ({sendNotification,clearNotification}) => {
+    // 获取 当前用户信息
+    const {info:userInfo} = useSelector(store=>store.userInfo);
+    // 验证密码状态
+    const [verifedState,setVerifiedState] = useState('wait');
+    // 支付状态
+    const [payState,setPayState] = useState('wait');
+    // 获取表单实例
+    const [form] = Form.useForm();
     const [payClose,setPayClose] = useState(false)
     const navigate = useNavigate();
+    const location = useLocation();
     // const handleBack = ()=>{
     // }
 
@@ -20,7 +30,6 @@ const Pay = ({sendNotification}) => {
             sendNotification('info','已取消支付，订单详情请查看 “我的-订单信息”，3s...内将返回首页');
             setPayClose(true);
             setTimeout((value) =>{
-                console.log(value)
                 navigate('/home/mall',
                 {
                     replace:true
@@ -36,37 +45,85 @@ const Pay = ({sendNotification}) => {
             } , 1000);
           });
     }
-    const onFinish = (value)=>{
-        console.log(value)
+    const onFinish = async ({password})=>{
+        setVerifiedState('loading');
+        try {
+            //验证支付密码
+            const {success,message} = await $verifyPWD(
+                {
+                    userId:location.state.userId,
+                    password:encrypt(password)
+                });
+            if(success)
+            {
+                setVerifiedState('finish');
+                setPayState('loading');
+                //支付订单
+                const {success,message} = await $payOrder(
+                    {
+                        orderId: location.state.orderId
+                    });
+                if(success)
+                {
+                    sendNotification('success',message);
+                    setPayState('finish');
+                    setTimeout(()=>{
+                        navigate('/home/mall',
+                        {
+                            replace:true
+                        });
+                    },500);
+                }
+                else{
+                    setPayState('error');
+                }
+            }
+            else{
+                setVerifiedState('error');
+            }
+        } catch (err) {
+            setVerifiedState('wait');
+            setPayState('wait');
+            sendNotification('error',err.message);
+        }
     }
     return (
         <MaskLayout onClose = {handleClose}>
             <Steps
+            size="small"
+            current={1}
             items={[
             {
-                title: 'Login',
-                status: 'finish',
-                icon: <UserOutlined />,
+                title: '提交订单',
+                status:'finish'
             },
             {
-                title: 'Verification',
-                status: 'finish',
-                icon: <SolutionOutlined />,
+                title: verifedState==='wait'?
+                '验证密码':verifedState==='loading'?
+                '验证中':verifedState==='finish'?
+                '验证成功':'密码错误',
+                status:verifedState,
+                icon:verifedState==='wait'?
+                <AiOutlineVerified />:verifedState==='loading'?
+                <LoadingOutlined />:verifedState==='finish'?
+                <AiFillSafetyCertificate/>:<VscError />
             },
             {
-                title: 'Pay',
-                status: 'process',
-                icon: <LoadingOutlined />,
-            },
-            {
-                title: 'Done',
-                status: 'wait',
-                icon: <SmileOutlined />,
+                title: payState==='wait'?
+                '支付成功':payState==='loading'?
+                '支付中':payState==='finish'?
+                '支付成功':'支付失败',
+                status:payState,
+                icon:payState==='wait'?
+                <SmileOutlined />:payState==='loading'?
+                <LoadingOutlined />:payState==='finish'?
+                <SmileOutlined/>:<HiOutlineEmojiSad />
             },
             ]}
             />
             <Form
             name='pay'
+            form = {form}
             labelCol={{
                 span: 8,
             }}
@@ -91,7 +148,15 @@ const Pay = ({sendNotification}) => {
                 >
                 <Input.Password/>
                 </Form.Item>
-                <Button type="primary" htmlType="submit">支付</Button>
+                <Button 
+                type="primary" 
+                htmlType="submit" 
+                disabled={payState==='loading'||
+                payState==='finish'||
+                verifedState==='loading'||
+                verifedState==='finish'?true:false}>
+                    支付
+                </Button>
                 <Popconfirm
                 placement="topLeft"
                 title='提示'
@@ -100,7 +165,13 @@ const Pay = ({sendNotification}) => {
                 okText="确定"
                 cancelText="我再想想"
                 >
-                <Button>取消订单</Button>
+                <Button 
+                disabled={verifedState==='loading'||verifedState==='finish'?true:false}>
+                    取消订单
+                </Button>
+                <Button disabled={verifedState==='loading'||verifedState==='finish'?true:false}>
+                    稍后支付
+                </Button>
                 </Popconfirm>
             </Form>
         </MaskLayout>
