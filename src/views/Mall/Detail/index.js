@@ -1,11 +1,11 @@
 import React,{ useState,useEffect } from 'react';
 import { Divider,Segmented,InputNumber,Button,Space } from 'antd';
 import { useSearchParams,useNavigate } from 'react-router-dom';
-import {LoadingOutlined,AiFillCloseCircle} from '@ant-design/icons';
+import {LoadingOutlined} from '@ant-design/icons';
 import { $getOne} from '../../../api/detail';
 import MarkDown from '../../../components/MarkDown';
 import MaskLayout from '../../../components/MaskLayout';
-import './DetailPage.scss'
+import './Detail.scss'
 
 const Detail = () => {
     // 详情页状态
@@ -16,10 +16,14 @@ const Detail = () => {
     const [comboType,setComboType] = useState([]);
     // 记录当前所选套餐
     const [currentCombo,setCurrentCombo] =useState({});
+    // 当前所需套餐数量
+    const [comboNumber,setComboNumber] =useState(1);
     // 获取路由参数
     const [search,setSearch] = useSearchParams();
     //错误展示信息
     const errMsg = '无法加载商品详情，请稍后再试！( 即将返回 )';
+    //控制MaskLayout的显示与隐藏
+    const [showMask,setShowMask] = useSearchParams(false);
     //路由跳转
     const navigate = useNavigate();
 
@@ -44,6 +48,7 @@ const Detail = () => {
         // 初始化当前所选套餐
         setCurrentCombo(data.detail.comboType?data.detail.comboType[0]:{});
       } catch (error) {
+        console.log(error);
         //有错误就返回上一页
         setDetailLoadState(-1);
         setTimeout(()=>{
@@ -53,18 +58,28 @@ const Detail = () => {
     }
     //关闭详情页
     const closeDetailPage = ()=>{
-      navigate(-1);
-
+      navigate(-1,{
+        replace:true
+      });
     }
+    // 获取当前所选商品套餐类型
     const handleComboChange = (comboTypeName)=>{
       const combo = currentGoodsInfo.detail.comboType.find(item=>item.comboTypeName === comboTypeName)||{};
       setCurrentCombo(combo)
     }
+    //获取当前所选商品数量
     const onNumberChange = (value) => {
-      console.log('changed', value);
+      setComboNumber(value)
     };
     const onFinish = ()=>{
-      navigate('/home/mall/buy');
+      navigate('/home/mall/buy',{
+        replace:false,
+        state:{
+          currentGoodsInfo,
+          currentCombo,
+          comboNumber
+        }
+      });
     }
     return (
         <MaskLayout onClose = {closeDetailPage}>
@@ -90,8 +105,17 @@ const Detail = () => {
                     <div>库存：{currentCombo.comboCount}</div>
                   </div>
                   <div className='select-combo-order'>
-                    <div className='comfirm-number'>购买数量：<InputNumber  min={1} max={100000} defaultValue={1} onChange={onNumberChange} /></div>
-                    <Button type="primary" onClick={onFinish}>确认下单</Button>
+                    <div className='comfirm-number'><span>购买数量：</span>
+                    <InputNumber 
+                    disabled={currentCombo.comboCount>0?false:true} 
+                    min={currentCombo.comboCount>0?1:0} 
+                    max={currentCombo?.comboCount} 
+                    value = {currentCombo.comboCount?comboNumber:0}
+                    onChange={onNumberChange} /></div>
+                    <Button 
+                    disabled={currentCombo.comboCount>0?false:true}
+                    type="primary" 
+                    onClick={onFinish}>{currentCombo.comboCount?'确认下单':'暂无库存'}</Button>
                   </div>
                   </Space>
                 </div>

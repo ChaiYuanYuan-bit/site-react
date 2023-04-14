@@ -14,10 +14,8 @@ const MarkDown = ({src}) => {
                 setMdText(response.data)
             })
             .catch((err)=>{
-                console.error(err);
             });
         } catch (error) {
-            console.error(error);
         }
         src = '';
     },[src])
