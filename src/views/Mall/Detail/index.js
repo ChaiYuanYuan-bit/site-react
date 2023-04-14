@@ -85,6 +85,7 @@ const Detail = () => {
                 <Segmented block options={comboType} onChange={(comboTypeName)=>{handleComboChange(comboTypeName)}}/>
                   <div className='combo-content'>
                     <div><img className='combo-img' src={currentCombo.comboImgUrl}/> </div>
+                    <div>{currentCombo.comboIntro}</div>
                     <div>价格：{currentCombo.comboPrice}</div>
                     <div>库存：{currentCombo.comboCount}</div>
                   </div>
