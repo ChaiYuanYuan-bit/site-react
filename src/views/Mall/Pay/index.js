@@ -173,7 +173,7 @@ const Pay = ({sendNotification,clearNotification}) => {
                     稍后支付
                 </Button>
                 </Popconfirm>
-            </Form></div>
+            </Form>
             <div >取消支付</div>
         </MaskLayout>
     );
