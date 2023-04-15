@@ -100,6 +100,7 @@ const Detail = () => {
       navigate('/home/mall/buy',{
         replace:false,
         state:{
+          goodsTypeName: search.get('goodsTypeName'),
           currentGoodsInfo,
           currentCombo,
           comboNumber

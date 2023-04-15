@@ -1,9 +1,11 @@
 import React,{useEffect,useState,Component } from 'react';
 import Select, { components } from "react-select";
 import { useNavigate,useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { AiFillMoneyCollect} from 'react-icons/ai';
 import {IoTicketOutline} from 'react-icons/io5'
 import {Button} from 'antd'
+import { $addOrder } from '../../../api/orders';
 import MaskLayout from '../../../components/MaskLayout';
 import './Buy.scss';
 
@@ -32,30 +34,55 @@ const options = [
     { value: "aliPay", label: "使用代金券", icon:<IoTicketOutline/>,color:'#1678ff'}
   ];
 
-const Buy = () => {
-    //保存店家信息
-    const [currentGoodsInfo,setCurrentGoodsInfo] = useState({});
-    // 保存套餐信息
-    const [currentCombo,setCurrentCombo] = useState({});
+const Buy = ({sendNotification}) => {
+    // 获取 当前用户信息
+    const {info:userInfo} = useSelector(store=>store.userInfo);
     // 路由
     const navigate = useNavigate();
     // 获得location信息
     const location  = useLocation();
+    // 提交状态
+    const [addOrderState,setAddOrderState] = useState('notLoading');
     useEffect(()=>{
-        console.log(location)
-        // setCurrentCombo(location.state.currentCombo);
-        // console.log(location.state.currentGoodsInfo)
-        // setCurrentGoodsInfo(location.state.currentGoodsInfo);
+        
     },[])
-    const onFinish = ()=>{
+    const onFinish = async ()=>{
         //向后台提交订单,并跳转到支付页
-        navigate('/home/mall/pay');
+        //设置状态为loading
+        setAddOrderState('loading');
+        //提交商品类型，商品id，套餐id，所选数量，所选日期，
+        try {
+           const {success,message,orderId} = await $addOrder({
+                userId:userInfo.id,
+                goodsTypeName:location.state.goodsTypeName,
+                goodsId:location.state.currentGoodsInfo.id,
+                comboId:location.state.currentCombo.comboTypeId,
+                count:location.state.comboNumber
+            })
+            if(success)
+            {
+                setAddOrderState('notLoading');
+                sendNotification('success',message);
+                navigate('/home/mall/pay',{
+                    replace:true,
+                    state:{
+                        userId:userInfo.id,
+                        orderId:orderId
+                    }
+                });
+            }
+        } catch (err) {
+            setAddOrderState('notLoading');
+            sendNotification('error',err.message);
+            navigate('/home/mall',{
+                replace:true
+            });
+        }
     }
     const handleBack = ()=>{
         navigate(-1);
     }
     const handleClose = ()=>{
-        console.log(location)
         navigate('/home/mall',
         {
             replace:true
@@ -92,7 +119,7 @@ const Buy = () => {
             </div>
             <div className='buy-mycard-little'>
                 <span>金额 ￥{location.state.comboNumber*location.state.currentCombo.comboPrice}</span>
-                <Button type="primary" onClick={onFinish}>提交订单</Button>
+                <Button type="primary" disabled={addOrderState==='loading'?true:false} loading={addOrderState==='loading'?true:false} onClick={onFinish}>提交订单</Button>
             </div>
            </div>
         </MaskLayout>
