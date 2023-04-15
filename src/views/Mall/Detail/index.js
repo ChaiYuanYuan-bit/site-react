@@ -8,6 +8,9 @@ import MarkDown from '../../../components/MarkDown';
 import MaskLayout from '../../../components/MaskLayout';
 import './Detail.scss'
 
+//日期选择器
+const { RangePicker } = DatePicker;
+
 const Detail = () => {
     // 详情页状态
     const [detailLoadState,setDetailLoadState] = useState(0);
@@ -19,22 +22,20 @@ const Detail = () => {
     const [currentCombo,setCurrentCombo] =useState({});
     // 当前所需套餐数量
     const [comboNumber,setComboNumber] =useState(1);
-    //记录所选日期及天数
+    // 记录所选日期及天数
     const [dateStrings,setDateStrings] = useState([]);
     const [days, setDays] = useState([]);
     // 获取路由参数
     const [search,setSearch] = useSearchParams();
-    //错误展示信息
+    // 错误展示信息
     const errMsg = '无法加载商品详情，请稍后再试！( 即将返回 )';
-    //控制MaskLayout的显示与隐藏
-    const [showMask,setShowMask] = useSearchParams(false);
-    //路由跳转
+    // 路由跳转
     const navigate = useNavigate();
 
+    // 初始化
      useEffect(() => {
       loadDetailPageData();
     },[])
-    
     // 加载数据
     const loadDetailPageData = async ()=>{
       try {
@@ -55,29 +56,28 @@ const Detail = () => {
         console.log(error);
         //有错误就返回上一页
         setDetailLoadState(-1);
+        navigate(-1);
         setTimeout(()=>{
           navigate(-1);
         },2500);
       }
     }
-    //返回事件处理
+    // 返回事件处理
     const handleBack = ()=>{
       navigate(-1);
     }
-    //关闭详情页
+    // 关闭详情页
     const handleClose = ()=>{
       navigate(-1,{
         replace:true
       });
     }
-    //日期选择器
-    const { RangePicker } = DatePicker;
-
+    // 屏蔽部分日期
     const disabledDate = (current) => {
       // Can not select days before today and days after 30days
       return current > dayjs().add(+29, 'd') || current < dayjs().add(-1, 'd');
-      
     };
+    // 日历选择器处理函数
     const onRangeChange = (dates, dateStrings) => {
       if (dates) {
         //console.log('From: ', dates[0], ', to: ', dates[1]);
@@ -90,20 +90,18 @@ const Detail = () => {
         setDays(0);
       }
     };
-
     // 获取当前所选商品套餐类型
     const handleComboChange = (comboTypeName)=>{
       const combo = currentGoodsInfo.detail.comboType.find(item=>item.comboTypeName === comboTypeName)||{};
       setCurrentCombo(combo)
     }
-    //获取当前所选商品数量
+    // 获取当前所选商品数量
     const onNumberChange = (value) => {
       setComboNumber(value)
     };
-
-
+    // 跳转到订单页面
     const onFinish = ()=>{
-
+      console.log(search)
         navigate('/home/mall/buy',{
           replace:false,
           state:{
@@ -117,7 +115,11 @@ const Detail = () => {
       });
     }
     return (
-        <MaskLayout onBack = {handleBack} onClose = {handleClose}>
+        <MaskLayout 
+        onBack = {handleBack} 
+        onClose = {handleClose}
+        hiddenBack={true} 
+        >
           {
             detailLoadState===0?<LoadingOutlined/>:
             detailLoadState===1?(
