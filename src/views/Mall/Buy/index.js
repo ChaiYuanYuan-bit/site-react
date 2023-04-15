@@ -2,9 +2,10 @@ import React,{useEffect,useState,Component } from 'react';
 import Select, { components } from "react-select";
 import { useNavigate,useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { AiFillMoneyCollect} from 'react-icons/ai';
+import { AiFillMoneyCollect,AiOutlineVerified} from 'react-icons/ai';
 import {IoTicketOutline} from 'react-icons/io5'
-import {Button} from 'antd'
+import {Button,Steps} from 'antd'
+import {  ExceptionOutlined, CheckSquareOutlined, SmileOutlined, } from '@ant-design/icons';
 import { $addOrder } from '../../../api/orders';
 import MaskLayout from '../../../components/MaskLayout';
 import './Buy.scss';
@@ -44,7 +45,7 @@ const Buy = ({sendNotification}) => {
     // 提交状态
     const [addOrderState,setAddOrderState] = useState('notLoading');
     useEffect(()=>{
-        
+        console.log(location);
     },[])
     const onFinish = async ()=>{
         //向后台提交订单,并跳转到支付页
@@ -90,6 +91,27 @@ const Buy = ({sendNotification}) => {
     }
     return (
         <MaskLayout onBack={handleBack} onClose={handleClose}>
+            <Steps
+                current={0}
+                items={[
+                {
+                    title: '确认信息',
+                    icon: <ExceptionOutlined />,
+                },
+                {
+                    title: '提交订单',
+                    icon: <CheckSquareOutlined />,
+                },
+                {
+                    title: '验证支付',
+                    icon: <AiOutlineVerified />,
+                },
+                {
+                    title: '完成订单',
+                    icon: <SmileOutlined />,
+                },
+                ]}
+            />
            <div className='buy-mycard-list'>
             <div className='buy-mycard-info'>
                 <h3>{location.state.currentGoodsInfo.detail.name}</h3>
