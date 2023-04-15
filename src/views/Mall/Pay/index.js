@@ -195,7 +195,7 @@ const Pay = ({sendNotification}) => {
                     htmlType="submit" 
                     loading={payState==='loading'||verifedState==='loading'?true:false}
                     disabled={
-                    payState==='loading'||payState==='finish'||verifedState==='loading'||verifedState==='finish'||cancelState === 'loading'?true:false}>
+                    payState==='loading'||payState==='finish'||verifedState==='loading'||verifedState==='finish'||cancelState === 'loading'||cancelState==='finish'?true:false}>
                         支付
                     </Button>
                     <Popconfirm
@@ -213,12 +213,12 @@ const Pay = ({sendNotification}) => {
                     <Button 
                     loading={cancelState==='loading'?true:false}
                     onClick={handlePopBtnClick}
-                    disabled={verifedState==='loading'||verifedState==='finish'||payState === 'loading'||cancelState==='loading'?true:false}>
+                    disabled={verifedState==='loading'||verifedState==='finish'||payState === 'loading'||cancelState==='loading'||cancelState==='finish'?true:false}>
                         取消订单
                     </Button>
                     </Popconfirm>
                     <Button 
-                    disabled={verifedState==='loading'||verifedState==='finish'||payState === 'loading'||cancelState==='loading'?true:false}
+                    disabled={verifedState==='loading'||verifedState==='finish'||payState === 'loading'||cancelState==='loading'||cancelState==='finish'?true:false}
                     onClick={handleClose}
                     >
                         稍后支付
