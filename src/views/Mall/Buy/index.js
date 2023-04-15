@@ -120,6 +120,7 @@ const Buy = ({sendNotification}) => {
                 <img src={location.state.currentCombo.comboImgUrl}></img>
                 <div className='content'>
                     <h3>套餐类型：{location.state.currentCombo.comboTypeName}</h3>
+                    <p>选择日期：{location.state.dateStrings[0]}至{location.state.dateStrings[1]}，共{location.state.days}晚</p>
                     <p>单价：{location.state.currentCombo.comboPrice}</p>
                     <p>数量：{location.state.comboNumber}</p>
                 </div>
@@ -140,7 +141,7 @@ const Buy = ({sendNotification}) => {
                 </div>
             </div>
             <div className='buy-mycard-little'>
-                <span>金额 ￥{location.state.comboNumber*location.state.currentCombo.comboPrice}</span>
+                <span>金额 ￥{location.state.comboNumber*location.state.currentCombo.comboPrice*location.state.days}</span>
                 <Button type="primary" disabled={addOrderState==='loading'?true:false} loading={addOrderState==='loading'?true:false} onClick={onFinish}>提交订单</Button>
             </div>
            </div>
