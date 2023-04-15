@@ -7,11 +7,15 @@
     width: 100%;
     align-items: center;
     justify-content: space-between;
+    gap: 16px;
     .combo-img{
         max-height: 200px;
         max-width: 260px;
         object-fit: contain;
-    }
+    };
+    .choose-date{
+        width: 100%;
+    };
 }
 .select-combo-order{
     display: flex;

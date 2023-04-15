@@ -246,6 +246,7 @@ const Pay = ({sendNotification}) => {
                     稍后支付
                 </Button>
             </Form>
+            <div >取消支付</div>
         </MaskLayout>
     );
 }

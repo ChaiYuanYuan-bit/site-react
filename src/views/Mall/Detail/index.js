@@ -1,5 +1,6 @@
 import React,{ useState,useEffect } from 'react';
-import { Divider,Segmented,InputNumber,Button,Space } from 'antd';
+import { Divider,Segmented,InputNumber,Button,Space,DatePicker, Tooltip } from 'antd';
+import dayjs from 'dayjs';
 import { useSearchParams,useNavigate } from 'react-router-dom';
 import {LoadingOutlined} from '@ant-design/icons';
 import { $getOne} from '../../../api/detail';
@@ -18,6 +19,9 @@ const Detail = () => {
     const [currentCombo,setCurrentCombo] =useState({});
     // 当前所需套餐数量
     const [comboNumber,setComboNumber] =useState(1);
+    //记录所选日期及天数
+    const [dateStrings,setDateStrings] = useState([]);
+    const [days, setDays] = useState([]);
     // 获取路由参数
     const [search,setSearch] = useSearchParams();
     //错误展示信息
@@ -66,6 +70,27 @@ const Detail = () => {
         replace:true
       });
     }
+    //日期选择器
+    const { RangePicker } = DatePicker;
+
+    const disabledDate = (current) => {
+      // Can not select days before today and days after 30days
+      return current > dayjs().add(+29, 'd') || current < dayjs().add(-1, 'd');
+      
+    };
+    const onRangeChange = (dates, dateStrings) => {
+      if (dates) {
+        //console.log('From: ', dates[0], ', to: ', dates[1]);
+        //console.log('From: ', dateStrings[0], ', to: ', dateStrings[1]);
+        setDateStrings(dateStrings);
+        //console.log(dayjs(dateStrings[1]).diff(dateStrings[0],'day'), '两个日期之间相差的天数');
+        setDays(dayjs(dateStrings[1]).diff(dateStrings[0],'day'));
+      }
+      else{
+        setDays(0);
+      }
+    };
+
     // 获取当前所选商品套餐类型
     const handleComboChange = (comboTypeName)=>{
       const combo = currentGoodsInfo.detail.comboType.find(item=>item.comboTypeName === comboTypeName)||{};
@@ -75,15 +100,20 @@ const Detail = () => {
     const onNumberChange = (value) => {
       setComboNumber(value)
     };
+
+
     const onFinish = ()=>{
-      navigate('/home/mall/buy',{
-        replace:false,
-        state:{
-          goodsTypeName: search.get('goodsTypeName'),
-          currentGoodsInfo,
-          currentCombo,
-          comboNumber
-        }
+
+        navigate('/home/mall/buy',{
+          replace:false,
+          state:{
+            goodsTypeName: search.get('goodsTypeName'),
+            currentGoodsInfo,
+            currentCombo,
+            comboNumber,
+            dateStrings,
+            days
+          }
       });
     }
     return (
@@ -109,10 +139,18 @@ const Detail = () => {
                 <Segmented block options={comboType} onChange={(comboTypeName)=>{handleComboChange(comboTypeName)}}/>
                   <div className='combo-content'>
                     <div><img className='combo-img' src={currentCombo.comboImgUrl}/> </div>
+                    <div>{currentCombo.comboIntro}</div>
                     <div>价格：{currentCombo.comboPrice}</div>
                     <div>库存：{currentCombo.comboCount}</div>
                   </div>
+                  <div className='choose-date'>选择日期：
+                    <RangePicker 
+                    format="YYYY-MM-DD"
+                    disabledDate={disabledDate}  
+                    onChange={onRangeChange} />
+                  </div>
                   <div className='select-combo-order'>
+                    
                     <div className='comfirm-number'><span>购买数量：</span>
                     <InputNumber 
                     disabled={currentCombo.comboCount>0?false:true} 
@@ -120,10 +158,12 @@ const Detail = () => {
                     max={currentCombo?.comboCount} 
                     value = {currentCombo.comboCount?comboNumber:0}
                     onChange={onNumberChange} /></div>
-                    <Button 
-                    disabled={currentCombo.comboCount>0?false:true}
-                    type="primary" 
-                    onClick={onFinish}>{currentCombo.comboCount?'立即购买':'暂无库存'}</Button>
+                    <Tooltip trigger={'hover'} color='rgba(0,0,0,.6)' open={days>0?false:true} placement="top" title={'请先选择日期'} >
+                      <Button 
+                      disabled={currentCombo.comboCount>0&&days>0 ?false:true}
+                      type="primary" 
+                      onClick={onFinish}>{currentCombo.comboCount?'立即购买':'暂无库存'}</Button>
+                    </Tooltip>
                   </div>
                   </Space>
                 </div>

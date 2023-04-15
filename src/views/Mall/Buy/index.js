@@ -3,7 +3,7 @@ import Select, { components } from "react-select";
 import { useNavigate,useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { AiFillMoneyCollect,AiOutlineVerified,AiOutlineCheckCircle,AiOutlineSolution} from 'react-icons/ai';
-import {  LoadingOutlined, SmileOutlined } from '@ant-design/icons';
+import { ExceptionOutlined,CheckSquareOutlined,LoadingOutlined, SmileOutlined } from '@ant-design/icons';
 import {VscError} from 'react-icons/vsc'
 import {IoTicketOutline} from 'react-icons/io5'
 import {Button,Steps} from 'antd'
@@ -13,7 +13,7 @@ import './Buy.scss';
 
 const { Option } = components;
 
-const IconOption = props => (
+const IconOption = (props) => (
 <Option {...props}>
     <div style={{display:'flex',alignItems:'center'}}>
         <span style={{margin:'5px',backgroundColor:props.color}}>{props.data.icon}</span>
@@ -46,7 +46,7 @@ const Buy = ({sendNotification}) => {
     // 提交状态
     const [addOrderState,setAddOrderState] = useState('wait');
     useEffect(()=>{
-        
+        console.log(location);
     },[])
     const onFinish = async ()=>{
         //向后台提交订单,并跳转到支付页
