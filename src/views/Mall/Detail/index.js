@@ -87,7 +87,11 @@ const Detail = () => {
       });
     }
     return (
-        <MaskLayout onBack = {handleBack} onClose = {handleClose}>
+        <MaskLayout 
+        onBack = {handleBack} 
+        onClose = {handleClose}
+        hiddenBack={true} 
+        >
           {
             detailLoadState===0?<LoadingOutlined/>:
             detailLoadState===1?(

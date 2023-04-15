@@ -43,11 +43,13 @@ function App() {
   //全局消息设置
   const sendNotification = (type,description)=>{
     dispatch(setMsg({msg:{type,description}}));
-    clearNotification();
+    setTimeout(()=>{
+      clearNotification();
+    },200)
   }
   // 重置全集消息框
   const clearNotification = ()=>{
-    dispatch(setMsg({msg:{}}));
+    dispatch(setMsg({msg:{type:'',description:''}}));
   }
   useEffect(()=>{
     loadUserInfo();

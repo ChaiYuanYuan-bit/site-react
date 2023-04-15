@@ -2,9 +2,11 @@ import React,{useEffect,useState,Component } from 'react';
 import Select, { components } from "react-select";
 import { useNavigate,useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { AiFillMoneyCollect} from 'react-icons/ai';
+import { AiFillMoneyCollect,AiOutlineVerified,AiOutlineCheckCircle,AiOutlineSolution} from 'react-icons/ai';
+import {  LoadingOutlined, SmileOutlined } from '@ant-design/icons';
+import {VscError} from 'react-icons/vsc'
 import {IoTicketOutline} from 'react-icons/io5'
-import {Button} from 'antd'
+import {Button,Steps} from 'antd'
 import { $addOrder } from '../../../api/orders';
 import MaskLayout from '../../../components/MaskLayout';
 import './Buy.scss';
@@ -42,7 +44,7 @@ const Buy = ({sendNotification}) => {
     // 获得location信息
     const location  = useLocation();
     // 提交状态
-    const [addOrderState,setAddOrderState] = useState('notLoading');
+    const [addOrderState,setAddOrderState] = useState('wait');
     useEffect(()=>{
         
     },[])
@@ -61,8 +63,8 @@ const Buy = ({sendNotification}) => {
             })
             if(success)
             {
-                setAddOrderState('notLoading');
-                sendNotification('success',message);
+                setAddOrderState('finish');
+                sendNotification('success','成功创建订单!');
                 navigate('/home/mall/pay',{
                     replace:true,
                     state:{
@@ -72,24 +74,56 @@ const Buy = ({sendNotification}) => {
                 });
             }
         } catch (err) {
-            setAddOrderState('notLoading');
+            setAddOrderState('error');
             sendNotification('error',err.message);
-            navigate('/home/mall',{
+        }
+    }
+    const handleBack = ()=>{
+        //提交订单时无法跳转
+        if(addOrderState!=='loading')
+        {
+            navigate(-1);
+        }
+    }
+    const handleClose = ()=>{
+        //提交订单时无法跳转
+        if(addOrderState!=='loading')
+        {
+            navigate('/home/mall',
+            {
                 replace:true
             });
         }
     }
-    const handleBack = ()=>{
-        navigate(-1);
-    }
-    const handleClose = ()=>{
-        navigate('/home/mall',
-        {
-            replace:true
-        });
-    }
     return (
-        <MaskLayout onBack={handleBack} onClose={handleClose}>
+        <MaskLayout title='填写订单' onBack={handleBack} onClose={handleClose}>
+            <Steps
+            size="small"
+            current={1}
+            items={[
+            {
+                title: addOrderState==='wait'?
+                '提交订单':addOrderState==='loading'?
+                '正在提交':addOrderState==='finish'?
+                '完成提交':'提交失败',
+                status:addOrderState,
+                icon:addOrderState==='wait'?
+                <AiOutlineSolution/>:addOrderState==='loading'?
+                <LoadingOutlined/>:addOrderState==='finish'?
+                <AiOutlineCheckCircle/>:<VscError/>
+            },
+            {
+                title: '验证密码',
+                status:'wait',
+                icon:<AiOutlineVerified />
+            },
+            {
+                title: '支付成功',
+                status:'wait',
+                icon:<SmileOutlined />
+            },
+            ]}
+            />
            <div className='buy-mycard-list'>
             <div className='buy-mycard-info'>
                 <h3>{location.state.currentGoodsInfo.detail.name}</h3>

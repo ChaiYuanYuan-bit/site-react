@@ -11,7 +11,7 @@ export const $addOrder = async (params)=>{
 
 //取消订单
 export const $cancelOrder = async (params)=>{
-    let {data} = await axiosInstance.get('order/cancelOrder',params);
+    let {data} = await axiosInstance.post('order/cancelOrder',params);
     return data;
 };
 
