@@ -3,7 +3,7 @@ import Select, { components } from "react-select";
 import { useNavigate,useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { AiFillMoneyCollect,AiOutlineVerified,AiOutlineCheckCircle,AiOutlineSolution} from 'react-icons/ai';
-import { LoadingOutlined, SmileOutlined } from '@ant-design/icons';
+import { LoadingOutlined, SmileOutlined,ExceptionOutlined,FileDoneOutlined } from '@ant-design/icons';
 import {VscError} from 'react-icons/vsc'
 import {IoTicketOutline} from 'react-icons/io5'
 import {Button,Steps} from 'antd'
@@ -128,8 +128,12 @@ const Buy = ({sendNotification}) => {
             <div className='buy-mycard-title'>
             <Steps
             size="middle"
-            current={1}
+            current={0}
             items={[
+            {
+                title: '确认信息',
+                icon:<ExceptionOutlined />,
+            },
             {
                 title: addOrderState==='wait'?
                 '提交订单':addOrderState==='loading'?
@@ -137,7 +141,7 @@ const Buy = ({sendNotification}) => {
                 '完成提交':'提交失败',
                 status:addOrderState,
                 icon:addOrderState==='wait'?
-                <AiOutlineSolution/>:addOrderState==='loading'?
+                <FileDoneOutlined />:addOrderState==='loading'?
                 <LoadingOutlined/>:addOrderState==='finish'?
                 <AiOutlineCheckCircle/>:<VscError/>
             },

@@ -1,6 +1,6 @@
 import React,{useState} from 'react';
 import { useNavigate,useLocation } from 'react-router-dom';
-import {  LoadingOutlined, SmileOutlined,ExceptionOutlined, CheckSquareOutlined, } from '@ant-design/icons';
+import {  LoadingOutlined, SmileOutlined,ExceptionOutlined,FileDoneOutlined } from '@ant-design/icons';
 import { HiOutlineEmojiSad} from 'react-icons/hi'
 import { VscError } from 'react-icons/vsc'
 import { AiFillSafetyCertificate,AiOutlineVerified,AiOutlineInfoCircle,AiOutlineCheckCircle } from 'react-icons/ai'
@@ -146,7 +146,13 @@ const Pay = ({sendNotification}) => {
                 current={1}
                 items={[
                 {
+                    title: '确认信息',
+                    icon:<ExceptionOutlined />,
+                    status:'finish'
+                },
+                {
                     title: '提交订单',
+                    icon:<FileDoneOutlined />,
                     status:'finish'
                 },
                 {
