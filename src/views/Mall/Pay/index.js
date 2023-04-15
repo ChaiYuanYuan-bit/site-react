@@ -41,7 +41,8 @@ const Pay = ({sendNotification}) => {
     }
     return (
         <MaskLayout onClose = {handleClose}>
-            <Steps
+
+            <div ><Steps
             items={[
             {
                 title: 'Login',
@@ -102,7 +103,8 @@ const Pay = ({sendNotification}) => {
                 >
                 <Button>取消订单</Button>
                 </Popconfirm>
-            </Form>
+            </Form></div>
+            <div >取消支付</div>
         </MaskLayout>
     );
 }

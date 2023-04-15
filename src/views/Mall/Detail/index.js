@@ -1,5 +1,6 @@
 import React,{ useState,useEffect } from 'react';
-import { Divider,Segmented,InputNumber,Button,Space } from 'antd';
+import { Divider,Segmented,InputNumber,Button,Space,DatePicker } from 'antd';
+import dayjs from 'dayjs';
 import { useSearchParams,useNavigate } from 'react-router-dom';
 import {LoadingOutlined} from '@ant-design/icons';
 import { $getOne} from '../../../api/detail';
@@ -66,6 +67,26 @@ const Detail = () => {
         replace:true
       });
     }
+    //日期选择器
+    const { RangePicker } = DatePicker;
+
+    const disabledDate = (current) => {
+      // Can not select days before today and days after 30days
+      //console.log(current.valueOf());
+      return current > dayjs().add(+29, 'd') || current < dayjs().add(-1, 'd');
+      
+    };
+    const onRangeChange = (dates, dateStrings) => {
+      if (dates) {
+        console.log('From: ', dates[0], ', to: ', dates[1]);
+        console.log('From: ', dateStrings[0], ', to: ', dateStrings[1]);
+        console.log(dayjs(dateStrings[1]).diff(dateStrings[0],'day'), '两个日期之间相差的天数');
+      }
+    };
+
+  
+
+
     // 获取当前所选商品套餐类型
     const handleComboChange = (comboTypeName)=>{
       const combo = currentGoodsInfo.detail.comboType.find(item=>item.comboTypeName === comboTypeName)||{};
@@ -107,6 +128,13 @@ const Detail = () => {
                     <div>{currentCombo.comboIntro}</div>
                     <div>价格：{currentCombo.comboPrice}</div>
                     <div>库存：{currentCombo.comboCount}</div>
+                  </div>
+                  <div className='choose-date'>选择日期：
+                    <RangePicker 
+                    format="YYYY-MM-DD"
+                    disabledDate={disabledDate} 
+                    renderExtraFooter={() => 'extra footer'} 
+                    onChange={onRangeChange} />
                   </div>
                   <div className='select-combo-order'>
                     <div className='comfirm-number'><span>购买数量：</span>
