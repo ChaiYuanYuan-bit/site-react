@@ -35,7 +35,7 @@ const Pay = ({sendNotification}) => {
             {
                 replace:true
             });
-            sendNotification('info','已取消支付，订单详情请查看 “我的-订单信息”');
+            sendNotification('info','订单详情请查看 “我的-订单信息”');
         }
     }
     //取消订单
@@ -219,6 +219,7 @@ const Pay = ({sendNotification}) => {
                 '正在取消，请稍等':cancelState==='finish'?
                 '取消成功':'取消失败'
                 }
+                onCancel={handlePopBtnClick}
                 onConfirm={handleCancle}
                 okText="确定"
                 cancelText="我再想想"
@@ -246,7 +247,6 @@ const Pay = ({sendNotification}) => {
                     稍后支付
                 </Button>
             </Form>
-            <div >取消支付</div>
         </MaskLayout>
     );
 }
