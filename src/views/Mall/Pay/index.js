@@ -4,7 +4,7 @@ import {  LoadingOutlined, SmileOutlined,ExceptionOutlined,FileDoneOutlined } fr
 import { HiOutlineEmojiSad} from 'react-icons/hi'
 import { VscError } from 'react-icons/vsc'
 import { AiFillSafetyCertificate,AiOutlineVerified,AiOutlineInfoCircle,AiOutlineCheckCircle } from 'react-icons/ai'
-import { Button,Steps,Popconfirm,Form,Input } from 'antd';
+import { Button,Steps,Popconfirm,Form,Input,Space } from 'antd';
 import { $verifyPWD,$payOrder } from '../../../api/pay';
 import { $cancelOrder } from '../../../api/orders';
 import MaskLayout from '../../../components/MaskLayout';
@@ -139,8 +139,8 @@ const Pay = ({sendNotification}) => {
         hiddenBack={true} 
         title='支付订单' 
         onClose = {handleClose}>
-            <div className='buy-mycard-list'>
-            <div className='buy-mycard-title'>
+            <div className='pay-content'>
+            <div className='pay-steps'>
                 <Steps
                 size="middle"
                 current={1}
@@ -168,21 +168,27 @@ const Pay = ({sendNotification}) => {
                 ]}
                 />           
             </div>
-            <div className='buy-mycard-info'>
+            
+            <div className='pay-verify'> 
+                <h3 className='h3'>安全收银台<p className='p'>保障您的账户安全</p></h3>
                 <Form
                 name='pay'
                 form = {form}
                 labelCol={{
-                    span: 8,
+                    span: 7,
                 }}
                 wrapperCol={{
-                    span: 16,
+                    span: 18,
                 }}
                 style={{
-                    maxWidth: 600,
+                    maxWidth: 400,
                 }}
                 autoComplete="off"
                 onFinish={onFinish}
+                >
+                <Space
+                direction="vertical"
+                size="large"
                 >
                     <Form.Item
                     label="支付密码"
@@ -196,39 +202,42 @@ const Pay = ({sendNotification}) => {
                     >
                     <Input.Password/>
                     </Form.Item>
-                    <Button 
-                    type="primary" 
-                    htmlType="submit" 
-                    loading={payState==='loading'||verifedState==='loading'?true:false}
-                    disabled={
-                    payState==='loading'||payState==='finish'||verifedState==='loading'||verifedState==='finish'||cancelState === 'loading'?true:false}>
-                        支付
-                    </Button>
-                    <Popconfirm
-                    open={popOpen}
-                    placement="topLeft"
-                    title='提示'
-                    icon = {cancelState==='wait'?<AiOutlineInfoCircle color='#ffc107'/>:cancelState==='loading'?<LoadingOutlined />:cancelState==='finish'?<AiOutlineCheckCircle color='#1AAD19'/>:<VscError color='#ff4d4f'/>}
-                    description={cancelState==='wait'?'确定要取消订单吗？':cancelState==='loading'?'正在取消，请稍等':cancelState==='finish'?'取消成功':'取消失败'
-                    }
-                    onCancel={handlePopBtnClick}
-                    onConfirm={handleCancle}
-                    okText="确定"
-                    cancelText="我再想想"
-                    >
-                    <Button 
-                    loading={cancelState==='loading'?true:false}
-                    onClick={handlePopBtnClick}
-                    disabled={verifedState==='loading'||verifedState==='finish'||payState === 'loading'||cancelState==='loading'?true:false}>
-                        取消订单
-                    </Button>
-                    </Popconfirm>
-                    <Button 
-                    disabled={verifedState==='loading'||verifedState==='finish'||payState === 'loading'||cancelState==='loading'?true:false}
-                    onClick={handleClose}
-                    >
-                        稍后支付
-                    </Button>
+                    <div className='pay-button'>
+                        
+                        <Popconfirm
+                        open={popOpen}
+                        placement="topLeft"
+                        title='提示'
+                        icon = {cancelState==='wait'?<AiOutlineInfoCircle color='#ffc107'/>:cancelState==='loading'?<LoadingOutlined />:cancelState==='finish'?<AiOutlineCheckCircle color='#1AAD19'/>:<VscError color='#ff4d4f'/>}
+                        description={cancelState==='wait'?'确定要取消订单吗？':cancelState==='loading'?'正在取消，请稍等':cancelState==='finish'?'取消成功':'取消失败'
+                        }
+                        onCancel={handlePopBtnClick}
+                        onConfirm={handleCancle}
+                        okText="确定"
+                        cancelText="我再想想"
+                        >
+                        <Button 
+                        loading={cancelState==='loading'?true:false}
+                        onClick={handlePopBtnClick}
+                        disabled={verifedState==='loading'||verifedState==='finish'||payState === 'loading'||cancelState==='loading'?true:false}>
+                            取消订单
+                        </Button>
+                        </Popconfirm>
+                        <Button 
+                        disabled={verifedState==='loading'||verifedState==='finish'||payState === 'loading'||cancelState==='loading'?true:false}
+                        onClick={handleClose}
+                        >
+                            稍后支付
+                        </Button>
+                        <Button 
+                        type="primary" 
+                        htmlType="submit" 
+                        loading={payState==='loading'||verifedState==='loading'?true:false}
+                        disabled={
+                        payState==='loading'||payState==='finish'||verifedState==='loading'||verifedState==='finish'||cancelState === 'loading'?true:false}>
+                            支付
+                        </Button>
+                    </div></Space>
                 </Form>
                 </div>
                 {/* <div className='buy-mycard-footer'> 

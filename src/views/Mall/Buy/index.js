@@ -166,7 +166,7 @@ const Buy = ({sendNotification}) => {
                         <div className='subtitle'>套餐类型：{location.state.currentCombo.comboTypeName}</div>
                         <p>单价：{location.state.currentCombo.comboPrice} 元</p>
                         <p>数量：{location.state.comboNumber}</p>
-                        <p>日期：{location.state.dateStrings[0]+' 至 '+location.state.dateStrings[1]}</p>
+                        <p>日期：{location.state.dateStrings[0]+' 至 '+location.state.dateStrings[1]}，共{location.state.days}天</p>
                     </div>
                 </div>
                
@@ -191,7 +191,7 @@ const Buy = ({sendNotification}) => {
                 </div>
             </div>
             <div className='buy-mycard-footer'>
-                <span>金额 ￥{location.state.comboNumber*location.state.currentCombo.comboPrice}</span>
+                <span>金额 ￥{location.state.comboNumber*location.state.currentCombo.comboPrice*location.state.days}</span>
                 <Button type="primary" 
                 disabled={addOrderState==='loading'?true:false} 
                 loading={addOrderState==='loading'?true:false} 

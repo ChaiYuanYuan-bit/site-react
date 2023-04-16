@@ -1,31 +1,52 @@
-.combo{
+.pay-content{
     width: 100%;
-}
-.combo-content{
+    flex-shrink: 0;
+    min-height: 300px;
     display: flex;
-    flex-direction: row;
-    width: 100%;
-    align-items: center;
+    flex: 1;
     justify-content: space-between;
-    gap: 16px;
-    .combo-img{
-        max-height: 200px;
-        max-width: 260px;
-        object-fit: contain;
-    };
-    .choose-date{
+    flex-direction: column;
+    
+    //padding-bottom: 50px;
+    .pay-steps{
+        border: 2px solid rgba(0,0,0,.1);
+        border-radius: 10px;
         width: 100%;
-    };
-}
-.select-combo-order{
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    align-items: center;
-    justify-content: end;
-    gap:32px;
-    .comfirm-number{
-        display:flex;
-        align-items:center;
+        flex: 2;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px;
+        font-weight: 550;
+        margin-bottom: 5px;
     }
+    .pay-verify{
+        .h3{
+            text-align: center;
+            .p{
+            text-align: center;
+            
+            };
+        };
+        border: 2px solid rgba(0,0,0,.1);
+        border-radius: 10px;
+        display: flex;
+        flex: 3;
+        width: 100%;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+        margin-bottom: 5px;
+        padding-top: 24px;
+        .pay-button{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+        padding-bottom: 30px;
+        padding-left: 16px;
+    };
+
+    };
 }
