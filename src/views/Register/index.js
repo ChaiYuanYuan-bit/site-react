@@ -41,12 +41,16 @@ const Register = ({sendNotification}) => {
     //提交表单   
     const onFinish = async (values) => {
         //整理用户注册信息
+        const type = roleType.find(item=>item.id===values.roleTypeId)
         const userInfo = {
             username: values.username,
             password: encrypt(values.password),
             phone: values.phone,
             email:values.email,
-            roleType:roleType.find(item=>item.id===values.roleTypeId),
+            roleType:{
+              roleTypeId:type.id,
+              roleTypeName:type.roleName
+            },
         };
         try 
         {
@@ -89,10 +93,10 @@ const Register = ({sendNotification}) => {
               name="register-form"
               form={form}
               labelCol={{
-                  span: 8,
+                  span: 5,
               }}
               wrapperCol={{
-                  span: 8,
+                  span: 15,
               }}
               initialValues={{
                   username: '',

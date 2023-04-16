@@ -9,20 +9,78 @@ import {
     ToolOutlined,
     FileDoneOutlined,
     ShoppingOutlined,
-    ShoppingCartOutlined,
-    GiftOutlined
   } from '@ant-design/icons';
-import { Layout, Menu, theme,Button} from 'antd';
+import { Layout, Menu,Button} from 'antd';
 import { useNavigate,Outlet } from 'react-router-dom';
+import jwtDecode from 'jwt-decode';
 import './Layout.scss'
+
 const { Header, Sider, Content } = Layout;
+
+//sider item包装
+function getItem(label, key, icon, children, type) {
+  return {
+    key,
+    icon,
+    children,
+    label,
+    type,
+  };
+}
+
+//sider选项
+const siderList = [
+  getItem('商城', '/home/mall', <ShoppingOutlined />),
+  getItem('我的', 'employee', <UserOutlined />, [
+    getItem('订单信息', '/home/myOrder',<FileTextOutlined />),
+  ]),
+  getItem('后台管理', 'manager', <ToolOutlined />, [
+    getItem('订单管理', '2',<FileDoneOutlined />),
+    getItem('用户管理', '3',<UsergroupAddOutlined />),
+  ]),
+];
 
 export default () => {
     // 跳转路由
     const navigate = useNavigate();
-    // 配置默认路由路径
-    const [route,setRoute] = useState('/home/mall');
-    useEffect(()=>{
+    // sider折叠状态
+    const [collapsed, setCollapsed] = useState(false);
+    // sider权限
+    const [siderItem,setSiderItem] = useState([]);
+    useEffect(()=>{ 
+    //判断是否为登录状态
+    const token = sessionStorage.getItem('token')
+    if(sessionStorage.getItem('token'))
+    {
+      //获取用户类型
+      const roleTypeId = jwtDecode(token).roleTypeId;
+      if(roleTypeId===1)
+      {
+        setSiderItem(siderList.filter(item=>item.key!=='employee'));
+      }
+      else if(roleTypeId===2){
+        setSiderItem(siderList.filter(item=>item.key!=='manager'));
+      }
+      const path = sessionStorage.getItem('path');
+      //如果保存过路径，就跳转到上一次路径
+      if(path)
+      {
+        navigate(path,{
+          replace:true
+        });
+      }
+      else{
+        navigate('/home/mall',{
+          replace:true
+        });
+      }
+    }
+    else{
+      navigate('/');
+    }
+
+
+
     },[])
     //退出
     const handleExit = ()=>{
@@ -32,23 +90,11 @@ export default () => {
         //跳转到登录页
         navigate('/')
     }
-    const [collapsed, setCollapsed] = useState(false);
 
-    const {
-        token: { colorBgContainer },
-    } = theme.useToken();
-    
-    function getItem(label, key, icon, children, type) {
-      return {
-        key,
-        icon,
-        children,
-        label,
-        type,
-      };
-    }
+    // sider点击跳转
     const onClick = (e) => {
       navigate(e.key, { replace: true })
+      sessionStorage.setItem('path',e.key);
     }
 
     return (
@@ -64,18 +110,10 @@ export default () => {
               <Menu
                 theme="dark"
                 mode="inline"
-                defaultSelectedKeys={['1']}
+                defaultSelectedKeys={sessionStorage.getItem('path')?sessionStorage.getItem('path'):'/home/mall'}
+                defaultOpenKeys={['employee','manager']}
                 onClick={onClick}
-                items={[
-                  getItem('商城', '/home/mall', <ShoppingOutlined />),
-                  getItem('我的', 'sub2', <UserOutlined />, [
-                    getItem('订单信息', '1',<FileTextOutlined />),
-                  ]),
-                  getItem('后台管理', 'sub3', <ToolOutlined />, [
-                    getItem('订单管理', '2',<FileDoneOutlined />),
-                    getItem('用户管理', '3',<UsergroupAddOutlined />),
-                  ]),
-                ]}
+                items={siderItem}
               />
           </Sider>
 
