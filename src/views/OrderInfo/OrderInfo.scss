@@ -31,11 +31,13 @@
         display: flex;
         flex-direction: row;
         flex: 5;
+        align-items: center;
+        gap: 20px;
         border: 1px dashed blue;
         .avatar{
             margin-left: 10px;
             margin-top: 20px;
-            background-color: rgba(127,255,212);
+            background-color: rgb(227, 227, 227);
             display: flex;
             justify-content: center;
             align-items: center;
