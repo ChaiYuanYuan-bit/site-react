@@ -6,6 +6,7 @@ import Detail from "../views/Mall/Detail";
 import Buy from "../views/Mall/Buy";
 import NotFound from '../views/NotFound';
 import Pay from "../views/Mall/Pay";
+import OrderInfo from "../views/OrderInfo";
 
 //创建路由表
 const routes = (props)=>[
@@ -31,6 +32,11 @@ const routes = (props)=>[
                     }
                 ]
             },
+            {
+                path:'myOrder',
+                element:<OrderInfo {...props}/>,
+
+            }
         ]
     },
     {

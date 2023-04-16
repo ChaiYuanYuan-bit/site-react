@@ -122,6 +122,7 @@ const Pay = ({sendNotification}) => {
                 }
                 else{
                     setPayState('error');
+                    sendNotification('error',message);
                 }
             }
             else{
