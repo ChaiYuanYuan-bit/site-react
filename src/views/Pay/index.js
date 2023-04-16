@@ -1,15 +1,15 @@
 import React,{useState} from 'react';
 import { useNavigate,useLocation } from 'react-router-dom';
-import {  LoadingOutlined, SmileOutlined,ExceptionOutlined,FileDoneOutlined } from '@ant-design/icons';
+import { LoadingOutlined, SmileOutlined } from '@ant-design/icons';
 import { HiOutlineEmojiSad} from 'react-icons/hi'
 import { VscError } from 'react-icons/vsc'
 import { AiFillSafetyCertificate,AiOutlineVerified,AiOutlineInfoCircle,AiOutlineCheckCircle } from 'react-icons/ai'
-import { Button,Steps,Popconfirm,Form,Input,Space } from 'antd';
-import { $verifyPWD,$payOrder } from '../../../api/pay';
-import { $cancelOrder } from '../../../api/orders';
-import MaskLayout from '../../../components/MaskLayout';
-import encrypt from '../../../utils/encrypt';
-import './Pay.scss'
+import { Button,Steps,Popconfirm,Form,Input } from 'antd';
+import { $verifyPWD,$payOrder } from '../../api/pay';
+import { $cancelOrder } from '../../api/orders';
+import MaskLayout from '../../components/MaskLayout';
+import encrypt from '../../utils/encrypt';
+import './PayInOrder.scss'
 
 const Pay = ({sendNotification}) => {
     // 获取表单实例
@@ -32,10 +32,11 @@ const Pay = ({sendNotification}) => {
         //当前有操作正在进行时无法点击退出
         if(payState!=='loading'&&verifedState!=='loading'&&cancelState!=='loading')
         {
-            navigate('/home/mall',
+            navigate(sessionStorage.getItem('path'),
             {
                 replace:true
             });
+            window.location.reload()
             sendNotification('info','订单详情请查看 “我的-订单信息”');
         }
     }
@@ -58,10 +59,11 @@ const Pay = ({sendNotification}) => {
                     sendNotification('success',response.message);
                      //延时返回
                     setTimeout(()=>{
-                        navigate('/home/mall',
+                        navigate(sessionStorage.getItem('path'),
                         {
                             replace:true
                         });
+                        window.location.reload()
                     },500)
                 }
                 else{
@@ -114,10 +116,11 @@ const Pay = ({sendNotification}) => {
                     sendNotification('success',message);
                     setPayState('finish');
                     setTimeout(()=>{
-                        navigate('/home/mall',
+                        navigate(sessionStorage.getItem('path'),
                         {
                             replace:true
                         });
+                        window.location.reload()
                     },500);
                 }
                 else{
@@ -127,6 +130,7 @@ const Pay = ({sendNotification}) => {
             }
             else{
                 setVerifiedState('error');
+                console.log(message)
             }
         } catch (err) {
             setVerifiedState('wait');
@@ -140,20 +144,14 @@ const Pay = ({sendNotification}) => {
         hiddenBack={true} 
         title='支付订单' 
         onClose = {handleClose}>
-            <div className='pay-content'>
-            <div className='pay-steps'>
+            <div className='buy-mycard-list'>
+            <div className='buy-mycard-title'>
                 <Steps
                 size="middle"
                 current={1}
                 items={[
                 {
-                    title: '确认信息',
-                    icon:<ExceptionOutlined />,
-                    status:'finish'
-                },
-                {
                     title: '提交订单',
-                    icon:<FileDoneOutlined />,
                     status:'finish'
                 },
                 {
@@ -169,27 +167,21 @@ const Pay = ({sendNotification}) => {
                 ]}
                 />           
             </div>
-            
-            <div className='pay-verify'> 
-                <h2 className='h2'>安全收银台<p className='p'>保障您的账户安全</p></h2>
+            <div className='buy-mycard-info'>
                 <Form
                 name='pay'
                 form = {form}
                 labelCol={{
-                    span: 7,
+                    span: 8,
                 }}
                 wrapperCol={{
-                    span: 18,
+                    span: 16,
                 }}
                 style={{
-                    maxWidth: 400,
+                    maxWidth: 600,
                 }}
                 autoComplete="off"
                 onFinish={onFinish}
-                >
-                <Space
-                direction="vertical"
-                size="large"
                 >
                     <Form.Item
                     label="支付密码"
@@ -203,42 +195,39 @@ const Pay = ({sendNotification}) => {
                     >
                     <Input.Password/>
                     </Form.Item>
-                    <div className='pay-button'>
-                        
-                        <Popconfirm
-                        open={popOpen}
-                        placement="topLeft"
-                        title='提示'
-                        icon = {cancelState==='wait'?<AiOutlineInfoCircle color='#ffc107'/>:cancelState==='loading'?<LoadingOutlined />:cancelState==='finish'?<AiOutlineCheckCircle color='#1AAD19'/>:<VscError color='#ff4d4f'/>}
-                        description={cancelState==='wait'?'确定要取消订单吗？':cancelState==='loading'?'正在取消，请稍等':cancelState==='finish'?'取消成功':'取消失败'
-                        }
-                        onCancel={handlePopBtnClick}
-                        onConfirm={handleCancle}
-                        okText="确定"
-                        cancelText="我再想想"
-                        >
-                        <Button 
-                        loading={cancelState==='loading'?true:false}
-                        onClick={handlePopBtnClick}
-                        disabled={verifedState==='loading'||verifedState==='finish'||payState === 'loading'||cancelState==='loading'?true:false}>
-                            取消订单
-                        </Button>
-                        </Popconfirm>
-                        <Button 
-                        disabled={verifedState==='loading'||verifedState==='finish'||payState === 'loading'||cancelState==='loading'?true:false}
-                        onClick={handleClose}
-                        >
-                            稍后支付
-                        </Button>
-                        <Button 
-                        type="primary" 
-                        htmlType="submit" 
-                        loading={payState==='loading'||verifedState==='loading'?true:false}
-                        disabled={
-                        payState==='loading'||payState==='finish'||verifedState==='loading'||verifedState==='finish'||cancelState === 'loading'?true:false}>
-                            支付
-                        </Button>
-                    </div></Space>
+                    <Button 
+                    type="primary" 
+                    htmlType="submit" 
+                    loading={payState==='loading'||verifedState==='loading'?true:false}
+                    disabled={
+                    payState==='loading'||payState==='finish'||verifedState==='loading'||cancelState === 'loading'||cancelState==='finish'?true:false}>
+                        支付
+                    </Button>
+                    <Popconfirm
+                    open={popOpen}
+                    placement="topLeft"
+                    title='提示'
+                    icon = {cancelState==='wait'?<AiOutlineInfoCircle color='#ffc107'/>:cancelState==='loading'?<LoadingOutlined />:cancelState==='finish'?<AiOutlineCheckCircle color='#1AAD19'/>:<VscError color='#ff4d4f'/>}
+                    description={cancelState==='wait'?'确定要取消订单吗？':cancelState==='loading'?'正在取消，请稍等':cancelState==='finish'?'取消成功':'取消失败'
+                    }
+                    onCancel={handlePopBtnClick}
+                    onConfirm={handleCancle}
+                    okText="确定"
+                    cancelText="我再想想"
+                    >
+                    <Button 
+                    loading={cancelState==='loading'?true:false}
+                    onClick={handlePopBtnClick}
+                    disabled={verifedState==='loading'||payState === 'loading'||cancelState==='loading'||cancelState==='finish'?true:false}>
+                        取消订单
+                    </Button>
+                    </Popconfirm>
+                    <Button 
+                    disabled={verifedState==='loading'||payState === 'loading'||cancelState==='loading'||cancelState==='finish'?true:false}
+                    onClick={handleClose}
+                    >
+                        稍后支付
+                    </Button>
                 </Form>
                 </div>
                 {/* <div className='buy-mycard-footer'> 
