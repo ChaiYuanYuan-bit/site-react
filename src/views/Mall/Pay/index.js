@@ -170,7 +170,7 @@ const Pay = ({sendNotification}) => {
             </div>
             
             <div className='pay-verify'> 
-                <h3 className='h3'>安全收银台<p className='p'>保障您的账户安全</p></h3>
+                <h2 className='h2'>安全收银台<p className='p'>保障您的账户安全</p></h2>
                 <Form
                 name='pay'
                 form = {form}
