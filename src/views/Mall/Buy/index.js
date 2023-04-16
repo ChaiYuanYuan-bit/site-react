@@ -77,7 +77,7 @@ const Buy = ({sendNotification}) => {
             {
                 setAddOrderState('finish');
                 sendNotification('success','成功创建订单!');
-                navigate('/home/mall/pay',{
+                navigate('/home/pay',{
                     replace:true,
                     state:{
                         userId:userInfo.id,

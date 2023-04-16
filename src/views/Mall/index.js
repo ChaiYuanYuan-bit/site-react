@@ -3,8 +3,8 @@ import {Tabs} from 'antd';
 import CardGroup from '../../components/CardGroup';
 import NavGroup from '../../components/NavGroup';
 import { Outlet, useNavigate } from 'react-router-dom';
-import './mall.scss'
 import { $getGoodsType,$getItems } from '../../api/mall';
+import './mall.scss'
 
 
 const Mall = ({sendNotification}) => {
@@ -24,9 +24,9 @@ const Mall = ({sendNotification}) => {
     const [currentGoodsId,setCurrentGoodsId] = useState(0);
 
     useEffect(() => {
-      // 
       loadGoodsType();
-    },[currentTypeId,selectedTags.length])
+      // selectedTags.length
+    },[selectedTags.length,currentTypeId])
     
     // 加载商品类型
     const loadGoodsType = async()=>{
@@ -117,7 +117,7 @@ const Mall = ({sendNotification}) => {
       <>
         <div className='mall-content'>
             <Tabs  className='tab'
-              defaultActiveKey="1"
+              defaultActiveKey={currentTypeId}
               onChange={handleTagChange}
               items={ goodsType.map((item) => {
                 return {

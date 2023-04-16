@@ -5,11 +5,11 @@ import { HiOutlineEmojiSad} from 'react-icons/hi'
 import { VscError } from 'react-icons/vsc'
 import { AiFillSafetyCertificate,AiOutlineVerified,AiOutlineInfoCircle,AiOutlineCheckCircle } from 'react-icons/ai'
 import { Button,Steps,Popconfirm,Form,Input } from 'antd';
-import { $verifyPWD,$payOrder } from '../../../api/pay';
-import { $cancelOrder } from '../../../api/orders';
-import MaskLayout from '../../../components/MaskLayout';
-import encrypt from '../../../utils/encrypt';
-import './Pay.scss'
+import { $verifyPWD,$payOrder } from '../../api/pay';
+import { $cancelOrder } from '../../api/orders';
+import MaskLayout from '../../components/MaskLayout';
+import encrypt from '../../utils/encrypt';
+import './PayInOrder.scss'
 
 const Pay = ({sendNotification}) => {
     // 获取表单实例
@@ -32,10 +32,11 @@ const Pay = ({sendNotification}) => {
         //当前有操作正在进行时无法点击退出
         if(payState!=='loading'&&verifedState!=='loading'&&cancelState!=='loading')
         {
-            navigate('/home/mall',
+            navigate(sessionStorage.getItem('path'),
             {
                 replace:true
             });
+            window.location.reload()
             sendNotification('info','订单详情请查看 “我的-订单信息”');
         }
     }
@@ -58,10 +59,11 @@ const Pay = ({sendNotification}) => {
                     sendNotification('success',response.message);
                      //延时返回
                     setTimeout(()=>{
-                        navigate('/home/mall',
+                        navigate(sessionStorage.getItem('path'),
                         {
                             replace:true
                         });
+                        window.location.reload()
                     },500)
                 }
                 else{
@@ -114,10 +116,11 @@ const Pay = ({sendNotification}) => {
                     sendNotification('success',message);
                     setPayState('finish');
                     setTimeout(()=>{
-                        navigate('/home/mall',
+                        navigate(sessionStorage.getItem('path'),
                         {
                             replace:true
                         });
+                        window.location.reload()
                     },500);
                 }
                 else{
@@ -127,6 +130,7 @@ const Pay = ({sendNotification}) => {
             }
             else{
                 setVerifiedState('error');
+                console.log(message)
             }
         } catch (err) {
             setVerifiedState('wait');

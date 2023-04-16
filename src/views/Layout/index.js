@@ -13,6 +13,7 @@ import {
 import { Layout, Menu,Button} from 'antd';
 import { useNavigate,Outlet } from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
+import { useSelector } from 'react-redux';
 import './Layout.scss'
 
 const { Header, Sider, Content } = Layout;
@@ -30,9 +31,9 @@ function getItem(label, key, icon, children, type) {
 
 //sider选项
 const siderList = [
-  getItem('商城', '/home/mall', <ShoppingOutlined />),
+  getItem('商城', 'mall', <ShoppingOutlined />),
   getItem('我的', 'employee', <UserOutlined />, [
-    getItem('订单信息', '/home/myOrder',<FileTextOutlined />),
+    getItem('订单信息', 'myOrder',<FileTextOutlined />),
   ]),
   getItem('后台管理', 'manager', <ToolOutlined />, [
     getItem('订单管理', '2',<FileDoneOutlined />),
@@ -43,44 +44,46 @@ const siderList = [
 export default () => {
     // 跳转路由
     const navigate = useNavigate();
+    // 取出用户信息
+    const {info:userInfo} = useSelector(store=>store.userInfo);
     // sider折叠状态
     const [collapsed, setCollapsed] = useState(false);
     // sider权限
     const [siderItem,setSiderItem] = useState([]);
-    useEffect(()=>{ 
-    //判断是否为登录状态
-    const token = sessionStorage.getItem('token')
-    if(sessionStorage.getItem('token'))
-    {
-      //获取用户类型
-      const roleTypeId = jwtDecode(token).roleTypeId;
-      if(roleTypeId===1)
+    useEffect(()=>
+    { 
+      console.log(userInfo)
+      //判断是否为登录状态
+      const token = sessionStorage.getItem('token')
+      if(sessionStorage.getItem('token'))
       {
-        setSiderItem(siderList.filter(item=>item.key!=='employee'));
-      }
-      else if(roleTypeId===2){
-        setSiderItem(siderList.filter(item=>item.key!=='manager'));
-      }
-      const path = sessionStorage.getItem('path');
-      //如果保存过路径，就跳转到上一次路径
-      if(path)
-      {
-        navigate(path,{
-          replace:true
-        });
+        //获取用户类型
+        const roleTypeId = userInfo.roleType.roleTypeId;
+        setSiderItem(siderList);
+        // if(roleTypeId===1)
+        // {
+        //   setSiderItem(siderList.filter(item=>item.key!=='employee'));
+        // }
+        // else if(roleTypeId===2){
+        //   setSiderItem(siderList.filter(item=>item.key!=='manager'));
+        // }
+        const path = sessionStorage.getItem('path');
+        //如果保存过路径，就跳转到上一次路径
+        if(path)
+        {
+          navigate(path,{
+            replace:true
+          });
+        }
+        else{
+          navigate('/home/mall',{
+            replace:true
+          });
+        }
       }
       else{
-        navigate('/home/mall',{
-          replace:true
-        });
+        navigate('/');
       }
-    }
-    else{
-      navigate('/');
-    }
-
-
-
     },[])
     //退出
     const handleExit = ()=>{
@@ -93,8 +96,37 @@ export default () => {
 
     // sider点击跳转
     const onClick = (e) => {
-      navigate(e.key, { replace: true })
-      sessionStorage.setItem('path',e.key);
+      switch(e.key)
+      {
+        case 'mall':
+          navigate('/home/mall', { replace: false });
+          sessionStorage.setItem('path','/home/mall');
+          break;
+        case 'myOrder':
+          navigate('/home/myOrder', { replace: false});
+          sessionStorage.setItem('path','/home/myOrder');
+          break;
+      }
+    }
+    //返回sider所选的按键
+    const getPath = ()=>{
+      const path = sessionStorage.getItem('path');
+      if(path)
+      {
+        if(path.includes('mall'))
+        {
+          return 'mall';
+        } 
+        else if(path.includes('myOrder'))
+        {
+          return 'myOrder'
+        }
+        else if(path.includes('manager'))
+        {
+          return '1';
+        }
+      }
+      return 'mall';
     }
 
     return (
@@ -110,7 +142,7 @@ export default () => {
               <Menu
                 theme="dark"
                 mode="inline"
-                defaultSelectedKeys={sessionStorage.getItem('path')?sessionStorage.getItem('path'):'/home/mall'}
+                defaultSelectedKeys={getPath()}
                 defaultOpenKeys={['employee','manager']}
                 onClick={onClick}
                 items={siderItem}

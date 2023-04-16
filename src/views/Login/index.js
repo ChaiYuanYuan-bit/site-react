@@ -5,15 +5,20 @@ import {ShoppingCartOutlined,UserOutlined,LockOutlined} from '@ant-design/icons'
 import { Button, Form, Input } from "antd";
 import encrypt from '../../utils/encrypt'
 import {$login} from '../../api/userApi'
+import { $getOne } from "../../api/userApi";
 import { setMsg } from "../../redux/Notification";
+import jwtDecode from "jwt-decode";
+import { setInfo } from "../../redux/UserInfo";
 import { useDispatch } from "react-redux";
 import "./Login.scss";
 
-const Login = ({loadUserInfo,sendNotification}) => {
+const Login = ({sendNotification}) => {
     //表单
     let [form] = Form.useForm();
     //导航;
     let navigate = useNavigate();
+    // redux 分发 hooks
+    const dispatch = useDispatch();
 
     //判断是否已登录
     useEffect(()=>{
@@ -25,14 +30,19 @@ const Login = ({loadUserInfo,sendNotification}) => {
     //表单成功提交方法.
     const onFinish = async (values) => {
         try{
-            //对密码进行加密
-            values.password  = encrypt(values.password);
-            const {message,success} = await $login(values);
-            //判断是否登录成功
-            if(success){
+                //对密码进行加密
+                values.password  = encrypt(values.password);
+                const {message,success} = await $login(values);
+                //判断是否登录成功
+                if(success){
+                const token = sessionStorage.getItem('token');
+                //获取登录id
+                const userId = jwtDecode(token).id;
+                //根据登录id获取用户信息
+                const {userInfo} = await $getOne({id:userId});
+                //保存用户到redux
+                dispatch(setInfo({info:{...userInfo}}));
                 navigate('/home');
-                sendNotification('success',message);
-                loadUserInfo();
             }
             else{
                 sendNotification('error',message);
