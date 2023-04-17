@@ -103,8 +103,9 @@ const OrderManage = () => {
     }
     return (
         <>
-            <div className='employee-orderInfo'>
-                <Select
+            <div className='manager-orderInfo'>
+                <div className='select'>
+                <Select 
                 showSearch
                 defaultActiveFirstOption
                 defaultValue={selectState}
@@ -145,6 +146,7 @@ const OrderManage = () => {
                     disabled={selectState==='all'?true:false}
                     icon={<SearchOutlined />} />
                 </Tooltip>
+                </div>
                 <Tabs className='tab'
                 tabBarGutter={50}
                 defaultActiveKey={currentStateType}
@@ -159,8 +161,8 @@ const OrderManage = () => {
                     key: item.state,
                     };
                 })}/>
-                <div className='employee-orderInfo-content'>
-                    <div id='employee-orderInfo-content-list'>
+                <div className='content'>
+                    <div id='manager-orderInfo-content-list'>
                         <InfiniteScroll
                         dataLength={orders.length}
                         next={loadMoreData}
@@ -175,7 +177,7 @@ const OrderManage = () => {
                         />
                         }
                         endMessage={<Divider plain>没有更多订单啦 🤐</Divider>}
-                        scrollableTarget="content"
+                        scrollableTarget="manager-orderInfo-content-list"
                         >
                             <ConfigProvider renderEmpty={renderEmpty}>
                             <List
