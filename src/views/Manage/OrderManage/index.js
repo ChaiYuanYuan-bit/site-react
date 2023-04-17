@@ -2,14 +2,18 @@ import React,{ useEffect, useState,useRef }  from 'react';
 import { Outlet,useNavigate, Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { SearchOutlined } from '@ant-design/icons';
-import { Tabs,Avatar, Divider, List, Skeleton,Select,Input,Tooltip,ConfigProvider,Button } from 'antd';
+import { Tabs,Avatar, Divider, List, Skeleton,Select,Input,Tooltip,ConfigProvider,Button,Form } from 'antd';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { $getOrderNum,$getOrders,$getStateType } from '../../../api/orders';
 import {renderEmpty} from '../../../utils/emptyRender'
 import './OrderManage.scss'
 
 const OrderManage = () => {
+    //获取redux中的用户信息
     const {info:userInfo} = useSelector(store=>store.userInfo)
+    // 表单实例
+    const [form] = Form.useForm();
+    //infinite list状态
     const [loading, setLoading] = useState(false);
     // 用户总订单数量
     const [orderNum,setOrderNum] = useState(0);
@@ -22,7 +26,7 @@ const OrderManage = () => {
     // 当前所选订单状态
     const [currentStateType,setCurrentStateType] = useState('all');
     // 下拉框状态
-    const [selectState,setSelectState] = useState('all');
+    const [searchType,setSearchType] = useState('all');
     // 输入框ref
     const [inputState,setInputState] = useState('');
     // input
@@ -38,7 +42,7 @@ const OrderManage = () => {
                 const {success,message,orderNum} = await $getOrderNum({
                 userId:userInfo.id,
                 orderState:currentStateType==='all'?undefined:currentStateType,
-                selectState,
+                searchType,
                 keyWord:inputState
             });
             if(success)
@@ -59,10 +63,25 @@ const OrderManage = () => {
         }
         setLoading(true);
         try {
-            const data = await $getOrders({
+            let params = {
                 "_limit":orders.length+10,
-                "orderState":currentStateType==='all'?undefined:currentStateType
-            })
+                "orderState":currentStateType==='all'?undefined:currentStateType,
+            };
+
+            switch(searchType)
+            {
+                case 'all':break;
+                case 'userName':
+                    params = {...params,"orderDetail.userName_like":inputState};
+                    break;
+                case 'storeName':
+                    params = {...params,"orderDetail.storeName_like":inputState};
+                    break;
+                case 'orderId':
+                    params = {...params,"orderId_like":inputState};
+                    break;
+            }
+            const data = await $getOrders(params)
             setOrders(data)
             setLoading(false);
         } catch (error) {
@@ -87,11 +106,12 @@ const OrderManage = () => {
     // 下拉框状态
     const onSelectChange = (value) => {
         console.log(value)
-        setSelectState(value);
+        setSearchType(value);
+        form.resetFields();
     }
     
-    const onInputChange = (value) =>{
-        setInputState(value)
+    const onInputChange = (event) =>{
+        setInputState(event.target.value.trim())
     }
     const handleToPay = (orderId)=>{
         navigate(`/home/mine/pay`,{
@@ -104,10 +124,27 @@ const OrderManage = () => {
     return (
         <>
             <div className='employee-orderInfo'>
+                <Form
+                name="search"
+                form={form}
+                >
+                    <Form.Item
+                    label="查询"
+                    name="search"
+                    >
+                     <Input 
+                    allowClear
+                    value={inputState}
+                    placeholder="搜索"
+                    onChange={onInputChange}
+                    disabled={searchType==='all'?true:false}
+                    />
+                    </Form.Item>
+                </Form>
                 <Select
                 showSearch
                 defaultActiveFirstOption
-                defaultValue={selectState}
+                defaultValue={searchType}
                 optionFilterProp="children"
                 onChange={onSelectChange}
                 // onSearch={onSearch}
@@ -133,18 +170,6 @@ const OrderManage = () => {
                 },
                 ]}
                 />
-                <Input 
-                allowClear
-                placeholder="搜索"
-                onChange={onInputChange}
-                disabled={selectState==='all'?true:false}
-                 />
-                <Tooltip title="search">
-                    <Button 
-                    shape="circle"
-                    disabled={selectState==='all'?true:false}
-                    icon={<SearchOutlined />} />
-                </Tooltip>
                 <Tabs className='tab'
                 tabBarGutter={50}
                 defaultActiveKey={currentStateType}
@@ -182,11 +207,7 @@ const OrderManage = () => {
                             dataSource={orders}
                             renderItem={(item) => (
                                 <List.Item 
-                                key={item.orderDetail.storeName}
-                                actions={item.orderState==='payed'?
-                                [<h3>待使用</h3>]:item.orderState==='unpay'?
-                                [<a onClick={()=>{handleToPay(item.orderId)}}>去付款</a>]:item.orderState==='canceled'?
-                                [<h3>已取消</h3>]:<></>}
+                                key={item.orderId}
                                 >
                                 <List.Item.Meta
                                     avatar={<Avatar src={item.orderDetail.comboImgUrl} />}
@@ -194,6 +215,7 @@ const OrderManage = () => {
                                     description={
                                     <div>
                                         {/* <img src="" alt=""> */}
+                                        <p>用户名称：{item.orderDetail.userName}</p>
                                         <p>商家地址：{item.orderDetail.location}</p>
                                         <p>套餐类型：{item.orderDetail.comboTypeName}</p> 
                                         {/* <p>{item.orderDetail.comboIntro}</p> */}
