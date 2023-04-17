@@ -135,12 +135,13 @@ export default () => {
             trigger={null}
             collapsible 
             collapsed={collapsed} 
+            className='sider'
             >
               <div className="logo">
                 {/* EIS商城 &nbsp; <ShoppingCartOutlined rotate={330} style={{ fontSize: '22px', color: '#91caff' }}/> */}
               </div>
               <Menu
-                theme="dark"
+                style={{ backgroundColor: 'white', }}
                 mode="inline"
                 defaultSelectedKeys={getPath()}
                 defaultOpenKeys={['employee','manager']}

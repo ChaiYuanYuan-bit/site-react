@@ -1,6 +1,6 @@
 import React,{useState} from 'react';
 import { useNavigate,useLocation } from 'react-router-dom';
-import { LoadingOutlined, SmileOutlined } from '@ant-design/icons';
+import { LoadingOutlined, SmileOutlined, ExceptionOutlined } from '@ant-design/icons';
 import { HiOutlineEmojiSad} from 'react-icons/hi'
 import { VscError } from 'react-icons/vsc'
 import { AiFillSafetyCertificate,AiOutlineVerified,AiOutlineInfoCircle,AiOutlineCheckCircle } from 'react-icons/ai'
@@ -144,95 +144,99 @@ const Pay = ({sendNotification}) => {
         hiddenBack={true} 
         title='支付订单' 
         onClose = {handleClose}>
-            <div className='buy-mycard-list'>
-            <div className='buy-mycard-title'>
-                <Steps
-                size="middle"
-                current={1}
-                items={[
-                {
-                    title: '提交订单',
-                    status:'finish'
-                },
-                {
-                    title: verifedState==='wait'?'验证密码':verifedState==='loading'?'验证中':verifedState==='finish'?'验证成功':'密码错误',
-                    status:verifedState,
-                    icon:verifedState==='wait'?<AiOutlineVerified />:verifedState==='loading'?<LoadingOutlined />:verifedState==='finish'?<AiFillSafetyCertificate/>:<VscError />
-                },
-                {
-                    title: payState==='wait'?'支付成功':payState==='loading'?'支付中':payState==='finish'?'支付成功':'支付失败',
-                    status:payState,
-                    icon:payState==='wait'?<SmileOutlined />:payState==='loading'?<LoadingOutlined />:payState==='finish'?<SmileOutlined/>:<HiOutlineEmojiSad />
-                },
-                ]}
-                />           
-            </div>
-            <div className='buy-mycard-info'>
-                <Form
-                name='pay'
-                form = {form}
-                labelCol={{
-                    span: 8,
-                }}
-                wrapperCol={{
-                    span: 16,
-                }}
-                style={{
-                    maxWidth: 600,
-                }}
-                autoComplete="off"
-                onFinish={onFinish}
-                >
-                    <Form.Item
-                    label="支付密码"
-                    name="password"
-                    rules={[
-                        {
-                        required: true,
-                        message: '请输入您的支付密码!',
-                        },
+            <div className='pay-content'>
+                <div className='pay-steps'>
+                    <Steps
+                    size="middle"
+                    current={1}
+                    items={[
+                    {
+                        title: '确认信息',
+                        icon:<ExceptionOutlined />,
+                    },
+                    {
+                        title: '提交订单',
+                        status:'finish'
+                    },
+                    {
+                        title: verifedState==='wait'?'验证密码':verifedState==='loading'?'验证中':verifedState==='finish'?'验证成功':'密码错误',
+                        status:verifedState,
+                        icon:verifedState==='wait'?<AiOutlineVerified />:verifedState==='loading'?<LoadingOutlined />:verifedState==='finish'?<AiFillSafetyCertificate/>:<VscError />
+                    },
+                    {
+                        title: payState==='wait'?'支付成功':payState==='loading'?'支付中':payState==='finish'?'支付成功':'支付失败',
+                        status:payState,
+                        icon:payState==='wait'?<SmileOutlined />:payState==='loading'?<LoadingOutlined />:payState==='finish'?<SmileOutlined/>:<HiOutlineEmojiSad />
+                    },
                     ]}
-                    >
-                    <Input.Password/>
-                    </Form.Item>
-                    <Button 
-                    type="primary" 
-                    htmlType="submit" 
-                    loading={payState==='loading'||verifedState==='loading'?true:false}
-                    disabled={
-                    payState==='loading'||payState==='finish'||verifedState==='loading'||cancelState === 'loading'||cancelState==='finish'?true:false}>
-                        支付
-                    </Button>
-                    <Popconfirm
-                    open={popOpen}
-                    placement="topLeft"
-                    title='提示'
-                    icon = {cancelState==='wait'?<AiOutlineInfoCircle color='#ffc107'/>:cancelState==='loading'?<LoadingOutlined />:cancelState==='finish'?<AiOutlineCheckCircle color='#1AAD19'/>:<VscError color='#ff4d4f'/>}
-                    description={cancelState==='wait'?'确定要取消订单吗？':cancelState==='loading'?'正在取消，请稍等':cancelState==='finish'?'取消成功':'取消失败'
-                    }
-                    onCancel={handlePopBtnClick}
-                    onConfirm={handleCancle}
-                    okText="确定"
-                    cancelText="我再想想"
-                    >
-                    <Button 
-                    loading={cancelState==='loading'?true:false}
-                    onClick={handlePopBtnClick}
-                    disabled={verifedState==='loading'||payState === 'loading'||cancelState==='loading'||cancelState==='finish'?true:false}>
-                        取消订单
-                    </Button>
-                    </Popconfirm>
-                    <Button 
-                    disabled={verifedState==='loading'||payState === 'loading'||cancelState==='loading'||cancelState==='finish'?true:false}
-                    onClick={handleClose}
-                    >
-                        稍后支付
-                    </Button>
-                </Form>
+                    />           
                 </div>
-                {/* <div className='buy-mycard-footer'> 
-
-                </div> */}
+                <div className='pay-verify'>
+                        <h2 className='h2'>安全收银台<p className='p'>保障您的账号安全</p></h2>
+                    <Form
+                    name='pay'
+                    form = {form}
+                    labelCol={{
+                        span: 6,
+                    }}
+                    wrapperCol={{
+                        span: 18,
+                    }}
+                    style={{
+                        maxWidth: 350,
+                    }}
+                    autoComplete="off"
+                    onFinish={onFinish}
+                    >
+                        <Form.Item
+                        label="支付密码"
+                        name="password"
+                        rules={[
+                            {
+                            required: true,
+                            message: '请输入您的支付密码!',
+                            },
+                        ]}
+                        >
+                        <Input.Password/>
+                        </Form.Item>
+                        <div className='pay-button'>
+                        <Popconfirm
+                        open={popOpen}
+                        placement="topLeft"
+                        title='提示'
+                        icon = {cancelState==='wait'?<AiOutlineInfoCircle color='#ffc107'/>:cancelState==='loading'?<LoadingOutlined />:cancelState==='finish'?<AiOutlineCheckCircle color='#1AAD19'/>:<VscError color='#ff4d4f'/>}
+                        description={cancelState==='wait'?'确定要取消订单吗？':cancelState==='loading'?'正在取消，请稍等':cancelState==='finish'?'取消成功':'取消失败'
+                        }
+                        onCancel={handlePopBtnClick}
+                        onConfirm={handleCancle}
+                        okText="确定"
+                        cancelText="我再想想"
+                        >
+                        <Button 
+                        loading={cancelState==='loading'?true:false}
+                        onClick={handlePopBtnClick}
+                        disabled={verifedState==='loading'||payState === 'loading'||cancelState==='loading'||cancelState==='finish'?true:false}>
+                            取消订单
+                        </Button>
+                        </Popconfirm>
+                        <Button 
+                        disabled={verifedState==='loading'||payState === 'loading'||cancelState==='loading'||cancelState==='finish'?true:false}
+                        onClick={handleClose}
+                        >
+                            稍后支付
+                        </Button>
+                        <Button 
+                        type="primary" 
+                        htmlType="submit" 
+                        loading={payState==='loading'||verifedState==='loading'?true:false}
+                        disabled={
+                        payState==='loading'||payState==='finish'||verifedState==='loading'||cancelState === 'loading'||cancelState==='finish'?true:false}>
+                            支付
+                        </Button>
+                        </div>
+                    </Form>
+                </div>
             </div>
         </MaskLayout>
     );

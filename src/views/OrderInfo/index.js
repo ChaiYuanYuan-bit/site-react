@@ -106,11 +106,11 @@ const OrderInfo = () => {
                         <div className='avatar' title='普通员工'>
                             <FcBusinessman className='svg'/>
                         </div>
-                        <div><span>{userInfo.username}</span></div>
+                        <div className='name'><span>{userInfo.username}</span></div>
                     </div>
                     <div className='bottomInfo'>
-                        <div><span>钱包余额 <br></br>{userInfo.balance}</span></div>
-                        <div><span>优惠券</span></div>
+                        <span>钱包余额：{userInfo.balance}元</span>
+                        <span>优惠券：</span>
                     </div>
                 </div>
                 <Tabs className='tab'

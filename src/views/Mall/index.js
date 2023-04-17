@@ -130,11 +130,11 @@ const Mall = ({sendNotification}) => {
                 };
               })}/>
               <NavGroup 
-              goodsType={goodsType} 
+              goodsType = {goodsType} 
               currentTypeId = {currentTypeId}
-              featuresMap={featuresMap} 
-              setFeaturesMap={setFeaturesMap} 
-              selectedTags={selectedTags}
+              featuresMap = {featuresMap} 
+              setFeaturesMap = {setFeaturesMap} 
+              selectedTags = {selectedTags}
               setSelectedTags = {setSelectedTags}
               />
               <br></br>
