@@ -46,7 +46,6 @@ const UserManage = () => {
             if(success)
             {
                 setUserNum(num);
-                console.log('num'+num)
             }
             else{
                 console.log(message)
@@ -107,7 +106,6 @@ const UserManage = () => {
     }
     // 下拉框状态
     const onSelectChange = (value) => {
-        console.log(value)
         setSearchType(value);
         form.resetFields();
     }
@@ -122,7 +120,6 @@ const UserManage = () => {
     // 每页显示数目变化
     const onShowSizeChange = (current, pageSize) => {
         setpageSize(pageSize);
-        console.log(current, pageSize);
       };
     // 页脚设置
     const paginationProps = {
