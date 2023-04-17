@@ -124,7 +124,7 @@ const OrderManage = () => {
     return (
         <>
             <div className='manager-orderInfo'>
-                <div className='select'>
+                
                 <Form
                 name="search"
                 form={form}
@@ -142,6 +142,7 @@ const OrderManage = () => {
                     />
                     </Form.Item>
                 </Form>
+                <div className='select'>
                 <Select
                 showSearch
                 defaultActiveFirstOption
