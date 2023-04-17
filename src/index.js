@@ -10,6 +10,7 @@ import { persistStore } from 'redux-persist';
 import store from "./redux";
 import './index.css'
 
+// redux持久化存储
 let persistor = persistStore(store);
 
 ReactDOM.render(

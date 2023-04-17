@@ -117,6 +117,7 @@ const Mall = ({sendNotification}) => {
       <>
         <div className='mall-content'>
             <Tabs  className='tab'
+              tabBarGutter={30}
               defaultActiveKey={currentTypeId}
               onChange={handleTagChange}
               items={ goodsType.map((item) => {

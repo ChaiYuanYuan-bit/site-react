@@ -1,26 +1,14 @@
 import React,{ useEffect, useState }  from 'react';
 import {FcBusinessman,FcManager} from 'react-icons/fc';
-import { Outlet,useNavigate, Link, useSearchParams } from 'react-router-dom';
+import { Outlet,useNavigate, Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { Tabs,Avatar, Divider, List, Skeleton } from 'antd';
+import { Tabs,Avatar, Divider, List, Skeleton,ConfigProvider } from 'antd';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { $getOrderNum,$getOrders,$getStateType } from '../../api/orderInfo';
-import './OrderInfo.scss'
+import { $getOrderNum,$getOrders,$getStateType } from '../../api/orders';
+import {renderEmpty} from '../../utils/emptyRender'
+import './Mine.scss'
 
-let testTab = [
-    {id:1,description:'全部订单'},
-    {id:2,description:'未出行'},
-    {id:3,description:'待付款'},
-    {id:4,description:'待评价'},
-]
-
-const actionType = {
-    payed:[<h3>已完成</h3>],
-    unpay:[<Link key="list-loadmore-edit">去付款</Link>, <Link to='/home/mall' key="list-loadmore-more">取消订单</Link>],
-    canceled:[<h3>已取消</h3>]
-}
-
-const OrderInfo = () => {
+const Mine = () => {
     const {info:userInfo} = useSelector(store=>store.userInfo)
     const [loading, setLoading] = useState(false);
     // 用户总订单数量
@@ -91,7 +79,7 @@ const OrderInfo = () => {
         
     }
     const handleToPay = (orderId)=>{
-        navigate(`/home/pay`,{
+        navigate(`/home/mine/pay`,{
             replace:true,
             state:{userId:userInfo.id,
                 orderId
@@ -100,11 +88,12 @@ const OrderInfo = () => {
     }
     return (
         <>
+           
             <div className='employee-orderInfo'>
                 <div className='employee-orderInfo-header'>
                     <div className='topInfo'>
-                        <div className='avatar' title='普通员工'>
-                            <FcBusinessman className='svg'/>
+                        <div className='avatar' title={userInfo.roleType.roleTypeName}>
+                            {userInfo.roleType.roleTypeId===1?<FcManager className='svg'/>:<FcBusinessman className='svg'/>}
                         </div>
                         <div className='name'><span>{userInfo.username}</span></div>
                     </div>
@@ -114,6 +103,7 @@ const OrderInfo = () => {
                     </div>
                 </div>
                 <Tabs className='tab'
+                    tabBarGutter={50}
                     defaultActiveKey={currentStateType}
                     onChange={handleTagChange}
                     items={ stateTypeList.map((item) => {
@@ -144,35 +134,37 @@ const OrderInfo = () => {
                         endMessage={<Divider plain>没有更多订单啦 🤐</Divider>}
                         scrollableTarget="content"
                         >
-                        <List
-                        dataSource={orders}
-                        renderItem={(item) => (
-                            <List.Item 
-                            key={item.orderDetail.storeName}
-                            actions={item.orderState==='payed'?
-                            [<h3>已完成</h3>]:item.orderState==='unpay'?
-                            [<a onClick={()=>{handleToPay(item.orderId)}}>去付款</a>]:item.orderState==='canceled'?
-                            [<h3>已取消</h3>]:<></>}
-                            >
-                            <List.Item.Meta
-                                avatar={<Avatar src={item.orderDetail.comboImgUrl} />}
-                                title={<a href="#">{item.orderDetail.storeName}</a>}
-                                description={
-                                <div>
-                                    {/* <img src="" alt=""> */}
-                                    <p>商家地址：{item.orderDetail.location}</p>
-                                    <p>套餐类型：{item.orderDetail.comboTypeName}</p> 
-                                    {/* <p>{item.orderDetail.comboIntro}</p> */}
-                                    {/* <p>支付方式：余额支付</p> */}
-                                    <p>下单时间：{item.orderTime}</p>
-                                    <p>订单编号：{item.orderId}</p>
-                                    <br/>
-                                </div>}
-                            />
-                            <div>￥{item.orderDetail.totalPrice}</div>
-                            </List.Item>
-                        )}
-                        />
+                            <ConfigProvider renderEmpty={renderEmpty}>
+                                <List
+                                dataSource={orders}
+                                renderItem={(item) => (
+                                    <List.Item 
+                                    key={item.orderDetail.storeName}
+                                    actions={item.orderState==='payed'?
+                                    [<h3>待使用</h3>]:item.orderState==='unpay'?
+                                    [<a onClick={()=>{handleToPay(item.orderId)}}>去付款</a>]:item.orderState==='canceled'?
+                                    [<h3>已取消</h3>]:<></>}
+                                    >
+                                    <List.Item.Meta
+                                        avatar={<Avatar src={item.orderDetail.comboImgUrl} />}
+                                        title={<a href="#">{item.orderDetail.storeName}</a>}
+                                        description={
+                                        <div>
+                                            {/* <img src="" alt=""> */}
+                                            <p>商家地址：{item.orderDetail.location}</p>
+                                            <p>套餐类型：{item.orderDetail.comboTypeName}</p> 
+                                            {/* <p>{item.orderDetail.comboIntro}</p> */}
+                                            {/* <p>支付方式：余额支付</p> */}
+                                            <p>下单时间：{item.orderTime}</p>
+                                            <p>订单编号：{item.orderId}</p>
+                                            <br/>
+                                        </div>}
+                                    />
+                                    <div>￥{item.orderDetail.totalPrice}</div>
+                                    </List.Item>
+                                    )}
+                                    />
+                            </ConfigProvider>
                         </InfiniteScroll>
                     </div>
                 </div>
@@ -182,4 +174,4 @@ const OrderInfo = () => {
     );
 }
 
-export default OrderInfo;
+export default Mine;

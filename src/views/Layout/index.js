@@ -33,11 +33,11 @@ function getItem(label, key, icon, children, type) {
 const siderList = [
   getItem('商城', 'mall', <ShoppingOutlined />),
   getItem('我的', 'employee', <UserOutlined />, [
-    getItem('订单信息', 'myOrder',<FileTextOutlined />),
+    getItem('订单信息', 'mine',<FileTextOutlined />),
   ]),
   getItem('后台管理', 'manager', <ToolOutlined />, [
-    getItem('订单管理', '2',<FileDoneOutlined />),
-    getItem('用户管理', '3',<UsergroupAddOutlined />),
+    getItem('订单管理', 'orders',<FileDoneOutlined />),
+    getItem('用户管理', 'users',<UsergroupAddOutlined />),
   ]),
 ];
 
@@ -52,7 +52,6 @@ export default () => {
     const [siderItem,setSiderItem] = useState([]);
     useEffect(()=>
     { 
-      console.log(userInfo)
       //判断是否为登录状态
       const token = sessionStorage.getItem('token')
       if(sessionStorage.getItem('token'))
@@ -102,9 +101,17 @@ export default () => {
           navigate('/home/mall', { replace: false });
           sessionStorage.setItem('path','/home/mall');
           break;
-        case 'myOrder':
-          navigate('/home/myOrder', { replace: false});
-          sessionStorage.setItem('path','/home/myOrder');
+        case 'mine':
+          navigate('/home/mine', { replace: false});
+          sessionStorage.setItem('path','/home/mine');
+          break;
+        case 'orders':
+          navigate('/home/orders', { replace: false});
+          sessionStorage.setItem('path','/home/orders');
+          break;
+        case 'users':
+          navigate('/home/users', { replace: false});
+          sessionStorage.setItem('path','/home/users');
           break;
       }
     }
@@ -117,13 +124,17 @@ export default () => {
         {
           return 'mall';
         } 
-        else if(path.includes('myOrder'))
+        else if(path.includes('mine'))
         {
-          return 'myOrder'
+          return 'mine'
         }
-        else if(path.includes('manager'))
+        else if(path.includes('orders'))
         {
-          return '1';
+          return 'orders';
+        }
+        else if(path.includes('users'))
+        {
+          return 'users';
         }
       }
       return 'mall';
