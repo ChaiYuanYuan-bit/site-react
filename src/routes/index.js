@@ -6,7 +6,9 @@ import Detail from "../views/Mall/Detail";
 import Buy from "../views/Mall/Buy";
 import NotFound from '../views/NotFound';
 import Pay from '../views/Pay'
-import OrderInfo from "../views/OrderInfo";
+import Mine from "../views/Mine";
+import OrderManage from '../views/Manage/OrderManage'
+import UserManage from "../views/Manage/UserManage";
 
 //创建路由表
 const routes = (props)=>[
@@ -25,16 +27,30 @@ const routes = (props)=>[
                     {
                         path:'buy',
 		                element:<Buy {...props}/>,
+                    },
+                    {
+                        path:'pay',
+                        element:<Pay {...props}/>
                     }
                 ]
             },
             {
-                path:'myOrder',
-                element:<OrderInfo {...props}/>,          
+                path:'mine',
+                element:<Mine {...props}/>,     
+                children:[
+                    {
+                        path:'pay',
+                        element:<Pay {...props}/>
+                    }
+                ]     
             },
             {
-                path:'pay',
-                element:<Pay {...props}/>
+                path:'orders',
+                element:<OrderManage {...props}/>
+            },
+            {
+                path:'users',
+                element:<UserManage {...props}/>
             }
         ]
     },

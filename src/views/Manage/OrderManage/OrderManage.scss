@@ -24,52 +24,6 @@
     align-self:flex-start;
 }   
 
-.employee-orderInfo-header{
-    display: flex;
-    width: 100%;
-    min-height: 180px;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-    flex-shrink: 0;
-    align-items:flex-start;
-    border: 2px dashed orange;
-    .topInfo{
-        width: 100%;
-        display: flex;
-        flex-direction: row;
-        flex: 5;
-        border: 1px dashed blue;
-        .avatar{
-            margin-left: 10px;
-            margin-top: 20px;
-            background-color: rgba(127,255,212);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 70px;
-            height: 70px;
-            border: 5px solid rgba(0,0,0,.4);
-            box-shadow: 1px 1px 8px rgba(0,0,0,.4);
-            border-radius: 50%;
-            overflow: hidden;
-            svg{
-                flex: 1;
-                width: 70px;
-                height: 70px;
-                border: 1px solid rgba(0,0,0,0);
-                border-radius: 50%;
-                margin: 2px;
-            }
-        }
-    }
-    .bottomInfo{
-        width: 100%;
-        flex: 2;
-        border: 1px dashed purple;
-    }
-}
-
 .employee-orderInfo-content{
     display: flex;
     flex: 1;
@@ -89,6 +43,7 @@
         padding: 0;
         padding-left: 5px;
         padding-right: 5px;
+        user-select:text;
     }
 }
 

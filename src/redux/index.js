@@ -11,14 +11,16 @@ const reducers = combineReducers({
     userInfo,message
   });
 
+// redux本地持久化
 const persistConfig = {
     key: 'root',
     storage:storageSession,
-    blacklistL:['message']
+    blacklist:['message']
 };
-  
+
 const persistedReducer = persistReducer(persistConfig, reducers);
 
+// 导出store
 const store = configureStore({
     reducer: persistedReducer,
     middleware: [thunk],

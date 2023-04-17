@@ -9,7 +9,7 @@ import { $verifyPWD,$payOrder } from '../../api/pay';
 import { $cancelOrder } from '../../api/orders';
 import MaskLayout from '../../components/MaskLayout';
 import encrypt from '../../utils/encrypt';
-import './PayInOrder.scss'
+import './Pay.scss'
 
 const Pay = ({sendNotification}) => {
     // 获取表单实例
@@ -120,7 +120,7 @@ const Pay = ({sendNotification}) => {
                         {
                             replace:true
                         });
-                        window.location.reload()
+                        window.location.reload();
                     },500);
                 }
                 else{

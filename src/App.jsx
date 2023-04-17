@@ -44,11 +44,11 @@ function App() {
     dispatch(setMsg({msg:{type,description}}));
     setTimeout(()=>{
       clearNotification();
-    },200)
+    },50)
   }
-  // 重置全集消息框
+  // 重置全局消息框
   const clearNotification = ()=>{
-    dispatch(setMsg({msg:{type:'',description:''}}));
+    dispatch(setMsg({msg:{type:null,description:null}}));
   }
   useEffect(()=>{
     loadUserInfo();
