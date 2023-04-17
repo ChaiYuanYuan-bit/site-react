@@ -1,0 +1,106 @@
+.mask-layout-page-mask{
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: rgba(0,0,0,.3);
+    transition: opacity .3s;
+    overflow-y: auto;
+    z-index: 100;
+}
+
+.mask-layout-page{
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 200;
+    width: 100%;
+    height: 100%;
+}
+.mask-layout-page-box{
+    width: 38%;
+    min-height: 60%;
+    max-height: 80%;
+    padding: 0.5em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 2px 4px 8px rgba(0,0,0,0.5), -2px -2px 8px rgba(255,255,255,0.1);
+}
+
+.mask-layout-page-box .header{
+    width: 100%;
+    height: 25px;
+    flex-shrink: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    h4{
+        flex: 1;
+        text-align: center;
+        letter-spacing: 0.2em;
+    }
+}
+.mask-layout-page-box .header span{
+    margin: 0;
+    padding: 0;
+    height: 20px;
+}
+.mask-layout-page-box .header span .back-logo{
+    margin-right: 8px;
+    margin-left: 4px;
+}
+.header span .back-logo,
+.header .close-logo{
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+    transition: 0.1s;
+    filter: invert(0.5);
+}
+
+.header span .back-logo:hover,
+.mask-layout-page-box .close-logo:hover{
+    transform: scale(1.1);
+}
+
+.mask-layout-page-box-content
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 0.7em 1em;
+    width: 100%;
+    min-height:60%;
+    flex: 1;
+    overflow-y: scroll;
+    border: 1px dashed rgba(255,255,255,0);
+    border-radius: 10px;
+}
+
+.mask-layout-page-box-content::-webkit-scrollbar{
+    width: 5px;
+}
+
+.mask-layout-page-box-content::-webkit-scrollbar-track
+{
+    background-color:rgba(0,0,0,0);
+    border-radius:10px;
+}
+
+.mask-layout-page-box-content::-webkit-scrollbar-thumb
+{
+    border-radius:10px;
+    background-color:rgba(0, 0, 0, .5);
+}

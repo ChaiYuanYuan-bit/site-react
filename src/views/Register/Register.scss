@@ -8,6 +8,7 @@
     background-position: center center;
     background-size: cover;
     display: flex;
+    position: fixed;
     flex-direction:column;
     .header{
             min-height: 10%;
@@ -34,6 +35,8 @@
     .register-form{
         width: 100%;
         min-width: 800px;
+        padding-left: 30%;
+        padding-right: 30%;
         flex-grow: 1.2;
         justify-content: space-evenly;
     }    

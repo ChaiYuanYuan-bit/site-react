@@ -1,0 +1,135 @@
+.buy-mycard-list{
+    width: 100%;
+    flex-shrink: 0;
+    min-height: 300px;
+    display: flex;
+    flex: 1;
+    justify-content: space-between;
+    flex-direction: column;
+
+    .buy-mycard-title{
+        border: 2px solid rgba(0,0,0,.1);
+        border-radius: 10px;
+        width: 100%;
+        flex: 2;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px;
+        font-weight: 550;
+        margin-bottom: 5px;
+    }
+
+    .buy-mycard-info{
+        border: 2px solid rgba(0,0,0,.1);
+        border-radius: 10px;
+        width: 100%;
+        flex: 3;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 5px;
+        .content{
+            display: flex;
+            flex-direction: row;
+            margin: 0;
+            padding:5px;
+            margin-left: 10px;
+            img{
+                overflow: hidden;
+                border: 1px solid rgba(255,255,255,.5);
+                border-radius: 5px;
+                width: 30%;
+                height: 30%;
+                margin-left: 10px;
+            }
+
+            .text{
+                display: flex;
+                margin: 0;
+                margin-left: 50px;
+                padding-top: 2px;
+                padding-bottom: 1px;
+                flex: 1;
+                flex-direction: column;
+                align-items: flex-start;
+                justify-content: space-around;
+                h3{
+                    margin: 0;
+                    padding: 0;
+                    margin-bottom: 2px;
+                }
+                .subtitle{
+                    margin: 0;
+                    padding: 0;
+                    margin-bottom: 1px;
+                    font-size: 0.96em;
+                }
+                p{
+                    width: 100%;
+                    margin: 0;
+                    padding:0;
+                    font-size: 0.85em;
+                }
+            }
+        }
+
+    }
+    
+    .buy-mycard-middle{
+        border: 2px solid rgba(0,0,0,.1);
+        border-radius: 10px;
+        width: 100%;
+        flex: 2;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px;
+        font-weight: 550;
+        margin-bottom: 5px;
+        .pay-box{
+            display: flex;
+            align-items: center;
+            .pay-logo{
+                margin-right: 20px;
+            }
+            .pay-select{
+                min-width: 150px;
+            }
+        }
+    }
+    
+    .buy-mycard-footer{
+        border: 2px solid rgba(0,0,0,.1);
+        border-radius: 10px;
+        width: 100%;
+        flex: 2;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px;
+        font-weight: 550;
+        .pay-box{
+            display: flex;
+            align-items: center;
+            .pay-logo{
+                margin-right: 20px;
+            }
+            .pay-select{
+                min-width: 150px;
+            }
+        }
+    }
+}
+
+.my-react-multi-select{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #eee;
+    font-size: small;
+    span{
+        display: inline-block;
+        margin-right: 5px;
+    }
+}

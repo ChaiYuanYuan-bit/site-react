@@ -1,5 +1,5 @@
 import { useRoutes } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect,useState } from "react";
 import { useDispatch } from 'react-redux';
 import jwtDecode from "jwt-decode";
 import { setInfo } from "./redux/UserInfo";
@@ -11,7 +11,6 @@ import routes from "./routes";
 function App() {
   // redux 分发 hooks
   const dispatch = useDispatch();
-
   // 加载登录用户信息
   const loadUserInfo = async ()=>{
     //判断是否为登录状态
@@ -26,7 +25,7 @@ function App() {
             if(success)
             {
               //保存用户到redux
-              dispatch(setInfo(userInfo));
+              dispatch(setInfo({info:{...userInfo}}));
             }
             else{
               dispatch(setMsg({msg:{type:'error',description:message}}));
@@ -43,8 +42,14 @@ function App() {
   //全局消息设置
   const sendNotification = (type,description)=>{
     dispatch(setMsg({msg:{type,description}}));
+    setTimeout(()=>{
+      clearNotification();
+    },50)
   }
-  
+  // 重置全局消息框
+  const clearNotification = ()=>{
+    dispatch(setMsg({msg:{type:null,description:null}}));
+  }
   useEffect(()=>{
     loadUserInfo();
 },[]);

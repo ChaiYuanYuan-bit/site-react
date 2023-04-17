@@ -5,26 +5,21 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
+import { PersistGate } from 'redux-persist/integration/react';
+import { persistStore } from 'redux-persist';
 import store from "./redux";
 import './index.css'
-import ReactMarkdown from 'react-markdown'
-import rehypeRaw from 'rehype-raw'
 
-// const root = ReactDOM.createRoot(document.getElementById('root'));
-// root.render(
-//   <React.StrictMode>
-//     <BrowserRouter>
-//       <Provider store={store}>
-//         <App />
-//       </Provider>
-//     </BrowserRouter>
-//   </React.StrictMode>
-// );
+// redux持久化存储
+let persistor = persistStore(store);
+
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
       <Provider store={store}>
-        <App />
+        <PersistGate loading={null} persistor={persistor}>
+          <App />
+        </PersistGate>
       </Provider>
     </BrowserRouter>
   </React.StrictMode>

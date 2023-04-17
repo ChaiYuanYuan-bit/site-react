@@ -1,0 +1,35 @@
+.mark-down-style,.mark-down-loading{
+    user-select: text;
+    flex-shrink: 0;
+    min-height: 500px;
+    transition: .3;
+}
+.mark-down-style h1{
+    margin-bottom: 10px;
+}
+
+.mark-down-style p>img{
+    width: 60%;
+    max-height: 500px;
+    border-radius: 5px;
+    box-shadow: 2px 4px 8px rgba(0,0,0,0.5), -2px -2px 8px rgba(255,255,255,0.1);
+    transition: 1.3s;
+}
+
+.mark-down-style p>img:hover{
+    margin-top: 50px;
+    margin-bottom: 20px;
+    transform: translateX(30%) scale(1.2);
+}
+.mark-down-style p{
+    text-align: justify;
+    letter-spacing: 0.1em;
+    line-height: 1.5em;
+}
+.mark-down-loading{
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
