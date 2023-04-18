@@ -1,12 +1,13 @@
 import React,{ useEffect, useState }  from 'react';
 import { Outlet,useNavigate} from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { Tabs,Table,Tag,Space,Avatar, Divider, List, Skeleton,Select,Input,Tooltip,ConfigProvider,Button,Form } from 'antd';
+import { Tabs,Table,Tag,Space,Avatar, Divider, List, Skeleton,Select,Input,Tooltip,ConfigProvider,Button,Form,Collapse } from 'antd';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { $getOrderNum,$getOrders,$getStateType } from '../../../api/orders';
 import {renderEmpty} from '../../../utils/emptyRender'
 import './OrderManage.scss'
 
+const { Panel } = Collapse;
 const OrderManage = () => {
     //获取redux中的用户信息
     const {info:userInfo} = useSelector(store=>store.userInfo)
@@ -242,25 +243,19 @@ const OrderManage = () => {
       ];
     return (
         <>
-            <div className='employee-orderInfo'>
-                <Form
-                name="search"
-                form={form}
-                >
-                    <Form.Item
-                    label="查询"
-                    name="search"
-                    >
-                     <Input 
-                    allowClear
-                    value={inputState}
-                    placeholder="搜索"
-                    onChange={onInputChange}
-                    disabled={searchType==='all'?true:false}
-                    />
-                    </Form.Item>
-                </Form>
-                <Select
+            <div className='manager-orderInfo'>
+                <div className='header-info'>
+                <Collapse defaultActiveKey={['1']} >
+                    <Panel header="操作提示" key='1'>
+                        <p>*订单状态有：待付款，待使用，已取消，待评价，已完成</p>
+                        <p>*待付款订单取消后则为已关闭，待付款订单支付后则为待使用，待使用订单核销后即为待评价，待评价订单评价完成后即为已完成。</p>
+                        <p>*查询方式有：（不区分大小写）商家名称检索，用户名称检索，订单号检索。</p>
+                    </Panel>
+                </Collapse>
+                </div>
+                <div className='select-tag'>
+                    <span className='myselect'> <Select
+                    style={{width:'100%'}}
                 showSearch
                 defaultActiveFirstOption
                 defaultValue={searchType}
@@ -287,7 +282,26 @@ const OrderManage = () => {
                     label: '订单号',
                 },
                 ]}
-                />
+                /></span>
+               <span className='myform'>  <Form
+                name="search"
+                form={form}
+                >
+                    <Form.Item
+                    label="查询"
+                    name="search"
+                    >
+                     <Input 
+                    allowClear
+                    value={inputState}
+                    placeholder="搜索"
+                    onChange={onInputChange}
+                    disabled={searchType==='all'?true:false}
+                    />
+                    </Form.Item>
+                </Form></span>
+              
+                </div>
                 <Tabs className='tab'
                 tabBarGutter={50}
                 defaultActiveKey={currentStateType}
@@ -302,8 +316,8 @@ const OrderManage = () => {
                     key: item.state,
                     };
                 })}/>
-                <div className='employee-orderInfo-content'>
-                    <div id='employee-orderInfo-content-list'>
+                <div className='content'>
+                    <div id='manager-orderInfo-content-list'>
                         <ConfigProvider renderEmpty={renderEmpty}>
                             <Table 
                             columns={columns} 

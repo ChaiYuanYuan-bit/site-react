@@ -143,7 +143,7 @@ const Detail = () => {
                 <div className='combo'>
                 <Space
                   direction="vertical"
-                  size={[0, 64]}
+                  size={[0, 28]}
                   style={{
                     display: 'flex',
                   }}
