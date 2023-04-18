@@ -73,8 +73,9 @@
 .ant-layout-right .content{
   flex-direction: column;
   background-color: #ffffff;
-  margin: 24px 16px;
-  padding: 24px;
+  margin: 8px 24px ;
+  border-radius: 10px;
+  //padding: 24px;
   min-height: 280;
   overflow:'auto';
 }

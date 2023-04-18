@@ -7,6 +7,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { $getOrderNum,$getOrders,$getStateType } from '../../api/orders';
 import {renderEmpty} from '../../utils/emptyRender'
 import './Mine.scss'
+import Card from 'antd/es/card/Card';
 
 const Mine = () => {
     const {info:userInfo} = useSelector(store=>store.userInfo)
@@ -149,6 +150,7 @@ const Mine = () => {
                                         title={<a href="#">{item.orderDetail.storeName}</a>}
                                         description={
                                         <div>
+                                            <Divider dashed />
                                             {/* <img src="" alt=""> */}
                                             <p>商家地址：{item.orderDetail.location}</p>
                                             <p>套餐类型：{item.orderDetail.comboTypeName}</p> 

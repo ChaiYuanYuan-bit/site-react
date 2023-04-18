@@ -23,8 +23,13 @@
             0.6px 0px 54.8px rgba(0, 0, 0, 0.035),
             1px 0px 80px rgba(0, 0, 0, 0.04);
     overflow-x: hidden;
+    .header-info{
+        //padding-left: 12px;
+        
+        width: 100%;
+    };
     .select-tag{
-        padding-top: 36px;
+        padding-top: 30px;
         padding-left: 10px;
         padding-right: 18px;
         width: 60%;
@@ -72,8 +77,6 @@
         padding-left: 10px;
         padding-right: 10px;
         user-select: text;
-        border: 1px solid #f0f0f0;
-        border-radius: 10px;
         // box-shadow:
         //     0px 0px 16.3px rgba(0, 0, 0, 0.008),
         //     0.1px 0px 22.3px rgba(0, 0, 0, 0.013),
