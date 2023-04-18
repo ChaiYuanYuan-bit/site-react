@@ -45,7 +45,6 @@ const OrderManage = () => {
     const loadOrderNum = async ()=>{
         try{
                 const {success,message,orderNum} = await $getOrderNum({
-                userId:userInfo.id,
                 orderState:currentStateType==='all'?undefined:currentStateType,
                 searchType,
                 keyWord:inputState
@@ -61,30 +60,57 @@ const OrderManage = () => {
             console.log(error)
         }
     } 
-    // 加载用户订单
+    // 加载用户所有订单
     const loadAllOrders = async () => {
         try {
             let params = {
-                "_limit":allOrders.length+10,
+                "_limit":pageSize,
+                "_page":pageIndex,
                 "orderState":currentStateType==='all'?undefined:currentStateType,
             };
-
+            //添加分页查询
             switch(searchType)
             {
                 case 'all':break;
                 case 'userName':
-                    params = {...params,"orderDetail.userName_like":inputState};
+                    params = {...params,"orderDetail.username_like":inputState};
                     break;
                 case 'storeName':
-                    params = {...params,"orderDetail.storeName_like":inputState};
+                    params = {...params,"orderDetail.storename_like":inputState};
                     break;
                 case 'orderId':
                     params = {...params,"orderId_like":inputState};
                     break;
             }
-            const data = await $getOrders(params)
-            console.log(data)
-            
+            let data = await $getOrders(params)
+            // console.log(data)
+            data = data.map(item=>({
+                id:item.id,
+                orderInfo:{
+                    orderId:item.orderId,
+                    orderTime:item.orderTime,
+                    finishTime:item.finishTime,
+                },
+                userInfo:{
+                    userId:item.orderDetail.userId,
+                    username:item.orderDetail.username,
+                    roleTypeName:item.orderDetail.roleTypeName,
+                },
+                goodsInfo:{
+                    storeType:item.orderDetail.goodsTypeName,
+                    storeName:item.orderDetail.storeName,
+                    comboTypeName:item.orderDetail.comboTypeName,
+                    comboPrice:item.orderDetail.comboPrice,
+                    dataRange:item.orderDetail.dataRange,
+                    count:item.orderDetail.count,
+                    days:item.orderDetail.days
+                },
+                orderMoney:{
+                    totalPrice:item.orderDetail.totalPrice,
+                    payType:item.orderDetail.payType
+                },
+                orderState:item.orderStateName,
+            }))
             setAllOrders(data)
         } catch (error) {
             console.log(error.message)
@@ -101,13 +127,13 @@ const OrderManage = () => {
     }
 
     const handleTagChange = (value)=>{
-        console.log(value)
+        // console.log(value)
         setCurrentStateType(value);
         
     }
     // 下拉框状态
     const onSelectChange = (value) => {
-        console.log(value)
+        // console.log(value)
         setSearchType(value);
         form.resetFields();
     }
@@ -141,30 +167,84 @@ const OrderManage = () => {
           render: (text) => <a>{text}</a>,
         },
         {
-          title: '用户名',
-          dataIndex: 'username',
-          key: 'username',
-          align:'center',
+          title: '订单信息',
+          dataIndex: 'orderInfo',
+          key: 'orderInfo',
+          render:((orderInfo,{orderState})=>(
+            <>
+                <div>
+                    <p>订单编号：{orderInfo.orderId}</p>
+                    <p>下单时间：{orderInfo.orderTime}</p>
+                    {orderState==='待使用'?<p>付款时间：{orderInfo.finishTime}</p>:
+                    orderState==='已取消'?<p>取消时间：{orderInfo.finishTime}</p>:<></>}
+                </div>
+            </>
+          ))
         },
         {
-          title: '电话',
-          dataIndex: 'phone',
-          key: 'phone',
-          align:'center',
+          title: '用户信息',
+          dataIndex: 'userInfo',
+          key: 'userInfo',
+          render:((userInfo)=>(
+            <>
+                <div>
+                    <p>用户Id：{userInfo.userId}</p>
+                    <p>用户名称：{userInfo.username}</p>
+                    <p>用户类型：{userInfo.roleTypeName}</p>
+                </div>
+            </>
+          ))
         },
         {
-            title: '邮箱',
-            dataIndex: 'email',
-            key: 'email',
-            align:'center',
+            title: '商品信息',
+            dataIndex: 'goodsInfo',
+            key: 'goodsInfo',
+            render:((goodsInfo)=>(
+                <>
+                    <div>
+                        <p>商家名称：{goodsInfo.storeName}</p>
+                        <p>{goodsInfo.storeType==='hotels'?`房间类型：${goodsInfo.comboTypeName}`:
+                        `套餐类型：${goodsInfo.comboTypeName}`}</p>
+                        <p>{goodsInfo.storeType==='hotels'?`房间价格：${goodsInfo.comboPrice} 元`:
+                        `套餐价格：${goodsInfo.comboPrice} 元`}</p>
+                        <p>{goodsInfo.storeType==='hotels'?`房间数量：${goodsInfo.count} 间`:
+                        goodsInfo.storeType==='scenics'?`套餐数量：${goodsInfo.count} 张`:`套餐数量：${goodsInfo.count} 份`}</p>
+                        <p>{goodsInfo.storeType==='hotels'?`住房日期：${goodsInfo.dataRange[0]} 至 ${goodsInfo.dataRange[1]}，${goodsInfo.days+1}天${goodsInfo.days}晚`:
+                        `使用时间：${goodsInfo.dataRange[0]} 至 ${goodsInfo.dataRange[1]}`}</p>
+                    </div>
+                </>
+            ))
           },
-        {
-            title: '余额（元）',
-            dataIndex: 'balance',
-            key: 'balance',
-            align:'center',
+        // {
+        //     title: '商品数量',
+        //     dataIndex: 'goodsNum',
+        //     key: 'goodsNum',
+        //     align:'center',
+        //   },
+          {
+            title: '订单金额',
+            dataIndex: 'orderMoney',
+            key: 'orderMoney',
+            render:((orderMoney)=>(
+                <>
+                    <p>商品金额：{orderMoney.totalPrice}</p>
+                    <p>支付方式：{orderMoney.payType}</p>
+                </>
+            ))
           },
-          
+          {
+            title: '订单状态',
+            dataIndex: 'orderState',
+            key: 'orderState',
+            align:'center',
+            render:((orderState)=>(
+                <Tag color={orderState==='待付款'?'#faad14' :
+                orderState==='待使用'?'#b7eb8f':
+                orderState==='已取消'?'#d9d9d9':
+                orderState==='待评价'?'#e6f4ff':'#52c41a'
+            }>{orderState}</Tag>
+            ))
+          },
         // {
         //   title: '角色',
         //   key: 'tags',
@@ -186,18 +266,18 @@ const OrderManage = () => {
         //     </>
         //   ),
         // },
-        {
-          title: '操作',
-          key: 'action',
-          align:'center',
-          render: (_, {id}) => (
-            <Space size="middle">
-                <a onClick={()=>{setDrawerOpen(true)}}>修改</a>
-              {/* <a>Invite {record.name}</a>
-              <a>Delete</a> */}
-            </Space>
-          ),
-        },
+        // {
+        //   title: '操作',
+        //   key: 'action',
+        //   align:'center',
+        //   render: (_, {id}) => (
+        //     <Space size="middle">
+        //         <a onClick={()=>{setDrawerOpen(true)}}>修改</a>
+        //       {/* <a>Invite {record.name}</a>
+        //       <a>Delete</a> */}
+        //     </Space>
+        //   ),
+        // },
       ];
     return (
         <>
@@ -277,50 +357,6 @@ const OrderManage = () => {
                         defaultPageSize={pageSize}
                         defaultCurrent={pageIndex} 
                         total={userNum} /> */}
-                 
-                        {/* <InfiniteScroll
-                        dataLength={allOrders.length}
-                        next={loadAllOrders}
-                        hasMore={allOrders.length < orderNum}
-                        loader={
-                        <Skeleton
-                            avatar
-                            paragraph={{
-                            rows: 1,
-                            }}
-                            active
-                        />
-                        }
-                        endMessage={<Divider plain>没有更多订单啦 🤐</Divider>}
-                        scrollableTarget="content"
-                        >
-                            <ConfigProvider renderEmpty={renderEmpty}>
-                            <List
-                            dataSource={allOrders}
-                            renderItem={(item) => (
-                                <List.Item 
-                                key={item.orderId}
-                                >
-                                <List.Item.Meta
-                                    avatar={<Avatar src={item.orderDetail.comboImgUrl} />}
-                                    title={<a href="#">{item.orderDetail.storeName}</a>}
-                                    description={
-                                    <div>
-                                        <p>用户名称：{item.orderDetail.userName}</p>
-                                        <p>商家地址：{item.orderDetail.location}</p>
-                                        <p>套餐类型：{item.orderDetail.comboTypeName}</p> 
-                                        <p>订单价格：{item.orderDetail.totalPrice}元</p>
-                                        <p>下单时间：{item.orderTime}</p>
-                                        <p>订单编号：{item.orderId}</p>
-                                        <br/>
-                                    </div>}
-                                />
-                                </List.Item>
-                                )}
-                            />
-                            </ConfigProvider>
-                        </InfiniteScroll> */}
-                    {/* </div> */}
                 </div>
             </div>
             <Outlet/>

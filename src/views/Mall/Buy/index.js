@@ -57,7 +57,7 @@ const Buy = ({sendNotification}) => {
     // select opntions
     const [value,setValue] = useState(orderOptions([options[0]]))
     useEffect(()=>{
-        console.log(location);
+        // console.log(location);
     },[])
     //提交订单
     const onFinish = async ()=>{
@@ -113,7 +113,7 @@ const Buy = ({sendNotification}) => {
     }
     // 下拉框处理函数
     const handleSelectChange = (newValue,actionMeta)=>{
-        console.log(newValue,actionMeta);
+        // console.log(newValue,actionMeta);
         switch(actionMeta.action)
         {
             case 'select-option':break;

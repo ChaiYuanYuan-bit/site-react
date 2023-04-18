@@ -114,7 +114,7 @@ const Detail = () => {
     };
     // 跳转到订单页面
     const onFinish = ()=>{
-      console.log(currentGoodsInfo)
+      // console.log(currentGoodsInfo)
         navigate('/home/mall/buy',{
           replace:false,
           state:{
@@ -168,10 +168,8 @@ const Detail = () => {
                     disabledDate={disabledDate}  
                     onChange={onRangeChange} />:<></>
                   }
-                   
                   </div>
                   <div className='select-combo-order'>
-                    
                     <div className='comfirm-number'><span>购买数量：</span>
                     <InputNumber 
                     disabled={currentCombo.comboCount>0?false:true} 

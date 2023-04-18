@@ -36,7 +36,7 @@ const Pay = ({sendNotification}) => {
             {
                 replace:true
             });
-            if(!sessionStorage.getItem('path').indexOf('mall'))
+            if(sessionStorage.getItem('path')&&!sessionStorage.getItem('path').indexOf('mall'))
             {
                 window.location.reload()
             }
@@ -66,7 +66,7 @@ const Pay = ({sendNotification}) => {
                         {
                             replace:true
                         });
-                        if(!sessionStorage.getItem('path').indexOf('mall'))
+                        if(sessionStorage.getItem('path')&&!sessionStorage.getItem('path').indexOf('mall'))
                         {
                             window.location.reload()
                         }
@@ -126,7 +126,7 @@ const Pay = ({sendNotification}) => {
                         {
                             replace:true
                         });
-                        if(!sessionStorage.getItem('path').indexOf('mall'))
+                        if(sessionStorage.getItem('path')&&!sessionStorage.getItem('path').indexOf('mall'))
                         {
                             window.location.reload()
                         }
