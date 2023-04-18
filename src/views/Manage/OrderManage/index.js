@@ -124,26 +124,9 @@ const OrderManage = () => {
     return (
         <>
             <div className='manager-orderInfo'>
-                
-                <Form
-                name="search"
-                form={form}
-                >
-                    <Form.Item
-                    label="查询"
-                    name="search"
-                    >
-                     <Input 
-                    allowClear
-                    value={inputState}
-                    placeholder="搜索"
-                    onChange={onInputChange}
-                    disabled={searchType==='all'?true:false}
-                    />
-                    </Form.Item>
-                </Form>
-                <div className='select'>
-                <Select
+                <div className='select-tag'>
+                    <span className='myselect'> <Select
+                    style={{width:'100%'}}
                 showSearch
                 defaultActiveFirstOption
                 defaultValue={searchType}
@@ -171,7 +154,25 @@ const OrderManage = () => {
                     label: '订单号',
                 },
                 ]}
-                />
+                /></span>
+               <span className='myform'>  <Form
+                name="search"
+                form={form}
+                >
+                    <Form.Item
+                    label="查询"
+                    name="search"
+                    >
+                     <Input 
+                    allowClear
+                    value={inputState}
+                    placeholder="搜索"
+                    onChange={onInputChange}
+                    disabled={searchType==='all'?true:false}
+                    />
+                    </Form.Item>
+                </Form></span>
+              
                 </div>
                 <Tabs className='tab'
                 tabBarGutter={50}
