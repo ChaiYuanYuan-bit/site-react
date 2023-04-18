@@ -1,12 +1,13 @@
 import React,{ useEffect, useState }  from 'react';
 import { Outlet,useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { Tag,Tabs,Space,Select,Table,Input,Tooltip,ConfigProvider,Button,Form,Pagination,Drawer  } from 'antd';
+import { Tag,Tabs,Space,Select,Table,Input,Tooltip,ConfigProvider,Button,Form,Pagination,Drawer,Collapse } from 'antd';
 import { $getRole } from '../../../api/roleApi';
 import {$getUserNum,$getAllUsers} from '../../../api/userApi'
 import {renderEmpty} from '../../../utils/emptyRender'
 import './UserManage.scss'
 
+const { Panel } = Collapse;
 const UserManage = () => {
     // 表单实例
     const [form] = Form.useForm();
@@ -198,25 +199,19 @@ const UserManage = () => {
 
     return (
         <>
-            <div className='employee-orderInfo'>
-                <Form
-                name="search"
-                form={form}
-                >
-                    <Form.Item
-                    label="查询"
-                    name="search"
-                    >
-                     <Input 
-                    allowClear
-                    value={inputState}
-                    placeholder="搜索"
-                    onChange={onInputChange}
-                    disabled={searchType==='all'?true:false}
-                    />
-                    </Form.Item>
-                </Form>
-                <Select
+            <div className='manager-userInfo'>
+                <div className='header-info'>
+                    <Collapse defaultActiveKey={['1']} >
+                        <Panel header="操作提示" key='1'>
+                            <p>*用户状态有：管理员，普通员工，未授权用户，未授权用户禁止登陆账号购买商品。</p>
+                            <p>*管理员可以更改用户状态（授权登录），对普通员工的账户余额进行更改。</p>
+                            <p>*查询方式有：（不区分大小写）用户名检索，电话称检索，邮箱检索。</p>
+                        </Panel>
+                    </Collapse>
+                </div>
+                <div className='select-tag'>
+                <span className='myselect'><Select
+                style={{width:'100%'}}
                 showSearch
                 defaultActiveFirstOption
                 defaultValue={searchType}
@@ -243,7 +238,26 @@ const UserManage = () => {
                         label: '邮箱',
                     },
                 ]}
-                />
+                /></span>
+                <span className='myform'><Form
+                name="search"
+                form={form}
+                >
+                    <Form.Item
+                    label="查询"
+                    name="search"
+                    >
+                     <Input 
+                    allowClear
+                    value={inputState}
+                    placeholder="搜索"
+                    onChange={onInputChange}
+                    disabled={searchType==='all'?true:false}
+                    />
+                    </Form.Item>
+                </Form></span>
+                </div>
+
                 <Tabs className='tab'
                 tabBarGutter={50}
                 defaultActiveKey={currentUserType}
@@ -258,8 +272,8 @@ const UserManage = () => {
                     key: item.id,
                     };
                 })}/>
-                <div className='employee-orderInfo-content'>
-                    <div id='employee-orderInfo-content-list'>
+                <div className='content'>
+                    <div id='manager-userInfo-content-list'>
                     <ConfigProvider renderEmpty={renderEmpty}>
                         <Table 
                         columns={columns} 
