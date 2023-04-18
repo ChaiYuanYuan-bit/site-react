@@ -1,4 +1,5 @@
 import axiosInstance from '../utils/request'
+import qs from 'qs'
 
 //登录
 export const $login = async (params)=>{
@@ -8,8 +9,25 @@ export const $login = async (params)=>{
     }
     return data;
 }
-//获取用户信息
+
+//获取单个用户信息
 export const $getOne = async (params)=>{
     let {data} = await axiosInstance.get('/user/getone',{params})
+    return data;
+}
+
+//获取用户数量
+export const $getUserNum = async(params)=>{
+    let {data} = await axiosInstance.get('/user/userNum',{params});
+    return data;
+}
+//获取所有用户信息
+export const $getAllUsers = async (params)=>{
+    let {data} = await axiosInstance.get('/users',{
+        params:params,
+        paramsSerializer:(params)=>{
+            return qs.stringify(params,{arrayFormat:'repeat'});
+        }
+    });
     return data;
 }

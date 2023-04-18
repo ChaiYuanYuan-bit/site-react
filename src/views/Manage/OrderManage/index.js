@@ -1,7 +1,6 @@
-import React,{ useEffect, useState,useRef }  from 'react';
-import { Outlet,useNavigate, Link } from 'react-router-dom';
+import React,{ useEffect, useState }  from 'react';
+import { Outlet,useNavigate} from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { SearchOutlined } from '@ant-design/icons';
 import { Tabs,Avatar, Divider, List, Skeleton,Select,Input,Tooltip,ConfigProvider,Button,Form } from 'antd';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { $getOrderNum,$getOrders,$getStateType } from '../../../api/orders';
@@ -27,7 +26,7 @@ const OrderManage = () => {
     const [currentStateType,setCurrentStateType] = useState('all');
     // 下拉框状态
     const [searchType,setSearchType] = useState('all');
-    // 输入框ref
+    // 输入框状态
     const [inputState,setInputState] = useState('');
     // input
     // userId
@@ -132,7 +131,6 @@ const OrderManage = () => {
                 defaultValue={searchType}
                 optionFilterProp="children"
                 onChange={onSelectChange}
-                // onSearch={onSearch}
                 filterOption={(input, option) =>
                 (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
                 }
@@ -218,18 +216,15 @@ const OrderManage = () => {
                                     title={<a href="#">{item.orderDetail.storeName}</a>}
                                     description={
                                     <div>
-                                        {/* <img src="" alt=""> */}
                                         <p>用户名称：{item.orderDetail.userName}</p>
                                         <p>商家地址：{item.orderDetail.location}</p>
                                         <p>套餐类型：{item.orderDetail.comboTypeName}</p> 
-                                        {/* <p>{item.orderDetail.comboIntro}</p> */}
-                                        {/* <p>支付方式：余额支付</p> */}
+                                        <p>订单价格：{item.orderDetail.totalPrice}元</p>
                                         <p>下单时间：{item.orderTime}</p>
                                         <p>订单编号：{item.orderId}</p>
                                         <br/>
                                     </div>}
                                 />
-                                <div>￥{item.orderDetail.totalPrice}</div>
                                 </List.Item>
                                 )}
                             />
