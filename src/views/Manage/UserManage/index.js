@@ -2,7 +2,6 @@ import React,{ useEffect, useState }  from 'react';
 import { Outlet,useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Tag,Tabs,Space,Select,Table,Input,Tooltip,ConfigProvider,Button,Form,Pagination,Drawer  } from 'antd';
-import InfiniteScroll from 'react-infinite-scroll-component';
 import { $getRole } from '../../../api/roleApi';
 import {$getUserNum,$getAllUsers} from '../../../api/userApi'
 import {renderEmpty} from '../../../utils/emptyRender'
@@ -192,8 +191,6 @@ const UserManage = () => {
           render: (_, {id}) => (
             <Space size="middle">
                 <a onClick={()=>{setDrawerOpen(true)}}>修改</a>
-              {/* <a>Invite {record.name}</a>
-              <a>Delete</a> */}
             </Space>
           ),
         },
@@ -263,11 +260,14 @@ const UserManage = () => {
                 })}/>
                 <div className='employee-orderInfo-content'>
                     <div id='employee-orderInfo-content-list'>
-                    <Table 
-                    columns={columns} 
-                    dataSource={allUserInfo} 
-                    pagination={paginationProps}
-                    />
+                    <ConfigProvider renderEmpty={renderEmpty}>
+                        <Table 
+                        columns={columns} 
+                        dataSource={allUserInfo} 
+                        pagination={paginationProps}
+                        />
+                    </ConfigProvider>
+
                         {/* <Pagination 
                         showTotal={(total) => `共 ${total} 项`}
                         onChange={onPageChange}
