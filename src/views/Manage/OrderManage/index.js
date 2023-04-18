@@ -74,13 +74,13 @@ const OrderManage = () => {
             {
                 case 'all':break;
                 case 'userName':
-                    params = {...params,"orderDetail.username_like":inputState};
+                    params = {...params,"orderDetail.username_like":inputState?inputState:undefined};
                     break;
                 case 'storeName':
-                    params = {...params,"orderDetail.storename_like":inputState};
+                    params = {...params,"orderDetail.storeName_like":inputState?inputState:undefined};
                     break;
                 case 'orderId':
-                    params = {...params,"orderId_like":inputState};
+                    params = {...params,"orderId_like":inputState?inputState:undefined};
                     break;
             }
             let data = await $getOrders(params)
@@ -137,6 +137,7 @@ const OrderManage = () => {
         // console.log(value)
         setSearchType(value);
         form.resetFields();
+        setInputState('');
     }
     // 输入框状态
     const onInputChange = (event) =>{
@@ -162,7 +163,7 @@ const OrderManage = () => {
     };
     const columns = [
         {
-          title: 'id',
+          title: 'ID',
           dataIndex: 'id',
           key: 'id',
           render: (text) => <a>{text}</a>,
@@ -189,7 +190,7 @@ const OrderManage = () => {
           render:((userInfo)=>(
             <>
                 <div>
-                    <p>用户Id：{userInfo.userId}</p>
+                    <p>用户ID：{userInfo.userId}</p>
                     <p>用户名称：{userInfo.username}</p>
                     <p>用户类型：{userInfo.roleTypeName}</p>
                 </div>

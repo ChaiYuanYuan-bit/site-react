@@ -1,10 +1,10 @@
 import React,{ useEffect, useState }  from 'react';
-import { Outlet,useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { Tag,Tabs,Space,Select,Table,Input,Tooltip,ConfigProvider,Button,Form,Pagination,Drawer  } from 'antd';
+import { Outlet } from 'react-router-dom';
+import { Tag,Tabs,Space,Select,Table,Input,ConfigProvider,Form,Drawer  } from 'antd';
 import { $getRole } from '../../../api/roleApi';
 import {$getUserNum,$getAllUsers} from '../../../api/userApi'
 import {renderEmpty} from '../../../utils/emptyRender'
+import ModifyUser from './ModifyUser';
 import './UserManage.scss'
 
 const UserManage = () => {
@@ -74,13 +74,13 @@ const UserManage = () => {
             {
                 case 'all':break;
                 case 'username':
-                    params = {...params,"username_like":inputState};
+                    params = {...params,"username_like":inputState?inputState:undefined};
                     break;
                 case 'phone':
-                    params = {...params,"phone_like":inputState};
+                    params = {...params,"phone_like":inputState?inputState:undefined};
                     break;
                 case 'email':
-                    params = {...params,"email_like":inputState};
+                    params = {...params,"email_like":inputState?inputState:undefined};
                     break;
             }
             let users = await $getAllUsers(params);
@@ -107,6 +107,7 @@ const UserManage = () => {
     const onSelectChange = (value) => {
         setSearchType(value);
         form.resetFields();
+        setInputState('');
     }
     // Input状态
     const onInputChange = (event) =>{
@@ -279,11 +280,10 @@ const UserManage = () => {
                     </div>
                 </div>
             </div>
-            <Drawer title="Basic Drawer" placement="right" onClose={()=>{setDrawerOpen(false)}} open={drawerOpen}>
-                <p>Some contents...</p>
-                <p>Some contents...</p>
-                <p>Some contents...</p>
-            </Drawer>
+            <ModifyUser 
+            drawerOpen={drawerOpen} 
+            setDrawerOpen={setDrawerOpen}
+            />
             <Outlet/>
         </>
     );
