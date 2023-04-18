@@ -2,7 +2,6 @@ import React,{ useEffect, useState }  from 'react';
 import { Outlet,useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Tag,Tabs,Space,Select,Table,Input,Tooltip,ConfigProvider,Button,Form,Pagination,Drawer  } from 'antd';
-import InfiniteScroll from 'react-infinite-scroll-component';
 import { $getRole } from '../../../api/roleApi';
 import {$getUserNum,$getAllUsers} from '../../../api/userApi'
 import {renderEmpty} from '../../../utils/emptyRender'

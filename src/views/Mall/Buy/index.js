@@ -71,7 +71,9 @@ const Buy = ({sendNotification}) => {
                 goodsTypeName:location.state.goodsTypeName,
                 goodsId:location.state.currentGoodsInfo.id,
                 comboId:location.state.currentCombo.comboTypeId,
-                count:location.state.comboNumber
+                count:location.state.comboNumber,
+                days:location.state.days,
+                dataRange:location.state.dateStrings
             })
             if(success)
             {
@@ -162,11 +164,14 @@ const Buy = ({sendNotification}) => {
                 <div className='content'>
                     <img src={location.state.currentCombo.comboImgUrl}></img>
                     <div className='text'>
-                        <h3>商家：上海皇家酒店</h3>
+                        <h3>商家：{location.state.currentGoodsInfo.detail.name}</h3>
                         <div className='subtitle'>套餐类型：{location.state.currentCombo.comboTypeName}</div>
                         <p>单价：{location.state.currentCombo.comboPrice} 元</p>
-                        <p>数量：{location.state.comboNumber}</p>
-                        <p>日期：{location.state.dateStrings[0]+' 至 '+location.state.dateStrings[1]}，共{location.state.days}天</p>
+                        <p>{location.state.goodsTypeName==='hotels'?`房间数量：${location.state.comboNumber} 间`:
+                        location.state.goodsTypeName==='scenics'?`数量：${location.state.comboNumber} 张`:`数量：${location.state.comboNumber} 份`}</p>
+                        <p>{location.state.goodsTypeName==='hotels'?'预定时间：':'使用期限：'}
+                        {location.state.dateStrings[0]+' 至 '+location.state.dateStrings[1]} 
+                        {location.state.goodsTypeName==='hotels'?`，${location.state.days+1}天${location.state.days}晚`:''}</p>
                     </div>
                 </div>
                

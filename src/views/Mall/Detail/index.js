@@ -75,16 +75,29 @@ const Detail = () => {
     // 屏蔽部分日期
     const disabledDate = (current) => {
       // Can not select days before today and days after 30days
-      return current > dayjs().add(+29, 'd') || current < dayjs().add(-1, 'd');
+      if(search.get('goodsTypeName')==='hotels')
+      {
+        return current > dayjs().add(+29, 'd') || current < dayjs().add(-1, 'd');
+      }
+      else{
+        return current < dayjs().add(-1, 'd');
+      }
     };
     // 日历选择器处理函数
     const onRangeChange = (dates, dateStrings) => {
+
       if (dates) {
-        //console.log('From: ', dates[0], ', to: ', dates[1]);
-        //console.log('From: ', dateStrings[0], ', to: ', dateStrings[1]);
-        setDateStrings(dateStrings);
-        //console.log(dayjs(dateStrings[1]).diff(dateStrings[0],'day'), '两个日期之间相差的天数');
-        setDays(dayjs(dateStrings[1]).diff(dateStrings[0],'day'));
+        if(search.get('goodsTypeName')==='hotels')
+        {
+          setDateStrings(dateStrings);
+          setDays(dayjs(dateStrings[1]).diff(dateStrings[0],'day'));
+        }
+        else if(search.get('goodsTypeName')==='scenics')
+        {
+          //景区只能预定一天
+          setDateStrings([dayjs(dates).startOf('d').format('YYYY-MM-DD HH:mm'),dayjs(dates).endOf('d').format('YYYY-MM-DD HH:mm')]);
+          setDays(1);
+        }
       }
       else{
         setDays(0);
@@ -101,7 +114,7 @@ const Detail = () => {
     };
     // 跳转到订单页面
     const onFinish = ()=>{
-      console.log(search)
+      console.log(currentGoodsInfo)
         navigate('/home/mall/buy',{
           replace:false,
           state:{
@@ -109,8 +122,9 @@ const Detail = () => {
             currentGoodsInfo,
             currentCombo,
             comboNumber,
-            dateStrings,
-            days
+            dateStrings:search.get('goodsTypeName')==='food'?
+            [dayjs().format('YYYY-MM-DD'),dayjs().add(29,'d').format('YYYY-MM-DD')]:dateStrings,
+            days:search.get('goodsTypeName')==='food'?1:days
           }
       });
     }
@@ -141,11 +155,20 @@ const Detail = () => {
                     <div>价格：{currentCombo.comboPrice}</div>
                     <div>库存：{currentCombo.comboCount}</div>
                   </div>
-                  <div className='choose-date'>选择日期：
+                  <div className='choose-date'>{search.get('goodsTypeName')==='food'?'':'选择日期：'}
+                  {
+                    search.get('goodsTypeName')==='scenics'?
+                    <DatePicker
+                    format="YYYY-MM-DD"
+                    disabledDate={disabledDate}
+                    onChange={onRangeChange}
+                    />: search.get('goodsTypeName')==='hotels'?
                     <RangePicker 
                     format="YYYY-MM-DD"
                     disabledDate={disabledDate}  
-                    onChange={onRangeChange} />
+                    onChange={onRangeChange} />:<></>
+                  }
+                   
                   </div>
                   <div className='select-combo-order'>
                     
@@ -156,9 +179,9 @@ const Detail = () => {
                     max={currentCombo?.comboCount} 
                     value = {currentCombo.comboCount?comboNumber:0}
                     onChange={onNumberChange} /></div>
-                    <Tooltip trigger={'hover'} color='rgba(0,0,0,.6)' open={days>0?false:true} placement="top" title={'请先选择日期'} >
+                    <Tooltip trigger={'hover'} color='rgba(0,0,0,.6)' open={days>0||search.get('goodsTypeName')==='food'?false:true} placement="top" title={'请先选择日期'} >
                       <Button 
-                      disabled={currentCombo.comboCount>0&&days>0 ?false:true}
+                      disabled={currentCombo.comboCount>0&&days>0||search.get('goodsTypeName')==='food'?false:true}
                       type="primary" 
                       onClick={onFinish}>{currentCombo.comboCount?'立即购买':'暂无库存'}</Button>
                     </Tooltip>

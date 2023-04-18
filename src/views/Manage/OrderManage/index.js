@@ -1,7 +1,7 @@
 import React,{ useEffect, useState }  from 'react';
 import { Outlet,useNavigate} from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { Tabs,Avatar, Divider, List, Skeleton,Select,Input,Tooltip,ConfigProvider,Button,Form } from 'antd';
+import { Tabs,Table,Tag,Space,Avatar, Divider, List, Skeleton,Select,Input,Tooltip,ConfigProvider,Button,Form } from 'antd';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { $getOrderNum,$getOrders,$getStateType } from '../../../api/orders';
 import {renderEmpty} from '../../../utils/emptyRender'
@@ -17,7 +17,7 @@ const OrderManage = () => {
     // 用户总订单数量
     const [orderNum,setOrderNum] = useState(0);
     // 用户的订单
-    const [orders,setOrders] = useState([]);
+    const [allOrders,setAllOrders] = useState([]);
     // 路由
     const navigate = useNavigate();
     // 获取订单状态类型
@@ -28,11 +28,17 @@ const OrderManage = () => {
     const [searchType,setSearchType] = useState('all');
     // 输入框状态
     const [inputState,setInputState] = useState('');
+    // 当前页码
+    const [pageIndex,setPageIndex] = useState(1);
+    // 默认显示条数
+    const [pageSize,setpageSize] = useState(15);
+    // 抽屉状态
+    const [drawerOpen, setDrawerOpen] = useState(false);
     // input
     // userId
     useEffect(()=>{
         loadOrderNum();
-        loadMoreData();
+        loadAllOrders();
         loadStateTypeList();
     },[currentStateType,inputState]) 
     // 获取总订单数量
@@ -56,14 +62,10 @@ const OrderManage = () => {
         }
     } 
     // 加载用户订单
-    const loadMoreData = async () => {
-        if (loading) {
-        return;
-        }
-        setLoading(true);
+    const loadAllOrders = async () => {
         try {
             let params = {
-                "_limit":orders.length+10,
+                "_limit":allOrders.length+10,
                 "orderState":currentStateType==='all'?undefined:currentStateType,
             };
 
@@ -81,10 +83,11 @@ const OrderManage = () => {
                     break;
             }
             const data = await $getOrders(params)
-            setOrders(data)
-            setLoading(false);
+            console.log(data)
+            
+            setAllOrders(data)
         } catch (error) {
-            setLoading(false);
+            console.log(error.message)
         }
     };
     // 加载订单状态列表
@@ -108,18 +111,94 @@ const OrderManage = () => {
         setSearchType(value);
         form.resetFields();
     }
-    
+    // 输入框状态
     const onInputChange = (event) =>{
         setInputState(event.target.value.trim())
     }
-    const handleToPay = (orderId)=>{
-        navigate(`/home/mine/pay`,{
-            replace:true,
-            state:{userId:userInfo.id,
-                orderId
-            }
-        });
+    //页脚
+    const onPageChange = (current) => {
+        setPageIndex(current);
     }
+    // 每页显示数目变化
+    const onShowSizeChange = (current, pageSize) => {
+        setpageSize(pageSize);
+    };
+    // 页脚设置
+    const paginationProps = {
+        showTotal:(total) => `共 ${total} 项`,
+        onChange: onPageChange,
+        showSizeChanger: true,
+        onShowSizeChange: onShowSizeChange,
+        defaultPageSize: pageSize,
+        defaultCurrent: pageIndex,
+        total:orderNum
+    };
+    const columns = [
+        {
+          title: 'id',
+          dataIndex: 'id',
+          key: 'id',
+          render: (text) => <a>{text}</a>,
+        },
+        {
+          title: '用户名',
+          dataIndex: 'username',
+          key: 'username',
+          align:'center',
+        },
+        {
+          title: '电话',
+          dataIndex: 'phone',
+          key: 'phone',
+          align:'center',
+        },
+        {
+            title: '邮箱',
+            dataIndex: 'email',
+            key: 'email',
+            align:'center',
+          },
+        {
+            title: '余额（元）',
+            dataIndex: 'balance',
+            key: 'balance',
+            align:'center',
+          },
+          
+        // {
+        //   title: '角色',
+        //   key: 'tags',
+        //   dataIndex: 'tags',
+        //   align:'center',
+        //   render: (_, { tags }) => (
+        //     <>
+        //       {tags.map((tag) => {
+        //         let color = tag.length > 5 ? 'geekblue' : 'green';
+        //         if (tag==='管理员') color = 'geekblue';
+        //         else if(tag === '普通员工') color='green';
+        //         else if (tag === '未授权') color = 'volcano';
+        //         return (
+        //           <Tag color={color} key={tag}>
+        //             {tag.toUpperCase()}
+        //           </Tag>
+        //         );
+        //       })}
+        //     </>
+        //   ),
+        // },
+        {
+          title: '操作',
+          key: 'action',
+          align:'center',
+          render: (_, {id}) => (
+            <Space size="middle">
+                <a onClick={()=>{setDrawerOpen(true)}}>修改</a>
+              {/* <a>Invite {record.name}</a>
+              <a>Delete</a> */}
+            </Space>
+          ),
+        },
+      ];
     return (
         <>
             <div className='employee-orderInfo'>
@@ -184,10 +263,25 @@ const OrderManage = () => {
                 })}/>
                 <div className='employee-orderInfo-content'>
                     <div id='employee-orderInfo-content-list'>
-                        <InfiniteScroll
-                        dataLength={orders.length}
-                        next={loadMoreData}
-                        hasMore={orders.length < orderNum}
+                    <Table 
+                    columns={columns} 
+                    dataSource={allOrders} 
+                    pagination={paginationProps}
+                    />
+                    </div>
+                        {/* <Pagination 
+                        showTotal={(total) => `共 ${total} 项`}
+                        onChange={onPageChange}
+                        showSizeChanger
+                        onShowSizeChange={onShowSizeChange}
+                        defaultPageSize={pageSize}
+                        defaultCurrent={pageIndex} 
+                        total={userNum} /> */}
+                 
+                        {/* <InfiniteScroll
+                        dataLength={allOrders.length}
+                        next={loadAllOrders}
+                        hasMore={allOrders.length < orderNum}
                         loader={
                         <Skeleton
                             avatar
@@ -202,7 +296,7 @@ const OrderManage = () => {
                         >
                             <ConfigProvider renderEmpty={renderEmpty}>
                             <List
-                            dataSource={orders}
+                            dataSource={allOrders}
                             renderItem={(item) => (
                                 <List.Item 
                                 key={item.orderId}
@@ -225,8 +319,8 @@ const OrderManage = () => {
                                 )}
                             />
                             </ConfigProvider>
-                        </InfiniteScroll>
-                    </div>
+                        </InfiniteScroll> */}
+                    {/* </div> */}
                 </div>
             </div>
             <Outlet/>
