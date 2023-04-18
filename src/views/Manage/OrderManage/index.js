@@ -215,12 +215,6 @@ const OrderManage = () => {
                 </>
             ))
           },
-        // {
-        //     title: '商品数量',
-        //     dataIndex: 'goodsNum',
-        //     key: 'goodsNum',
-        //     align:'center',
-        //   },
           {
             title: '订单金额',
             dataIndex: 'orderMoney',
@@ -245,39 +239,6 @@ const OrderManage = () => {
             }>{orderState}</Tag>
             ))
           },
-        // {
-        //   title: '角色',
-        //   key: 'tags',
-        //   dataIndex: 'tags',
-        //   align:'center',
-        //   render: (_, { tags }) => (
-        //     <>
-        //       {tags.map((tag) => {
-        //         let color = tag.length > 5 ? 'geekblue' : 'green';
-        //         if (tag==='管理员') color = 'geekblue';
-        //         else if(tag === '普通员工') color='green';
-        //         else if (tag === '未授权') color = 'volcano';
-        //         return (
-        //           <Tag color={color} key={tag}>
-        //             {tag.toUpperCase()}
-        //           </Tag>
-        //         );
-        //       })}
-        //     </>
-        //   ),
-        // },
-        // {
-        //   title: '操作',
-        //   key: 'action',
-        //   align:'center',
-        //   render: (_, {id}) => (
-        //     <Space size="middle">
-        //         <a onClick={()=>{setDrawerOpen(true)}}>修改</a>
-        //       {/* <a>Invite {record.name}</a>
-        //       <a>Delete</a> */}
-        //     </Space>
-        //   ),
-        // },
       ];
     return (
         <>
@@ -343,11 +304,13 @@ const OrderManage = () => {
                 })}/>
                 <div className='employee-orderInfo-content'>
                     <div id='employee-orderInfo-content-list'>
-                    <Table 
-                    columns={columns} 
-                    dataSource={allOrders} 
-                    pagination={paginationProps}
-                    />
+                        <ConfigProvider renderEmpty={renderEmpty}>
+                            <Table 
+                            columns={columns} 
+                            dataSource={allOrders} 
+                            pagination={paginationProps}
+                            />
+                        </ConfigProvider>
                     </div>
                         {/* <Pagination 
                         showTotal={(total) => `共 ${total} 项`}

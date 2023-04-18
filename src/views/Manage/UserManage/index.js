@@ -191,8 +191,6 @@ const UserManage = () => {
           render: (_, {id}) => (
             <Space size="middle">
                 <a onClick={()=>{setDrawerOpen(true)}}>修改</a>
-              {/* <a>Invite {record.name}</a>
-              <a>Delete</a> */}
             </Space>
           ),
         },
@@ -262,11 +260,14 @@ const UserManage = () => {
                 })}/>
                 <div className='employee-orderInfo-content'>
                     <div id='employee-orderInfo-content-list'>
-                    <Table 
-                    columns={columns} 
-                    dataSource={allUserInfo} 
-                    pagination={paginationProps}
-                    />
+                    <ConfigProvider renderEmpty={renderEmpty}>
+                        <Table 
+                        columns={columns} 
+                        dataSource={allUserInfo} 
+                        pagination={paginationProps}
+                        />
+                    </ConfigProvider>
+
                         {/* <Pagination 
                         showTotal={(total) => `共 ${total} 项`}
                         onChange={onPageChange}
