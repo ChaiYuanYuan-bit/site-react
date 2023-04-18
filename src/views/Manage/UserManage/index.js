@@ -30,6 +30,10 @@ const UserManage = () => {
     const [pageSize,setpageSize] = useState(15);
     // 抽屉状态
     const [drawerOpen, setDrawerOpen] = useState(false);
+    // 所选用户信息
+    const [modifyUserInfo,setModifyUserInfo] = useState({});
+    // 所选用户id
+    const [modifyUserId,setModifyUserId] = useState(0);
 
     useEffect(()=>{
         loadUserType();
@@ -191,9 +195,13 @@ const UserManage = () => {
           title: '操作',
           key: 'action',
           align:'center',
-          render: (_, {id}) => (
+          render: (_, userInfo) => (
             <Space size="middle">
-                <a onClick={()=>{setDrawerOpen(true)}}>修改</a>
+                <a onClick={()=>{
+                    setModifyUserInfo(userInfo);
+                    setModifyUserId(userInfo.id);
+                    setDrawerOpen(true);
+                }}>修改</a>
             </Space>
           ),
         },
@@ -212,39 +220,42 @@ const UserManage = () => {
                     </Collapse>
                 </div>
                 <div className='select-tag'>
-                <span className='myselect'><Select
-                style={{width:'100%'}}
-                showSearch
-                defaultActiveFirstOption
-                defaultValue={searchType}
-                optionFilterProp="children"
-                onChange={onSelectChange}
-                filterOption={(input, option) =>
-                (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
-                }
-                options={[
-                    {
-                        value: 'all',
-                        label: '全部',
-                    },
-                    {
-                        value: 'username',
-                        label: '用户名',
-                    },
-                    {
-                        value: 'phone',
-                        label: '电话',
-                    },
-                    {
-                        value: 'email',
-                        label: '邮箱',
-                    },
-                ]}
-                /></span>
-                <span className='myform'><Form
-                name="search"
-                form={form}
-                >
+                <span className='myselect'>
+                    <Select
+                    style={{width:'100%'}}
+                    showSearch
+                    defaultActiveFirstOption
+                    defaultValue={searchType}
+                    optionFilterProp="children"
+                    onChange={onSelectChange}
+                    filterOption={(input, option) =>
+                    (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+                    }
+                    options={[
+                        {
+                            value: 'all',
+                            label: '全部',
+                        },
+                        {
+                            value: 'username',
+                            label: '用户名',
+                        },
+                        {
+                            value: 'phone',
+                            label: '电话',
+                        },
+                        {
+                            value: 'email',
+                            label: '邮箱',
+                        },
+                    ]}
+                    />
+                </span>
+                <span className='myform'>
+                    <Form
+                    name="search"
+                    form={form}
+                    >
                     <Form.Item
                     label="查询"
                     name="search"
@@ -298,6 +309,8 @@ const UserManage = () => {
             <ModifyUser 
             drawerOpen={drawerOpen} 
             setDrawerOpen={setDrawerOpen}
+            modifyUserId = {modifyUserId}
+            modifyUserInfo = {modifyUserInfo}
             />
             <Outlet/>
         </>

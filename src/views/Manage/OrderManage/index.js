@@ -9,8 +9,6 @@ import './OrderManage.scss'
 
 const { Panel } = Collapse;
 const OrderManage = () => {
-    //获取redux中的用户信息
-    const {info:userInfo} = useSelector(store=>store.userInfo)
     // 表单实例
     const [form] = Form.useForm();
     //infinite list状态
@@ -19,8 +17,6 @@ const OrderManage = () => {
     const [orderNum,setOrderNum] = useState(0);
     // 用户的订单
     const [allOrders,setAllOrders] = useState([]);
-    // 路由
-    const navigate = useNavigate();
     // 获取订单状态类型
     const [stateTypeList,setStateTypeList] = useState([]);
     // 当前所选订单状态
@@ -41,7 +37,7 @@ const OrderManage = () => {
         loadOrderNum();
         loadAllOrders();
         loadStateTypeList();
-    },[currentStateType,inputState]) 
+    },[currentStateType,inputState,pageSize,pageIndex]) 
     // 获取总订单数量
     const loadOrderNum = async ()=>{
         try{
@@ -324,6 +320,7 @@ const OrderManage = () => {
                             columns={columns} 
                             dataSource={allOrders} 
                             pagination={paginationProps}
+                            stateTypeList = {stateTypeList}
                             />
                         </ConfigProvider>
                     </div>
