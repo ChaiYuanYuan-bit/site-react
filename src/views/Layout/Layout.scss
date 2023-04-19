@@ -4,7 +4,7 @@
     min-height: 100vh;
     .logo {
       display: flex;
-      height: 36px;
+      height: 40px;
       margin: 16px;
       font-size: 16px;
       padding: auto 0;
@@ -73,8 +73,9 @@
 .ant-layout-right .content{
   flex-direction: column;
   background-color: #ffffff;
-  margin: 24px 16px;
-  padding: 24px;
+  margin: 18px 18px ;
+  border-radius: 10px;
+  //padding: 24px;
   min-height: 280;
   overflow:'auto';
 }

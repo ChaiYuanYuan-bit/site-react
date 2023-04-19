@@ -1,8 +1,9 @@
 import React,{ useEffect, useState }  from 'react';
 import {FcBusinessman,FcManager} from 'react-icons/fc';
-import { Outlet,useNavigate, Link } from 'react-router-dom';
+import { Outlet,useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Tabs,Avatar, Divider, List, Skeleton,ConfigProvider } from 'antd';
+import { AiFillEdit } from 'react-icons/ai'
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { $getOrderNum,$getOrders,$getStateType } from '../../api/orders';
 import {renderEmpty} from '../../utils/emptyRender'
@@ -88,14 +89,13 @@ const Mine = () => {
     }
     return (
         <>
-           
             <div className='employee-orderInfo'>
                 <div className='employee-orderInfo-header'>
                     <div className='topInfo'>
                         <div className='avatar' title={userInfo.roleType.roleTypeName}>
                             {userInfo.roleType.roleTypeId===1?<FcManager className='svg'/>:<FcBusinessman className='svg'/>}
                         </div>
-                        <div className='name'><span>{userInfo.username}</span></div>
+                        <div className='name'><span>{userInfo.username}</span><span className='pen'><AiFillEdit/></span></div>
                     </div>
                     <div className='bottomInfo'>
                         <span>钱包余额：{userInfo.balance}元</span>
@@ -150,6 +150,7 @@ const Mine = () => {
                                         title={<a href="#">{item.orderDetail.storeName}</a>}
                                         description={
                                         <div>
+                                            <Divider dashed />
                                             {/* <img src="" alt=""> */}
                                             <p>商家地址：{item.orderDetail.location}</p>
                                             <p>套餐类型：{item.orderDetail.comboTypeName}</p> 

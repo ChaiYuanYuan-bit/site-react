@@ -58,14 +58,14 @@ export default () => {
       {
         //获取用户类型
         const roleTypeId = userInfo.roleType.roleTypeId;
-        setSiderItem(siderList);
-        // if(roleTypeId===1)
-        // {
-        //   setSiderItem(siderList.filter(item=>item.key!=='employee'));
-        // }
-        // else if(roleTypeId===2){
-        //   setSiderItem(siderList.filter(item=>item.key!=='manager'));
-        // }
+        if(roleTypeId!==1)
+        {
+          //非管理员只能看到上次和我的
+          setSiderItem(siderList.filter(item=>item.key!=='manager'));
+        }
+        else{
+          setSiderItem(siderList);
+        }
         const path = sessionStorage.getItem('path');
         //如果保存过路径，就跳转到上一次路径
         if(path)
@@ -78,6 +78,7 @@ export default () => {
           navigate('/home/mall',{
             replace:true
           });
+          sessionStorage.setItem('path','/home/mall');
         }
       }
       else{
