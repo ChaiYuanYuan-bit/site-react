@@ -59,7 +59,7 @@
         display: flex;
         flex: 1;
         width: 100%;
-        max-height: 500px;
+        max-height: 600px;
         overflow: scroll;
         flex-direction: column;
         justify-content: flex-start;
@@ -69,6 +69,11 @@
         overflow-y: auto;
         overflow-x: hidden;
         //border: 2px dashed green; 
+    };
+    .content-footer{
+        margin-left: auto;
+        padding-bottom: 10px;
+        padding-right: 10px;
     }
 }
 #manager-orderInfo-content-list{
@@ -97,17 +102,17 @@
 }
 
 
-.manager-orderInfo-content::-webkit-scrollbar{
+.manager-orderInfo .content::-webkit-scrollbar{
     width: 5px;
     height: 30px;
 }
 
-.manager-orderInfo-content::-webkit-scrollbar-track
+.manager-orderInfo .content::-webkit-scrollbar-track
 {
     background-color:#fff;
 }
 
-.manager-orderInfo-content::-webkit-scrollbar-thumb
+.manager-orderInfo .content::-webkit-scrollbar-thumb
 {
     border-radius:10px;
     background-color:rgba(0, 0, 0, .6);
