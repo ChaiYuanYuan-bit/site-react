@@ -1,7 +1,7 @@
 import React,{ useEffect, useState }  from 'react';
 import { Outlet,useNavigate} from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { Tabs,Table,Tag,Space,Avatar, Divider, List, Skeleton,Select,Input,Tooltip,ConfigProvider,Button,Form,Collapse } from 'antd';
+import { Tabs,Table,Tag,Space,Avatar, Divider, List, Skeleton,Select,Input,Tooltip,ConfigProvider,Button,Form,Collapse,Pagination } from 'antd';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { $getOrderNum,$getOrders,$getStateType } from '../../../api/orders';
 import {renderEmpty} from '../../../utils/emptyRender'
@@ -319,19 +319,21 @@ const OrderManage = () => {
                             scroll={{x: "100%"}}
                             columns={columns} 
                             dataSource={allOrders} 
-                            pagination={paginationProps}
-                            stateTypeList = {stateTypeList}
+                            pagination={false}
                             />
                         </ConfigProvider>
                     </div>
-                        {/* <Pagination 
+                        
+                </div>
+                <div className='content-footer'>
+                    <Pagination 
                         showTotal={(total) => `共 ${total} 项`}
                         onChange={onPageChange}
                         showSizeChanger
                         onShowSizeChange={onShowSizeChange}
                         defaultPageSize={pageSize}
                         defaultCurrent={pageIndex} 
-                        total={userNum} /> */}
+                        total={orderNum} />
                 </div>
             </div>
             <Outlet/>
