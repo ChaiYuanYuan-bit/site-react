@@ -1,29 +1,37 @@
 import React,{useState,useEffect}from 'react';
-import { Drawer,Form,Select,Input,InputNumber,Button,Popconfirm,Tooltip } from 'antd';
-import { $getRole } from '../../../../api/roleApi';
-import { $modifyUser } from '../../../../api/userApi';
-import './ModifyUser.scss'
-
-const ModifyUser = ({drawerOpen,setDrawerOpen,modifyUserId,modifyUserInfo,sendNotification}) => {
+import { useSelector } from 'react-redux';
+import { Drawer,Form,Select,Input,InputNumber,Button,Popconfirm } from 'antd';
+import { $getRole } from '../../../api/roleApi';
+import { $modifySelf } from '../../../api/userApi';
+import { pwd_regex, phone_regex } from '../../../config';
+import './ModifySelf.scss'
+const ModifySelf = ({drawerOpen,setDrawerOpen,sendNotification}) => {
     // 角色列表
     const [roleTypeList,setRoleTypeList] = useState([]);
-    // 下拉框状态
-    const [selectValue,setSelectValue] = useState(0);
-    // 数字输入框状态
-    const [numberValue,setNumberValue] = useState(0);
+    // 用户名输入状态
+    const [inputUserName,setInputUserName] = useState('');
+    // phone输入状态
+    const [inputPhone,setInputPhone] = useState('');
+    // email输入状态
+    const [inputEmail,setInputEmail] = useState('');
     // pop提醒框开关
     const [popConfirmOpen,setPopConfirmOpen] =useState(false);
     // 表单实例
     const[form] = Form.useForm();
     // 提交表单状态
     const [loading,setLoading] =  useState(false);
+    // 获取个人用户信息
+    const {info:userInfo} = useSelector(store=>store.userInfo);
+    // 输入检查
+    const [isValid,setIsValid] = useState(false);
 
     useEffect(()=>{
         loadRoleTypeList();
         form.resetFields();
-        setSelectValue(modifyUserInfo.roleTypeId);
-        setNumberValue(modifyUserInfo.balance);
-    },[modifyUserId])
+        setInputUserName(userInfo.username);
+        setInputPhone(userInfo.phone);
+        setInputEmail(userInfo.email);
+    },[])
      // 加载角色类型
     const loadRoleTypeList = async ()=>{
         try {
@@ -52,17 +60,19 @@ const ModifyUser = ({drawerOpen,setDrawerOpen,modifyUserId,modifyUserInfo,sendNo
         setLoading(true);
         setPopConfirmOpen(false);
         try {
-            const {success,message} = await $modifyUser({
-                userId:modifyUserInfo.id,
-                roleTypeId:form.getFieldValue('roleType'),
-                balance:form.getFieldValue('balance')
+            const {success,message} = await $modifySelf({
+                userId:userInfo.id,
+                phone:form.getFieldValue('phone'),
+                email:form.getFieldValue('email')
             })
             if(success)
             {
                 sendNotification('success',message);
                 setLoading(false);
                 setDrawerOpen(false);
-                window.location.reload();
+                setTimeout(()=>{
+                    window.location.reload();
+                },200)
             }
            else{
             setLoading(false);
@@ -73,20 +83,12 @@ const ModifyUser = ({drawerOpen,setDrawerOpen,modifyUserId,modifyUserInfo,sendNo
             console.log(error.message)
         }
     }
-    // 下拉框状态变化
-    const handleSelectChange =(value) => {
-        setSelectValue(value)
-    }
-    // 数字输入框状态变化
-    const handleNumberChange =(value) => {
-        setNumberValue(value)
-    }
     
     return (
         <>
             <Drawer title="修改用户信息" placement="right" onClose={handleClose} open={drawerOpen}>
                 <Form
-                name = 'modifyUserInfo'
+                name = 'userInfo'
                 form = {form}
                 labelCol={{
                     span: 4,
@@ -101,54 +103,82 @@ const ModifyUser = ({drawerOpen,setDrawerOpen,modifyUserId,modifyUserInfo,sendNo
                 style={{
                     maxWidth: 600,
                   }}
-                // onFinish={onFinish}
                 autoComplete="off"
                 >
                 <Form.Item 
                 label="用户名："
                 name="username"
-                initialValue={modifyUserInfo.username}
+                allowClear
+                initialValue={userInfo.username}
                 >
-                <Input title='不可修改' disabled={true}/>
+                <Input onChange={(event)=>{setInputUserName(event.target.value.trim())}}/>
                 </Form.Item>
                 <Form.Item 
                 label="电话："
                 name="phone"
-                initialValue={modifyUserInfo.phone}
+                allowClear
+                initialValue={userInfo.phone}
+                rules={[
+                    {
+                      required: true,
+                      message: '请输入手机号!',
+                    },
+                    () => ({
+                      validator(_, value) {
+                        if (!value || phone_regex.test(value) ) {
+                            setIsValid(false);
+                            return Promise.resolve();
+                        }
+                        else
+                        {
+                            setIsValid(true);
+                            return Promise.reject(new Error('请输入正确的手机号！'));
+                        }
+                        
+                      },
+                    }),
+                  ]}
                 >
-                <Input title='不可修改' disabled={true} value={11111}/>
+                <Input onChange={(event)=>{setInputPhone(event.target.value.trim())}}/>
                 </Form.Item>
                 <Form.Item 
                 label="邮箱："
                 name="email"
-                initialValue={modifyUserInfo.email}
+                allowClear
+                initialValue={userInfo.email}
+                rules={[
+                    {
+                        type: 'email',
+                        message: '请输入有效的邮箱',
+                    }
+                ]}
                 >
-                <Input title='不可修改' disabled={true}/>
+                <Input onChange={(event)=>{setInputEmail(event.target.value.trim())}}/>
                 </Form.Item>
                 <Form.Item 
                 label="角色："
                 name="roleType"
-                initialValue={modifyUserInfo.roleTypeId}
+                initialValue={userInfo.roleType.roleTypeId}
                 >
                 <Select 
+                disabled={true}
+                title='不可修改'
                 options={roleTypeList}
-                onChange={handleSelectChange}
                 >
                 </Select>
                 </Form.Item>
                 <Form.Item 
                 label="余额："
                 name="balance"
-                initialValue={modifyUserInfo.balance}
+                initialValue={userInfo.balance}
                 required
                 >
                 <InputNumber
+                disabled={true}
                 prefix="￥"
-                onChange={handleNumberChange}
                 min={0}
                 max={100000}
-                step={1000}
-                style={{width: 220}} />
+                step={1000} />
                 </Form.Item>
                 </Form>
                 <Popconfirm
@@ -160,22 +190,22 @@ const ModifyUser = ({drawerOpen,setDrawerOpen,modifyUserId,modifyUserInfo,sendNo
                 okText="确定"
                 cancelText="取消"
                 >
-                    <span className='confirm-btn'><Button 
-                    onClick={handleClose}>取消</Button>
-
                     <Button
                     type="primary"
-                    disabled={selectValue!==modifyUserInfo.roleTypeId||numberValue!==modifyUserInfo.balance?false:true} 
+                    disabled={!isValid?(inputUserName!==userInfo.username||inputPhone!==userInfo.phone||inputEmail!==userInfo.email)?false:true:true} 
                     // htmlType="submit"
                     loading={loading}
                     onClick={()=>{setPopConfirmOpen(true)}}
                     >
-                    {selectValue!==modifyUserInfo.roleTypeId||numberValue!==modifyUserInfo.balance?'修改':'暂无修改项'}
-                    </Button></span>
+                    {!isValid?inputUserName!==userInfo.username||inputPhone!==userInfo.phone||inputEmail!==userInfo.email?'修改':'暂无修改项':'请输入正确内容'}
+                    </Button>
                 </Popconfirm>
+
+                <Button 
+                onClick={handleClose}>取消</Button>
             </Drawer>
         </>
     );
 }
 
-export default ModifyUser;
+export default ModifySelf;

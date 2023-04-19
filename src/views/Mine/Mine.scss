@@ -70,10 +70,16 @@
                     margin: 0;
                     padding: 0;
                     margin-left: 10px;
-                    line-height: 28px;
+                    line-height: 24px;
                     display: inline-block;
                     cursor: pointer;
                     filter: invert(1);
+                    .icon{
+                        margin: 0;
+                        padding: 0;
+                        width: 24px;
+                        height: 24px;
+                    }
                 }
             }
             .avatar{
