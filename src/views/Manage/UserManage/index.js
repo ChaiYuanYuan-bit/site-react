@@ -303,7 +303,7 @@ const UserManage = ({sendNotification}) => {
                         showSizeChanger
                         onShowSizeChange={onShowSizeChange}
                         defaultPageSize={pageSize}
-                        defaultCurrent={pageIndex} 
+                        current={pageIndex} 
                         total={userNum} />
                 </div>
             </div>

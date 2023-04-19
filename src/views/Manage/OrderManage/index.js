@@ -359,7 +359,7 @@ const OrderManage = () => {
                         showSizeChanger
                         onShowSizeChange={onShowSizeChange}
                         defaultPageSize={pageSize}
-                        defaultCurrent={pageIndex} 
+                        current={pageIndex} 
                         total={orderNum} />
                 </div>
             </div>
