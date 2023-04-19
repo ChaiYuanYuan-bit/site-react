@@ -227,20 +227,32 @@ const OrderManage = () => {
                 </Collapse>
                 </div>
                 <div className='select-tag'>
-                    <span className='myselect'> </span>
-               <span className='myform'>  
-               <Form
+                <Form
                 name="search"
                 form={form}
                 >
+                    <div >
                     <Form.Item
-                    label="订单搜索"
-                    name="orderSearch"
+                    label="角色类型"
+                    name="roleTypeName"
                     >
-                     <Input 
-                    allowClear
-                    placeholder="请输入订单编号"
-                    onChange={event=>setSearchInput({...searchInput,orderId:event.target.value.trim()})}
+                     <Select 
+                     defaultValue={searchInput.roleTypeName}
+                    options={[
+                        {
+                            value:'all',label:'全部'
+                        },
+                        {
+                            value:'管理员',label:'管理员'
+                        },
+                        {
+                            value:'普通员工',label:'普通员工'
+                        },
+                        {
+                            value:'未授权',label:'未授权'
+                        },
+                    ]}
+                    onChange={value=>{setSearchInput({...searchInput,roleTypeName:value})}}
                     />
                     </Form.Item>
                     <Form.Item
@@ -267,15 +279,17 @@ const OrderManage = () => {
                     />
                     </Form.Item>
                     <Form.Item
-                    label="商家名称"
-                    name="storeName"
+                    label="用户名称"
+                    name="userName"
                     >
                      <Input 
                     allowClear
-                    placeholder="请输入商家名称"
-                    onChange={event=>setSearchInput({...searchInput,storeName:event.target.value.trim()})}
+                    placeholder="请输入用户名称"
+                    onChange={event=>setSearchInput({...searchInput,userName:event.target.value.trim()})}
                     />
                     </Form.Item>
+                    </div>
+                    <div className='form-right'>
                     <Form.Item
                     label="下单时间"
                     name="orderTime"
@@ -290,44 +304,29 @@ const OrderManage = () => {
                         />
                     </Form.Item>
                     <Form.Item
-                    label="用户名称"
-                    name="userName"
+                    label="订单搜索"
+                    name="orderSearch"
                     >
                      <Input 
                     allowClear
-                    placeholder="请输入用户名称"
-                    onChange={event=>setSearchInput({...searchInput,userName:event.target.value.trim()})}
+                    placeholder="请输入订单编号"
+                    onChange={event=>setSearchInput({...searchInput,orderId:event.target.value.trim()})}
                     />
                     </Form.Item>
                     <Form.Item
-                    label="角色"
-                    name="roleTypeName"
+                    label="商家名称"
+                    name="storeName"
                     >
-                     <Select 
-                     defaultValue={searchInput.roleTypeName}
-                    options={[
-                        {
-                            value:'all',label:'全部'
-                        },
-                        {
-                            value:'管理员',label:'管理员'
-                        },
-                        {
-                            value:'普通员工',label:'普通员工'
-                        },
-                        {
-                            value:'未授权',label:'未授权'
-                        },
-                    ]}
-                    onChange={value=>{setSearchInput({...searchInput,roleTypeName:value})}}
+                     <Input 
+                    allowClear
+                    placeholder="请输入商家名称"
+                    onChange={event=>setSearchInput({...searchInput,storeName:event.target.value.trim()})}
                     />
                     </Form.Item>
-                    <Button onClick={handleResetInput}>重置搜索</Button>
-                </Form>
-                </span>
-                
-              
-                </div>
+                    </div>
+                    <Button onClick={handleResetInput} className='reset-btn'>重置搜索</Button>
+                </Form></div>
+
                 <Tabs className='tab'
                 tabBarGutter={50}
                 defaultActiveKey={currentStateType}
@@ -353,7 +352,6 @@ const OrderManage = () => {
                             />
                         </ConfigProvider>
                     </div>
-                        
                 </div>
                 <div className='content-footer'>
                     <Pagination 

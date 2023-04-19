@@ -3,6 +3,7 @@ import { Drawer,Form,Select,Input,InputNumber,Button,Popconfirm,Tooltip } from '
 import { $getRole } from '../../../../api/roleApi';
 import { $modifyUser } from '../../../../api/userApi';
 import './ModifyUser.scss'
+
 const ModifyUser = ({drawerOpen,setDrawerOpen,modifyUserId,modifyUserInfo,sendNotification}) => {
     // 角色列表
     const [roleTypeList,setRoleTypeList] = useState([]);
@@ -146,7 +147,8 @@ const ModifyUser = ({drawerOpen,setDrawerOpen,modifyUserId,modifyUserInfo,sendNo
                 onChange={handleNumberChange}
                 min={0}
                 max={100000}
-                step={1000} />
+                step={1000}
+                style={{width: 220}} />
                 </Form.Item>
                 </Form>
                 <Popconfirm
@@ -158,6 +160,9 @@ const ModifyUser = ({drawerOpen,setDrawerOpen,modifyUserId,modifyUserInfo,sendNo
                     okText="确定"
                     cancelText="取消"
                 >
+                    <span className='confirm-btn'><Button 
+                    onClick={handleClose}>取消</Button>
+
                     <Button
                     type="primary"
                     disabled={selectValue!==modifyUserInfo.roleTypeId||numberValue!==modifyUserInfo.balance?false:true} 
@@ -166,11 +171,8 @@ const ModifyUser = ({drawerOpen,setDrawerOpen,modifyUserId,modifyUserInfo,sendNo
                     onClick={()=>{setPopConfirmOpen(true)}}
                     >
                     {selectValue!==modifyUserInfo.roleTypeId||numberValue!==modifyUserInfo.balance?'修改':'暂无修改项'}
-                    </Button>
+                    </Button></span>
                 </Popconfirm>
-
-                <Button 
-                onClick={handleClose}>取消</Button>
             </Drawer>
         </>
     );
