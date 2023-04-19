@@ -7,9 +7,10 @@ import { AiFillEdit } from 'react-icons/ai'
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { $getOrderNum,$getOrders,$getStateType } from '../../api/orders';
 import {renderEmpty} from '../../utils/emptyRender'
+import ModifySelf from './ModifySelf';
 import './Mine.scss'
 
-const Mine = () => {
+const Mine = ({sendNotification}) => {
     const {info:userInfo} = useSelector(store=>store.userInfo)
     const [loading, setLoading] = useState(false);
     // 用户总订单数量
@@ -22,6 +23,8 @@ const Mine = () => {
     const [stateTypeList,setStateTypeList] = useState([]);
     // 当前所选订单状态
     const [currentStateType,setCurrentStateType] = useState('all')
+    // 抽屉状态
+    const [drawerOpen, setDrawerOpen] = useState(false);
     // userId
     useEffect(()=>{
         loadOrderNum();
@@ -95,7 +98,12 @@ const Mine = () => {
                         <div className='avatar' title={userInfo.roleType.roleTypeName}>
                             {userInfo.roleType.roleTypeId===1?<FcManager className='svg'/>:<FcBusinessman className='svg'/>}
                         </div>
-                        <div className='name'><span>{userInfo.username}</span><span className='pen'><AiFillEdit/></span></div>
+                        <div className='name'>
+                            <span>{userInfo.username}</span>
+                            <span onClick={()=>{setDrawerOpen(true)}} className='pen'>
+                                <AiFillEdit className='icon'/>
+                            </span>
+                        </div>
                     </div>
                     <div className='bottomInfo'>
                         <span>钱包余额：{userInfo.balance}元</span>
@@ -170,6 +178,11 @@ const Mine = () => {
                     </div>
                 </div>
             </div>
+            <ModifySelf
+            drawerOpen={drawerOpen}
+            setDrawerOpen={setDrawerOpen}
+            sendNotification={sendNotification}
+            />
             <Outlet/>
         </>
     );

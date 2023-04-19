@@ -36,3 +36,9 @@ export const $modifyUser = async (params)=>{
     let {data} = await axiosInstance.post('/user/modifyUser',params);
     return data;
 }
+
+// 修改自己个人信息
+export const $modifySelf = async (params)=>{
+    let {data} = await axiosInstance.post('/user/modifySelf',params);
+    return data;
+}
