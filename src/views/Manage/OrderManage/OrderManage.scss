@@ -25,7 +25,6 @@
     overflow-x: hidden;
     .header-info{
         //padding-left: 12px;
-        
         width: 100%;
     };
     .select-tag{
@@ -44,7 +43,10 @@
             flex-direction: row;
             justify-content: space-between;
             //gap: 20px;
-        }
+            .reset-btn{
+                margin-right: 30px;
+            }
+        };
     };
     
     .tab{

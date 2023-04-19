@@ -99,10 +99,11 @@ const Mine = ({sendNotification}) => {
                             {userInfo.roleType.roleTypeId===1?<FcManager className='svg'/>:<FcBusinessman className='svg'/>}
                         </div>
                         <div className='name'>
-                            <span>{userInfo.username}</span>
-                            <span onClick={()=>{setDrawerOpen(true)}} className='pen'>
+                            <div>{userInfo.username}</div>
+                            <div onClick={()=>{setDrawerOpen(true)}} className='pen'>
                                 <AiFillEdit className='icon'/>
-                            </span>
+                                <div className='text'>修改信息</div>
+                            </div>
                         </div>
                     </div>
                     <div className='bottomInfo'>

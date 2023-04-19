@@ -178,7 +178,8 @@ const ModifySelf = ({drawerOpen,setDrawerOpen,sendNotification}) => {
                 prefix="￥"
                 min={0}
                 max={100000}
-                step={1000} />
+                step={1000}
+                style={{width: 220}} />
                 </Form.Item>
                 </Form>
                 <Popconfirm
@@ -190,6 +191,9 @@ const ModifySelf = ({drawerOpen,setDrawerOpen,sendNotification}) => {
                 okText="确定"
                 cancelText="取消"
                 >
+                <span className='confirm-btn'>  
+                <Button 
+                onClick={handleClose}>取消</Button>
                     <Button
                     type="primary"
                     disabled={!isValid?(inputUserName!==userInfo.username||inputPhone!==userInfo.phone||inputEmail!==userInfo.email)?false:true:true} 
@@ -198,11 +202,8 @@ const ModifySelf = ({drawerOpen,setDrawerOpen,sendNotification}) => {
                     onClick={()=>{setPopConfirmOpen(true)}}
                     >
                     {!isValid?inputUserName!==userInfo.username||inputPhone!==userInfo.phone||inputEmail!==userInfo.email?'修改':'暂无修改项':'请输入正确内容'}
-                    </Button>
+                    </Button></span>  
                 </Popconfirm>
-
-                <Button 
-                onClick={handleClose}>取消</Button>
             </Drawer>
         </>
     );

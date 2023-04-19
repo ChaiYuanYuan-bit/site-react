@@ -326,7 +326,6 @@ const OrderManage = () => {
                     </div>
                     <Button onClick={handleResetInput} className='reset-btn'>重置搜索</Button>
                 </Form></div>
-
                 <Tabs className='tab'
                 tabBarGutter={50}
                 defaultActiveKey={currentStateType}

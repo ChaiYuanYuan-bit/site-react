@@ -101,6 +101,7 @@ const Detail = () => {
       }
       else{
         setDays(0);
+        setDateStrings(['','']);
       }
     };
     // 获取当前所选商品套餐类型
@@ -170,6 +171,8 @@ const Detail = () => {
                   }
                   </div>
                   <div className='select-combo-order'>
+                  {search.get('goodsTypeName')==='hotels'?(<div>{dateStrings[0]&&dateStrings[1]?`${dateStrings[0]} 至 ${dateStrings[1]}，共${days}晚`:''}</div>)
+                  :search.get('goodsTypeName')==='scenics'?(<div>{dateStrings[0]&&dateStrings[1]?`使用期限：${dateStrings[0]} 至 ${dateStrings[1]}`:''}</div>):''}   
                     <div className='comfirm-number'><span>购买数量：</span>
                     <InputNumber 
                     disabled={currentCombo.comboCount>0?false:true} 
