@@ -9,7 +9,7 @@ import ModifyUser from './ModifyUser';
 import './UserManage.scss'
 
 const { Panel } = Collapse;
-const UserManage = () => {
+const UserManage = ({sendNotification}) => {
     // 表单实例
     const [form] = Form.useForm();
     // 用户数量
@@ -307,6 +307,7 @@ const UserManage = () => {
                 </div>
             </div>
             <ModifyUser 
+            sendNotification = {sendNotification}
             drawerOpen={drawerOpen} 
             setDrawerOpen={setDrawerOpen}
             modifyUserId = {modifyUserId}

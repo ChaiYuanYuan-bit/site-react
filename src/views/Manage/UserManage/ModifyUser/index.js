@@ -1,20 +1,27 @@
 import React,{useState,useEffect}from 'react';
-import { Drawer,Form,Select,Input,InputNumber,Button,Popconfirm } from 'antd';
+import { Drawer,Form,Select,Input,InputNumber,Button,Popconfirm,Tooltip } from 'antd';
 import { $getRole } from '../../../../api/roleApi';
-import { $getOne } from '../../../../api/userApi';
+import { $modifyUser } from '../../../../api/userApi';
 import './ModifyUser.scss'
-const ModifyUser = ({drawerOpen,setDrawerOpen,modifyUserId,modifyUserInfo}) => {
+const ModifyUser = ({drawerOpen,setDrawerOpen,modifyUserId,modifyUserInfo,sendNotification}) => {
     // 角色列表
     const [roleTypeList,setRoleTypeList] = useState([]);
-    // // 用户信息
-    // const [userInfo,setUserInfo] = useState({});
+    // 下拉框状态
+    const [selectValue,setSelectValue] = useState(0);
+    // 数字输入框状态
+    const [numberValue,setNumberValue] = useState(0);
+    // pop提醒框开关
+    const [popConfirmOpen,setPopConfirmOpen] =useState(false);
     // 表单实例
     const[form] = Form.useForm();
+    // 提交表单状态
+    const [loading,setLoading] =  useState(false);
+
     useEffect(()=>{
         loadRoleTypeList();
-        console.log(modifyUserId)
-        console.log(modifyUserInfo)
         form.resetFields();
+        setSelectValue(modifyUserInfo.roleTypeId);
+        setNumberValue(modifyUserInfo.balance);
     },[modifyUserId])
      // 加载角色类型
     const loadRoleTypeList = async ()=>{
@@ -32,12 +39,48 @@ const ModifyUser = ({drawerOpen,setDrawerOpen,modifyUserId,modifyUserInfo}) => {
     }
     //关闭抽屉
     const handleClose = ()=>{
+        form.resetFields();
         setDrawerOpen(false);
     }
+    // 提交表单
     const onFinish = async () => {
-        console.log(form.getFieldValue('roleType'))
+        if(loading)
+        {
+            return;
+        }
+        setLoading(true);
+        setPopConfirmOpen(false);
+        try {
+            const {success,message} = await $modifyUser({
+                userId:modifyUserInfo.id,
+                roleTypeId:form.getFieldValue('roleType'),
+                balance:form.getFieldValue('balance')
+            })
+            if(success)
+            {
+                sendNotification('success',message);
+                setLoading(false);
+                setDrawerOpen(false);
+                window.location.reload();
+            }
+           else{
+            setLoading(false);
+            sendNotification('error',message);
+           }
+        } catch (error) {
+            setLoading(false);
+            console.log(error.message)
+        }
     }
-
+    // 下拉框状态变化
+    const handleSelectChange =(value) => {
+        setSelectValue(value)
+    }
+    // 数字输入框状态变化
+    const handleNumberChange =(value) => {
+        setNumberValue(value)
+    }
+    
     return (
         <>
             <Drawer title="修改用户信息" placement="right" onClose={handleClose} open={drawerOpen}>
@@ -87,7 +130,9 @@ const ModifyUser = ({drawerOpen,setDrawerOpen,modifyUserId,modifyUserInfo}) => {
                 initialValue={modifyUserInfo.roleTypeId}
                 >
                 <Select 
-                options={roleTypeList}>
+                options={roleTypeList}
+                onChange={handleSelectChange}
+                >
                 </Select>
                 </Form.Item>
                 <Form.Item 
@@ -98,6 +143,7 @@ const ModifyUser = ({drawerOpen,setDrawerOpen,modifyUserId,modifyUserInfo}) => {
                 >
                 <InputNumber
                 prefix="￥"
+                onChange={handleNumberChange}
                 min={0}
                 max={100000}
                 step={1000} />
@@ -106,20 +152,25 @@ const ModifyUser = ({drawerOpen,setDrawerOpen,modifyUserId,modifyUserInfo}) => {
                 <Popconfirm
                     title="提示"
                     description="确认修改用户信息么？"
+                    open={popConfirmOpen}
                     onConfirm={onFinish}
+                    onCancel={()=>{setPopConfirmOpen(false);}}
                     okText="确定"
                     cancelText="取消"
                 >
                     <Button
                     type="primary"
+                    disabled={selectValue!==modifyUserInfo.roleTypeId||numberValue!==modifyUserInfo.balance?false:true} 
                     // htmlType="submit"
-                    // loading={true}
+                    loading={loading}
+                    onClick={()=>{setPopConfirmOpen(true)}}
                     >
-                    修改
+                    {selectValue!==modifyUserInfo.roleTypeId||numberValue!==modifyUserInfo.balance?'修改':'暂无修改项'}
                     </Button>
                 </Popconfirm>
 
-                <Button  onClick={handleClose}>取消</Button>
+                <Button 
+                onClick={handleClose}>取消</Button>
             </Drawer>
         </>
     );

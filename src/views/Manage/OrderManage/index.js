@@ -161,7 +161,6 @@ const OrderManage = () => {
         {
           title: 'ID',
           dataIndex: 'id',
-          key: 'id',
           render: (text) => <a>{text}</a>,
         },
         {
@@ -170,7 +169,7 @@ const OrderManage = () => {
           key: 'orderInfo',
           render:((orderInfo,{orderState})=>(
             <>
-                <div>
+                <div style={{maxWidth:'350px'}}>
                     <p>订单编号：{orderInfo.orderId}</p>
                     <p>下单时间：{orderInfo.orderTime}</p>
                     {orderState==='待使用'?<p>付款时间：{orderInfo.finishTime}</p>:
@@ -199,7 +198,7 @@ const OrderManage = () => {
             key: 'goodsInfo',
             render:((goodsInfo)=>(
                 <>
-                    <div>
+                    <div  style={{maxWidth:'350px'}}>
                         <p>商家名称：{goodsInfo.storeName}</p>
                         <p>{goodsInfo.storeType==='hotels'?`房间类型：${goodsInfo.comboTypeName}`:
                         `套餐类型：${goodsInfo.comboTypeName}`}</p>
@@ -236,7 +235,7 @@ const OrderManage = () => {
                 orderState==='待评价'?'#e6f4ff':'#52c41a'
             }>{orderState}</Tag>
             ))
-          },
+          }
       ];
     return (
         <>
@@ -317,6 +316,7 @@ const OrderManage = () => {
                     <div id='manager-orderInfo-content-list'>
                         <ConfigProvider renderEmpty={renderEmpty}>
                             <Table 
+                            scroll={{x: "100%"}}
                             columns={columns} 
                             dataSource={allOrders} 
                             pagination={paginationProps}

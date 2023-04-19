@@ -62,6 +62,19 @@
                 font-size: 28px;
                 color: #fff;
                 letter-spacing:2px;
+                display: flex;
+                flex-direction: row;
+                justify-content: start;
+                align-items: end;
+                .pen{
+                    margin: 0;
+                    padding: 0;
+                    margin-left: 10px;
+                    line-height: 28px;
+                    display: inline-block;
+                    cursor: pointer;
+                    filter: invert(1);
+                }
             }
             .avatar{
                 margin-left: 10px;

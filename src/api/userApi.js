@@ -31,3 +31,8 @@ export const $getAllUsers = async (params)=>{
     });
     return data;
 }
+// 修改用户个人信息
+export const $modifyUser = async (params)=>{
+    let {data} = await axiosInstance.post('/user/modifyUser',params);
+    return data;
+}
