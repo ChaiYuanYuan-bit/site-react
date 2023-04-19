@@ -27,7 +27,10 @@ const OrderManage = () => {
     // 抽屉状态
     const [drawerOpen, setDrawerOpen] = useState(false);
     // 查询输入状态
-    const [searchInput,setSearchInput] = useState({});
+    const [searchInput,setSearchInput] = useState({
+        roleTypeName:'all',
+        goodsType:'all'
+    });
 
     useEffect(()=>{
         loadOrderNum();
@@ -63,7 +66,8 @@ const OrderManage = () => {
                 "orderId_like":searchInput.orderId?searchInput.orderId:undefined,
                 "orderDetail.storeName_like":searchInput.storeName?searchInput.storeName:undefined,
                 "orderDetail.username_like":searchInput.userName?searchInput.userName:undefined,
-                "orderDetail.roleTypeName_like":searchInput.roleTypeName?searchInput.roleTypeName:undefined
+                "orderDetail.roleTypeName":searchInput.roleTypeName&&searchInput.roleTypeName!=='all'?searchInput.roleTypeName:undefined,
+                "orderDetail.goodsTypeName":searchInput.goodsType&&searchInput.goodsType!=='all'?searchInput.goodsType:undefined,
             };
             if(searchInput.orderTime!==undefined&&searchInput.orderTime[0]&&searchInput.orderTime[1])
             {
@@ -125,6 +129,11 @@ const OrderManage = () => {
     const onShowSizeChange = (current, pageSize) => {
         setpageSize(pageSize);
     };
+    // 重置搜索项
+    const handleResetInput = ()=>{
+        setSearchInput({roleTypeName:'all',goodsType:'all'});
+        form.resetFields();
+    }
     const columns = [
         {
           title: 'ID',
@@ -235,6 +244,29 @@ const OrderManage = () => {
                     />
                     </Form.Item>
                     <Form.Item
+                    label="商品类型"
+                    name="goodsType"
+                    >
+                    <Select 
+                    defaultValue={searchInput.goodsType}
+                    options={[
+                        {
+                            value:'all',label:'全部'
+                        },
+                        {
+                            value:'hotels',label:'酒店'
+                        },
+                        {
+                            value:'scenics',label:'景点'
+                        },
+                        {
+                            value:'food',label:'美食'
+                        },
+                    ]}
+                    onChange={value=>{setSearchInput({...searchInput,goodsType:value})}}
+                    />
+                    </Form.Item>
+                    <Form.Item
                     label="商家名称"
                     name="storeName"
                     >
@@ -272,8 +304,11 @@ const OrderManage = () => {
                     name="roleTypeName"
                     >
                      <Select 
-                    placeholder="请选择角色类型"
+                     defaultValue={searchInput.roleTypeName}
                     options={[
+                        {
+                            value:'all',label:'全部'
+                        },
                         {
                             value:'管理员',label:'管理员'
                         },
@@ -287,7 +322,7 @@ const OrderManage = () => {
                     onChange={value=>{setSearchInput({...searchInput,roleTypeName:value})}}
                     />
                     </Form.Item>
-                    <Button onClick={()=>{form.resetFields();setSearchInput({});}}>重置搜索</Button>
+                    <Button onClick={handleResetInput}>重置搜索</Button>
                 </Form>
                 </span>
                 
