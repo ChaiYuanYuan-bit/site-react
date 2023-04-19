@@ -10,8 +10,9 @@
     gap: 16px;
     .combo-img{
         max-height: 200px;
-        max-width: 260px;
+        max-width: 240px;
         object-fit: contain;
+        border-radius: 10px;
     };
     .choose-date{
         width: 100%;

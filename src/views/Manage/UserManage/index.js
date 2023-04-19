@@ -291,19 +291,20 @@ const UserManage = ({sendNotification}) => {
                         <Table 
                         columns={columns} 
                         dataSource={allUserInfo} 
-                        pagination={paginationProps}
+                        pagination={false}
                         />
                     </ConfigProvider>
-
-                        {/* <Pagination 
+                    </div>
+                </div>
+                <div className='content-footer'>
+                        <Pagination 
                         showTotal={(total) => `共 ${total} 项`}
                         onChange={onPageChange}
                         showSizeChanger
                         onShowSizeChange={onShowSizeChange}
                         defaultPageSize={pageSize}
                         defaultCurrent={pageIndex} 
-                        total={userNum} /> */}
-                    </div>
+                        total={userNum} />
                 </div>
             </div>
             <ModifyUser 

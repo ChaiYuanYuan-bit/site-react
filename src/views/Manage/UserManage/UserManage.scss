@@ -60,7 +60,7 @@
         width: 100%;
         margin: 18px 0px;
         flex-direction: column;
-        max-height: 500px;
+        max-height: 600px;
         overflow: scroll;
         justify-content: flex-start;
         align-items: flex-start;
@@ -70,6 +70,11 @@
         overflow-x: hidden;
         //border: 2px dashed green; 
     };
+    .content-footer{
+        margin-left: auto;
+        padding-bottom: 10px;
+        padding-right: 10px;
+    }
 }
 
     #manager-userInfo-content-list{
@@ -88,17 +93,17 @@
 
 
 
-.manager-userInfo-content::-webkit-scrollbar{
+.manager-userInfo .content::-webkit-scrollbar{
     width: 5px;
     height: 30px;
 }
 
-.manager-userInfo-content::-webkit-scrollbar-track
+.manager-userInfo .content::-webkit-scrollbar-track
 {
     background-color:#fff;
 }
 
-.manager-userInfo-content::-webkit-scrollbar-thumb
+.manager-userInfo .content::-webkit-scrollbar-thumb
 {
     border-radius:10px;
     background-color:rgba(0, 0, 0, .6);

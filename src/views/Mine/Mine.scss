@@ -60,20 +60,42 @@
             1px 0px 80px rgba(0, 0, 0, 0.04);
             .name{
                 font-size: 28px;
+                line-height: 28px;
                 color: #fff;
                 letter-spacing:2px;
                 display: flex;
                 flex-direction: row;
                 justify-content: start;
-                align-items: end;
+                align-items: flex-end;
                 .pen{
                     margin: 0;
                     padding: 0;
-                    margin-left: 10px;
-                    line-height: 28px;
-                    display: inline-block;
+                    margin-left: 30px;
+                    height: 20px;
+                    display:flex;
+                    justify-content: center;
+                    align-items: flex-end;
                     cursor: pointer;
-                    filter: invert(1);
+                    .icon{
+                        margin: 0;
+                        padding: 0;
+                        height: 20px;
+                        width: 20px;
+                        // line-height: 28px;
+                        display: inline-block;
+                        //filter: invert(1);
+                    };
+                    .text{
+                        margin: 0;
+                        margin-left: 3px;
+                        padding: 0px;
+                        font-size: 13px;
+                        height: 20px;
+                        line-height: 20px;
+                        display: inline-block;
+                        text-align: center;
+                        color: #fff;
+                    }
                 }
             }
             .avatar{

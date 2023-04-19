@@ -1,18 +1,17 @@
 import React,{ useEffect, useState }  from 'react';
 import { Outlet,useNavigate} from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { Tabs,Table,Tag,Space,Avatar, Divider, List, Skeleton,Select,Input,Tooltip,ConfigProvider,Button,Form,Collapse } from 'antd';
-import InfiniteScroll from 'react-infinite-scroll-component';
+import { Tabs,Table,Tag,Select,Input,ConfigProvider,Form,Collapse,Pagination,DatePicker,Button } from 'antd';
 import { $getOrderNum,$getOrders,$getStateType } from '../../../api/orders';
 import {renderEmpty} from '../../../utils/emptyRender'
 import './OrderManage.scss'
+
+const { RangePicker } = DatePicker;
 
 const { Panel } = Collapse;
 const OrderManage = () => {
     // 表单实例
     const [form] = Form.useForm();
-    //infinite list状态
-    const [loading, setLoading] = useState(false);
     // 用户总订单数量
     const [orderNum,setOrderNum] = useState(0);
     // 用户的订单
@@ -21,30 +20,29 @@ const OrderManage = () => {
     const [stateTypeList,setStateTypeList] = useState([]);
     // 当前所选订单状态
     const [currentStateType,setCurrentStateType] = useState('all');
-    // 下拉框状态
-    const [searchType,setSearchType] = useState('all');
-    // 输入框状态
-    const [inputState,setInputState] = useState('');
     // 当前页码
     const [pageIndex,setPageIndex] = useState(1);
     // 默认显示条数
     const [pageSize,setpageSize] = useState(15);
     // 抽屉状态
     const [drawerOpen, setDrawerOpen] = useState(false);
-    // input
-    // userId
+    // 查询输入状态
+    const [searchInput,setSearchInput] = useState({
+        roleTypeName:'all',
+        goodsType:'all'
+    });
+
     useEffect(()=>{
         loadOrderNum();
         loadAllOrders();
         loadStateTypeList();
-    },[currentStateType,inputState,pageSize,pageIndex]) 
+    },[currentStateType,pageSize,pageIndex,searchInput]) 
     // 获取总订单数量
     const loadOrderNum = async ()=>{
         try{
                 const {success,message,orderNum} = await $getOrderNum({
                 orderState:currentStateType==='all'?undefined:currentStateType,
-                searchType,
-                keyWord:inputState
+                searchInput
             });
             if(success)
             {
@@ -60,27 +58,22 @@ const OrderManage = () => {
     // 加载用户所有订单
     const loadAllOrders = async () => {
         try {
+            //添加分页查询
             let params = {
                 "_limit":pageSize,
                 "_page":pageIndex,
                 "orderState":currentStateType==='all'?undefined:currentStateType,
+                "orderId_like":searchInput.orderId?searchInput.orderId:undefined,
+                "orderDetail.storeName_like":searchInput.storeName?searchInput.storeName:undefined,
+                "orderDetail.username_like":searchInput.userName?searchInput.userName:undefined,
+                "orderDetail.roleTypeName":searchInput.roleTypeName&&searchInput.roleTypeName!=='all'?searchInput.roleTypeName:undefined,
+                "orderDetail.goodsTypeName":searchInput.goodsType&&searchInput.goodsType!=='all'?searchInput.goodsType:undefined,
             };
-            //添加分页查询
-            switch(searchType)
+            if(searchInput.orderTime!==undefined&&searchInput.orderTime[0]&&searchInput.orderTime[1])
             {
-                case 'all':break;
-                case 'userName':
-                    params = {...params,"orderDetail.username_like":inputState?inputState:undefined};
-                    break;
-                case 'storeName':
-                    params = {...params,"orderDetail.storeName_like":inputState?inputState:undefined};
-                    break;
-                case 'orderId':
-                    params = {...params,"orderId_like":inputState?inputState:undefined};
-                    break;
+                params = {...params,"orderTime_gte":searchInput.orderTime[0],"orderTime_lte":searchInput.orderTime[1]};
             }
             let data = await $getOrders(params)
-            // console.log(data)
             data = data.map(item=>({
                 id:item.id,
                 orderInfo:{
@@ -128,17 +121,6 @@ const OrderManage = () => {
         setCurrentStateType(value);
         
     }
-    // 下拉框状态
-    const onSelectChange = (value) => {
-        // console.log(value)
-        setSearchType(value);
-        form.resetFields();
-        setInputState('');
-    }
-    // 输入框状态
-    const onInputChange = (event) =>{
-        setInputState(event.target.value.trim())
-    }
     //页脚
     const onPageChange = (current) => {
         setPageIndex(current);
@@ -147,16 +129,11 @@ const OrderManage = () => {
     const onShowSizeChange = (current, pageSize) => {
         setpageSize(pageSize);
     };
-    // 页脚设置
-    const paginationProps = {
-        showTotal:(total) => `共 ${total} 项`,
-        onChange: onPageChange,
-        showSizeChanger: true,
-        onShowSizeChange: onShowSizeChange,
-        defaultPageSize: pageSize,
-        defaultCurrent: pageIndex,
-        total:orderNum
-    };
+    // 重置搜索项
+    const handleResetInput = ()=>{
+        setSearchInput({roleTypeName:'all',goodsType:'all'});
+        form.resetFields();
+    }
     const columns = [
         {
           title: 'ID',
@@ -250,54 +227,105 @@ const OrderManage = () => {
                 </Collapse>
                 </div>
                 <div className='select-tag'>
-                    <span className='myselect'> <Select
-                    style={{width:'100%'}}
-                showSearch
-                defaultActiveFirstOption
-                defaultValue={searchType}
-                optionFilterProp="children"
-                onChange={onSelectChange}
-                filterOption={(input, option) =>
-                (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
-                }
-                options={[
-                    {
-                        value: 'all',
-                        label: '全部',
-                    },
-                {
-                    value: 'storeName',
-                    label: '商家名称',
-                },
-                {
-                    value: 'userName',
-                    label: '用户名称',
-                },
-                {
-                    value: 'orderId',
-                    label: '订单号',
-                },
-                ]}
-                /></span>
-               <span className='myform'>  <Form
+                <Form
                 name="search"
                 form={form}
                 >
+                    <div >
                     <Form.Item
-                    label="查询"
-                    name="search"
+                    label="角色类型"
+                    name="roleTypeName"
+                    >
+                     <Select 
+                     defaultValue={searchInput.roleTypeName}
+                    options={[
+                        {
+                            value:'all',label:'全部'
+                        },
+                        {
+                            value:'管理员',label:'管理员'
+                        },
+                        {
+                            value:'普通员工',label:'普通员工'
+                        },
+                        {
+                            value:'未授权',label:'未授权'
+                        },
+                    ]}
+                    onChange={value=>{setSearchInput({...searchInput,roleTypeName:value})}}
+                    />
+                    </Form.Item>
+                    <Form.Item
+                    label="商品类型"
+                    name="goodsType"
+                    >
+                    <Select 
+                    defaultValue={searchInput.goodsType}
+                    options={[
+                        {
+                            value:'all',label:'全部'
+                        },
+                        {
+                            value:'hotels',label:'酒店'
+                        },
+                        {
+                            value:'scenics',label:'景点'
+                        },
+                        {
+                            value:'food',label:'美食'
+                        },
+                    ]}
+                    onChange={value=>{setSearchInput({...searchInput,goodsType:value})}}
+                    />
+                    </Form.Item>
+                    <Form.Item
+                    label="用户名称"
+                    name="userName"
                     >
                      <Input 
                     allowClear
-                    value={inputState}
-                    placeholder="搜索"
-                    onChange={onInputChange}
-                    disabled={searchType==='all'?true:false}
+                    placeholder="请输入用户名称"
+                    onChange={event=>setSearchInput({...searchInput,userName:event.target.value.trim()})}
                     />
                     </Form.Item>
-                </Form></span>
-              
-                </div>
+                    </div>
+                    <div className='form-right'>
+                    <Form.Item
+                    label="下单时间"
+                    name="orderTime"
+                    >
+                      <RangePicker
+                        placeholder={['开始时间','结束时间']}
+                        showTime={{
+                            format: 'HH:mm',
+                        }}
+                        format="YYYY-MM-DD HH:mm"
+                        onChange={(_,dataString)=>{setSearchInput({...searchInput,orderTime:dataString})}}
+                        />
+                    </Form.Item>
+                    <Form.Item
+                    label="订单搜索"
+                    name="orderSearch"
+                    >
+                     <Input 
+                    allowClear
+                    placeholder="请输入订单编号"
+                    onChange={event=>setSearchInput({...searchInput,orderId:event.target.value.trim()})}
+                    />
+                    </Form.Item>
+                    <Form.Item
+                    label="商家名称"
+                    name="storeName"
+                    >
+                     <Input 
+                    allowClear
+                    placeholder="请输入商家名称"
+                    onChange={event=>setSearchInput({...searchInput,storeName:event.target.value.trim()})}
+                    />
+                    </Form.Item>
+                    </div>
+                    <Button onClick={handleResetInput} className='reset-btn'>重置搜索</Button>
+                </Form></div>
                 <Tabs className='tab'
                 tabBarGutter={50}
                 defaultActiveKey={currentStateType}
@@ -319,19 +347,20 @@ const OrderManage = () => {
                             scroll={{x: "100%"}}
                             columns={columns} 
                             dataSource={allOrders} 
-                            pagination={paginationProps}
-                            stateTypeList = {stateTypeList}
+                            pagination={false}
                             />
                         </ConfigProvider>
                     </div>
-                        {/* <Pagination 
+                </div>
+                <div className='content-footer'>
+                    <Pagination 
                         showTotal={(total) => `共 ${total} 项`}
                         onChange={onPageChange}
                         showSizeChanger
                         onShowSizeChange={onShowSizeChange}
                         defaultPageSize={pageSize}
                         defaultCurrent={pageIndex} 
-                        total={userNum} /> */}
+                        total={orderNum} />
                 </div>
             </div>
             <Outlet/>

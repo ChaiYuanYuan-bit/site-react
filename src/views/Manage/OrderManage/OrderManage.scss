@@ -25,29 +25,30 @@
     overflow-x: hidden;
     .header-info{
         //padding-left: 12px;
-        
         width: 100%;
     };
     .select-tag{
         padding-top: 30px;
-        padding-left: 10px;
+        padding-left: 18px;
         padding-right: 18px;
-        width: 60%;
-        min-width: 600px;
+        width: 100% !important;
+        min-width: 930px;
         display: flex;
         flex-direction: row;
         align-self: flex-start;
         flex-wrap: wrap;
-        .myselect{
-            flex: 1;
-        }
-        .myform{
+        .ant-form {
             flex: 3;
-        }
-        span:not(:last-child){
-            margin-right: 10px;
-        }
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            //gap: 20px;
+            .reset-btn{
+                margin-right: 30px;
+            }
+        };
     };
+    
     .tab{
         width: 100%;
         padding-left:15px;
@@ -59,7 +60,7 @@
         display: flex;
         flex: 1;
         width: 100%;
-        max-height: 500px;
+        max-height: 600px;
         overflow: scroll;
         flex-direction: column;
         justify-content: flex-start;
@@ -69,6 +70,11 @@
         overflow-y: auto;
         overflow-x: hidden;
         //border: 2px dashed green; 
+    };
+    .content-footer{
+        margin-left: auto;
+        padding-bottom: 10px;
+        padding-right: 10px;
     }
 }
 #manager-orderInfo-content-list{
@@ -97,17 +103,29 @@
 }
 
 
-.manager-orderInfo-content::-webkit-scrollbar{
+.ant-btn-default {
+    background-color: #1677ff;
+    border-color: #ffffff;
+    color: #ffffff;
+    box-shadow: 0 2px 0 rgba(0, 0, 0, 0.02);
+}
+.ant-btn-default:not(:disabled):hover {
+    background-color: #4096ff;
+    color: #fff;
+}
+
+
+.manager-orderInfo .content::-webkit-scrollbar{
     width: 5px;
     height: 30px;
 }
 
-.manager-orderInfo-content::-webkit-scrollbar-track
+.manager-orderInfo .content::-webkit-scrollbar-track
 {
     background-color:#fff;
 }
 
-.manager-orderInfo-content::-webkit-scrollbar-thumb
+.manager-orderInfo .content::-webkit-scrollbar-thumb
 {
     border-radius:10px;
     background-color:rgba(0, 0, 0, .6);
