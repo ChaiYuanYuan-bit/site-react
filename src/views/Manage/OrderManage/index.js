@@ -268,7 +268,7 @@ const OrderManage = () => {
                      <Input allowClear placeholder="请输入商家名称" onChange={event=>setSearchInput({...searchInput,storeName:event.target.value.trim()})}/>
                     </Form.Item>
                     </div>
-                    <Button onClick={handleResetInput} className='reset-btn'>重置搜索</Button>
+                    <Button onClick={handleResetInput} className='reset-btn' type='primary'>重置搜索</Button>
                 </Form></div>
                 <Tabs className='tab'
                 tabBarGutter={50}
