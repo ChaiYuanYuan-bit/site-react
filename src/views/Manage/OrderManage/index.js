@@ -75,6 +75,7 @@ const OrderManage = () => {
             }
             let data = await $getOrders(params)
             data = data.map(item=>({
+                key:item.id,
                 id:item.id,
                 orderInfo:{
                     orderId:item.orderId,
@@ -235,9 +236,10 @@ const OrderManage = () => {
                     <Form.Item
                     label="角色类型"
                     name="roleTypeName"
+                    initialValue={searchInput.roleTypeName}
                     >
                      <Select 
-                     defaultValue={searchInput.roleTypeName}
+                    //  defaultValue={searchInput.roleTypeName}
                     options={[
                         {
                             value:'all',label:'全部'
@@ -258,9 +260,10 @@ const OrderManage = () => {
                     <Form.Item
                     label="商品类型"
                     name="goodsType"
+                    initialValue={searchInput.goodsType}
                     >
                     <Select 
-                    defaultValue={searchInput.goodsType}
+                    // defaultValue={searchInput.goodsType}
                     options={[
                         {
                             value:'all',label:'全部'

@@ -77,11 +77,12 @@ const Mine = ({sendNotification}) => {
             
         }
     }
+    // 标签栏切换处理
     const handleTagChange = (value)=>{
-        console.log(value)
         setCurrentStateType(value);
         
     }
+    // 去支付
     const handleToPay = (orderId)=>{
         navigate(`/home/mine/pay`,{
             replace:true,
@@ -108,7 +109,7 @@ const Mine = ({sendNotification}) => {
                     </div>
                     <div className='bottomInfo'>
                         <span>钱包余额：{userInfo.balance}元</span>
-                        <span>优惠券：</span>
+                        <span>优惠券：<a title='即将开放'>{0}</a></span>
                     </div>
                 </div>
                 <Tabs className='tab'
