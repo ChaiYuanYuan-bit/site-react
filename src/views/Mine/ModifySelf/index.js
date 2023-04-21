@@ -27,7 +27,6 @@ const ModifySelf = ({drawerOpen,setDrawerOpen,sendNotification}) => {
 
     useEffect(()=>{
         loadRoleTypeList();
-        form.resetFields();
         setInputUserName(userInfo.username);
         setInputPhone(userInfo.phone);
         setInputEmail(userInfo.email);
@@ -108,15 +107,13 @@ const ModifySelf = ({drawerOpen,setDrawerOpen,sendNotification}) => {
                 <Form.Item 
                 label="用户名："
                 name="username"
-                allowClear
                 initialValue={userInfo.username}
                 >
-                <Input onChange={(event)=>{setInputUserName(event.target.value.trim())}}/>
+                <Input allowClear onChange={(event)=>{setInputUserName(event.target.value.trim())}}/>
                 </Form.Item>
                 <Form.Item 
                 label="电话："
                 name="phone"
-                allowClear
                 initialValue={userInfo.phone}
                 rules={[
                     {
@@ -139,12 +136,11 @@ const ModifySelf = ({drawerOpen,setDrawerOpen,sendNotification}) => {
                     }),
                   ]}
                 >
-                <Input onChange={(event)=>{setInputPhone(event.target.value.trim())}}/>
+                <Input allowClear onChange={(event)=>{setInputPhone(event.target.value.trim())}}/>
                 </Form.Item>
                 <Form.Item 
                 label="邮箱："
                 name="email"
-                allowClear
                 initialValue={userInfo.email}
                 rules={[
                     {
@@ -153,7 +149,7 @@ const ModifySelf = ({drawerOpen,setDrawerOpen,sendNotification}) => {
                     }
                 ]}
                 >
-                <Input onChange={(event)=>{setInputEmail(event.target.value.trim())}}/>
+                <Input allowClear onChange={(event)=>{setInputEmail(event.target.value.trim())}}/>
                 </Form.Item>
                 <Form.Item 
                 label="角色："

@@ -44,7 +44,7 @@ function App() {
     dispatch(setMsg({msg:{type,description}}));
     setTimeout(()=>{
       clearNotification();
-    },50)
+    },200)
   }
   // 重置全局消息框
   const clearNotification = ()=>{

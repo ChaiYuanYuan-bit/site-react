@@ -1,5 +1,5 @@
-import React,{useEffect} from 'react';
-import {Layout,Card} from 'antd'
+import React from 'react';
+import {Card} from 'antd'
 import './CardGroup.scss'
 
 const { Meta } = Card;

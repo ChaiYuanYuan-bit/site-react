@@ -74,6 +74,7 @@ const OrderManage = () => {
             }
             let data = await $getOrders(params)
             data = data.map(item=>({
+                key:item.id,
                 id:item.id,
                 orderInfo:{
                     orderId:item.orderId,
@@ -224,7 +225,6 @@ const OrderManage = () => {
                     <Form.Item label="角色类型" name="roleTypeName"
                     >
                      <Select 
-                     defaultValue={searchInput.roleTypeName}
                     options={[{value:'all',label:'全部'},
                         {value:'管理员',label:'管理员'},
                         {value:'普通员工',label:'普通员工'},
@@ -235,9 +235,10 @@ const OrderManage = () => {
                     <Form.Item
                     label="商品类型"
                     name="goodsType"
+                    initialValue={searchInput.goodsType}
                     >
                     <Select 
-                    defaultValue={searchInput.goodsType}
+                    // defaultValue={searchInput.goodsType}
                     options={[{value:'all',label:'全部'},
                         {value:'hotels',label:'酒店'},
                         {value:'scenics',label:'景点'},
@@ -288,7 +289,7 @@ const OrderManage = () => {
                     </div>
                 </div>
                 <div className='content-footer'>
-                    <Pagination showTotal={(total) => `共 ${total} 项`}onChange={onPageChange} showSizeChanger onShowSizeChange={onShowSizeChange} defaultPageSize={pageSize} defaultCurrent={pageIndex} total={orderNum} />
+                    <Pagination showTotal={(total) => `共 ${total} 项`}onChange={onPageChange} showSizeChanger onShowSizeChange={onShowSizeChange} defaultPageSize={pageSize} current={pageIndex} total={orderNum} />
                 </div>
             </div>
             <Outlet/>

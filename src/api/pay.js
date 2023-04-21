@@ -2,7 +2,6 @@ import axiosInstance from '../utils/request'
 
 //验证密码
 export const $verifyPWD = async (params)=>{
-    console.log(params)
     let {data} = await axiosInstance.post('/pay/verifyPWD',params);
     return data;
 };

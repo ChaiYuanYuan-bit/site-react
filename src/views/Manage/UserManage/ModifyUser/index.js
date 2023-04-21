@@ -23,7 +23,7 @@ const ModifyUser = ({drawerOpen,setDrawerOpen,modifyUserId,modifyUserInfo,sendNo
         form.resetFields();
         setSelectValue(modifyUserInfo.roleTypeId);
         setNumberValue(modifyUserInfo.balance);
-    },[modifyUserId])
+    },[modifyUserId,])
      // 加载角色类型
     const loadRoleTypeList = async ()=>{
         try {
@@ -40,8 +40,8 @@ const ModifyUser = ({drawerOpen,setDrawerOpen,modifyUserId,modifyUserInfo,sendNo
     }
     //关闭抽屉
     const handleClose = ()=>{
-        form.resetFields();
         setDrawerOpen(false);
+        form.resetFields();
     }
     // 提交表单
     const onFinish = async () => {
@@ -62,7 +62,9 @@ const ModifyUser = ({drawerOpen,setDrawerOpen,modifyUserId,modifyUserInfo,sendNo
                 sendNotification('success',message);
                 setLoading(false);
                 setDrawerOpen(false);
-                window.location.reload();
+                setTimeout(()=>{
+                    window.location.reload();
+                },200)
             }
            else{
             setLoading(false);
@@ -94,9 +96,6 @@ const ModifyUser = ({drawerOpen,setDrawerOpen,modifyUserId,modifyUserInfo,sendNo
                 wrapperCol={{
                 span: 16,
                 }}
-                initialValues={{
-                    remember: false,
-                    }}
                 size='middle'
                 style={{
                     maxWidth: 600,
