@@ -62,7 +62,9 @@ const ModifyUser = ({drawerOpen,setDrawerOpen,modifyUserId,modifyUserInfo,sendNo
                 sendNotification('success',message);
                 setLoading(false);
                 setDrawerOpen(false);
-                window.location.reload();
+                setTimeout(()=>{
+                    window.location.reload();
+                },200)
             }
            else{
             setLoading(false);

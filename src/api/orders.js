@@ -3,7 +3,6 @@ import qs from 'qs'
 
 //确认订单
 export const $addOrder = async (params)=>{
-    console.log(params)
     let {data} = await axiosInstance.post('order/addOrder',params);
     return data;
 };

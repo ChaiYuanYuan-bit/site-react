@@ -260,22 +260,12 @@ const UserManage = ({sendNotification}) => {
                     label="查询"
                     name="search"
                     >
-                     <Input 
-                    allowClear
-                    value={inputState}
-                    placeholder="搜索"
-                    onChange={onInputChange}
-                    disabled={searchType==='all'?true:false}
+                     <Input allowClearvalue={inputState} placeholder="搜索" onChange={onInputChange} disabled={searchType==='all'?true:false}
                     />
                     </Form.Item>
                 </Form></span>
                 </div>
-
-                <Tabs className='tab'
-                tabBarGutter={50}
-                defaultActiveKey={currentUserType}
-                onChange={handleTagChange}
-                items={ userType.map((item) => {
+                <Tabs className='tab'tabBarGutter={50} defaultActiveKey={currentUserType} onChange={handleTagChange} items={ userType.map((item) => {
                     return {
                     label: (
                         <span>
@@ -288,31 +278,16 @@ const UserManage = ({sendNotification}) => {
                 <div className='content'>
                     <div id='manager-userInfo-content-list'>
                     <ConfigProvider renderEmpty={renderEmpty}>
-                        <Table 
-                        columns={columns} 
-                        dataSource={allUserInfo} 
-                        pagination={false}
+                        <Table  columns={columns}  dataSource={allUserInfo}  pagination={false}
                         />
                     </ConfigProvider>
                     </div>
                 </div>
                 <div className='content-footer'>
-                        <Pagination 
-                        showTotal={(total) => `共 ${total} 项`}
-                        onChange={onPageChange}
-                        showSizeChanger
-                        onShowSizeChange={onShowSizeChange}
-                        defaultPageSize={pageSize}
-                        current={pageIndex} 
-                        total={userNum} />
+                        <Pagination showTotal={(total) => `共 ${total} 项`} onChange={onPageChange} showSizeChanger onShowSizeChange={onShowSizeChange} defaultPageSize={pageSize} current={pageIndex}  total={userNum} />
                 </div>
             </div>
-            <ModifyUser 
-            sendNotification = {sendNotification}
-            drawerOpen={drawerOpen} 
-            setDrawerOpen={setDrawerOpen}
-            modifyUserId = {modifyUserId}
-            modifyUserInfo = {modifyUserInfo}
+            <ModifyUser  sendNotification = {sendNotification} drawerOpen={drawerOpen}  setDrawerOpen={setDrawerOpen} modifyUserId = {modifyUserId} modifyUserInfo = {modifyUserInfo}
             />
             <Outlet/>
         </>

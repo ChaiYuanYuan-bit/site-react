@@ -38,7 +38,7 @@ const Pay = ({sendNotification}) => {
             });
             if(sessionStorage.getItem('path')&&!sessionStorage.getItem('path').indexOf('mall')===-1)
             {
-                console.log(!sessionStorage.getItem('path').indexOf('mall'))
+                // console.log(!sessionStorage.getItem('path').indexOf('mall'))
                 window.location.reload()
             }
             sendNotification('info','订单详情请查看 “我的-订单信息”');
@@ -84,7 +84,7 @@ const Pay = ({sendNotification}) => {
             .catch(error=>{
                 setCancelState('error');
                 resolve(null);
-                console.log(error.message);
+                // console.log(error.message);
                 sendNotification('error',error.message)
                 setTimeout(()=>{
                     setPopOpen(false);
@@ -140,7 +140,7 @@ const Pay = ({sendNotification}) => {
             }
             else{
                 setVerifiedState('error');
-                console.log(message)
+                // console.log(message)
             }
         } catch (err) {
             setVerifiedState('wait');
