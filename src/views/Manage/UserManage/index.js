@@ -213,7 +213,7 @@ const UserManage = ({sendNotification}) => {
                 <div className='header-info'>
                     <Collapse defaultActiveKey={['1']} >
                         <Panel header="操作提示" key='1'>
-                            <p>*用户状态有：管理员，普通员工，未授权用户，未授权用户禁止登陆账号购买商品。</p>
+                            <p>*用户角色有：管理员，普通员工，未授权用户，未授权用户禁止登陆账号购买商品。</p>
                             <p>*管理员可以更改用户状态（授权登录），对普通员工的账户余额进行更改。</p>
                             <p>*查询方式有：（不区分大小写）用户名检索，电话称检索，邮箱检索。</p>
                         </Panel>
