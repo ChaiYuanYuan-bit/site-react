@@ -52,6 +52,20 @@ const ModifySelf = ({drawerOpen,setDrawerOpen,sendNotification}) => {
     }
     // 提交表单
     const onFinish = async () => {
+        if(!form.getFieldValue('phone').trim())
+        {
+            sendNotification('info','电话号不能为空');
+            setDrawerOpen(false);
+            setPopConfirmOpen(true);
+            return;
+        }
+        if(!form.getFieldValue('email').trim())
+        {
+            sendNotification('info','有效不能为空');
+            setDrawerOpen(false);
+            setPopConfirmOpen(true);
+            return;
+        }
         if(loading)
         {
             return;
@@ -109,7 +123,7 @@ const ModifySelf = ({drawerOpen,setDrawerOpen,sendNotification}) => {
                 name="username"
                 initialValue={userInfo.username}
                 >
-                <Input allowClear onChange={(event)=>{setInputUserName(event.target.value.trim())}}/>
+                <Input disabled onChange={(event)=>{setInputUserName(event.target.value.trim())}}/>
                 </Form.Item>
                 <Form.Item 
                 label="电话："
