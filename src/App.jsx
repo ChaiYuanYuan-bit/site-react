@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import jwtDecode from "jwt-decode";
 import { setInfo } from "./redux/UserInfo";
 import { setMsg } from "./redux/Notification";
-import { $getOne } from "./api/userApi";
+import { $getOne } from "./api/user";
 import GlobalNotification from './components/GlobalNotification'
 import routes from "./routes";
 
@@ -55,7 +55,7 @@ function App() {
 },[]);
   
   //路由组件
-  const element = useRoutes(routes({loadUserInfo,sendNotification}));
+  const element = useRoutes(routes({sendNotification}));
   return (
     <>
       {element}

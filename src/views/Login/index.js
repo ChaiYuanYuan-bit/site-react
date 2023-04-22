@@ -4,8 +4,7 @@ import {useNavigate} from 'react-router-dom';
 import {ShoppingCartOutlined,UserOutlined,LockOutlined} from '@ant-design/icons';
 import { Button, Form, Input } from "antd";
 import encrypt from '../../utils/encrypt'
-import {$login} from '../../api/userApi'
-import { $getOne } from "../../api/userApi";
+import { $login, $getOne } from '../../api/user'
 import { setMsg } from "../../redux/Notification";
 import jwtDecode from "jwt-decode";
 import { setInfo } from "../../redux/UserInfo";

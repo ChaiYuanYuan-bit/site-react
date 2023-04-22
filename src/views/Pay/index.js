@@ -67,10 +67,7 @@ const Pay = ({sendNotification}) => {
                         {
                             replace:true
                         });
-                        if(sessionStorage.getItem('path')&&!sessionStorage.getItem('path').indexOf('mall')===-1)
-                        {
-                            window.location.reload()
-                        }
+                        window.location.reload()
                     },500)
                 }
                 else{
@@ -127,10 +124,7 @@ const Pay = ({sendNotification}) => {
                         {
                             replace:true
                         });
-                        if(sessionStorage.getItem('path')&& sessionStorage.getItem('path').indexOf('mall')===-1)
-                        {
-                            window.location.reload()
-                        }
+                        window.location.reload();
                     },500);
                 }
                 else{

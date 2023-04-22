@@ -4,7 +4,7 @@ import CardGroup from '../../components/CardGroup';
 import NavGroup from '../../components/NavGroup';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { $getGoodsType,$getItems } from '../../api/mall';
-import './mall.scss'
+import './Mall.scss'
 
 
 const Mall = ({sendNotification}) => {
