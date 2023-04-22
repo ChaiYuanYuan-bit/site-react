@@ -1,9 +1,8 @@
 import React,{ useEffect, useState }  from 'react';
-import { Outlet,useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { Tag,Tabs,Space,Select,Table,Input,Tooltip,ConfigProvider,Button,Form,Pagination,Drawer,Collapse } from 'antd';
-import { $getRole } from '../../../api/roleApi';
-import {$getUserNum,$getAllUsers} from '../../../api/userApi'
+import { Outlet } from 'react-router-dom';
+import { Tag,Tabs,Space,Select,Table,Input,ConfigProvider,Form,Pagination,Collapse } from 'antd';
+import { $getRole } from '../../../api/role';
+import {$getUserNum,$getAllUsers} from '../../../api/user'
 import {renderEmpty} from '../../../utils/emptyRender'
 import ModifyUser from './ModifyUser';
 import './UserManage.scss'

@@ -12,7 +12,6 @@ import {
   } from '@ant-design/icons';
 import { Layout, Menu,Button} from 'antd';
 import { useNavigate,Outlet } from 'react-router-dom';
-import jwtDecode from 'jwt-decode';
 import { useSelector } from 'react-redux';
 import './Layout.scss'
 

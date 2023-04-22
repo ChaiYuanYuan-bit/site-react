@@ -223,8 +223,10 @@ const OrderManage = () => {
                 >
                     <div >
                     <Form.Item label="角色类型" name="roleTypeName"
+
                     >
                      <Select 
+                     defaultValue={searchInput.roleTypeName}
                     options={[{value:'all',label:'全部'},
                         {value:'管理员',label:'管理员'},
                         {value:'普通员工',label:'普通员工'},
@@ -235,10 +237,10 @@ const OrderManage = () => {
                     <Form.Item
                     label="商品类型"
                     name="goodsType"
-                    initialValue={searchInput.goodsType}
+                    // initialValue={searchInput.goodsType}
                     >
                     <Select 
-                    // defaultValue={searchInput.goodsType}
+                    defaultValue={searchInput.goodsType}
                     options={[{value:'all',label:'全部'},
                         {value:'hotels',label:'酒店'},
                         {value:'scenics',label:'景点'},

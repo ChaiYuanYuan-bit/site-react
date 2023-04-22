@@ -1,9 +1,9 @@
 import React,{useState,useEffect}from 'react';
 import { useSelector } from 'react-redux';
 import { Drawer,Form,Select,Input,InputNumber,Button,Popconfirm } from 'antd';
-import { $getRole } from '../../../api/roleApi';
-import { $modifySelf } from '../../../api/userApi';
-import { pwd_regex, phone_regex } from '../../../config';
+import { $getRole } from '../../../api/role';
+import { $modifySelf } from '../../../api/user';
+import { phone_regex } from '../../../config';
 import './ModifySelf.scss'
 const ModifySelf = ({drawerOpen,setDrawerOpen,sendNotification}) => {
     // 角色列表

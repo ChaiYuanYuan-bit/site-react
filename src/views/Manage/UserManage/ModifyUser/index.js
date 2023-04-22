@@ -1,7 +1,7 @@
 import React,{useState,useEffect}from 'react';
 import { Drawer,Form,Select,Input,InputNumber,Button,Popconfirm,Tooltip } from 'antd';
-import { $getRole } from '../../../../api/roleApi';
-import { $modifyUser } from '../../../../api/userApi';
+import { $getRole } from '../../../../api/role';
+import { $modifyUser } from '../../../../api/user';
 import './ModifyUser.scss'
 
 const ModifyUser = ({drawerOpen,setDrawerOpen,modifyUserId,modifyUserInfo,sendNotification}) => {

@@ -3,7 +3,7 @@ import {Button,Form, Input, Select} from 'antd'
 import {LeftOutlined} from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import { pwd_regex, phone_regex } from '../../config';
-import { $getRole,$regUser } from '../../api/roleApi';
+import { $getRole,$regUser } from '../../api/role';
 import encrypt from '../../utils/encrypt'
 import "./Register.scss";
 
