@@ -4,7 +4,7 @@ import { $getRole } from '../../../../api/role';
 import { $modifyUser } from '../../../../api/user';
 import './ModifyUser.scss'
 
-const ModifyUser = ({drawerOpen,setDrawerOpen,modifyUserId,modifyUserInfo,sendNotification}) => {
+const ModifyUser = ({drawerOpen,setDrawerOpen,modifyUserId,modifyUserInfo,sendNotification,loadUserNum,loadAllUsers}) => {
     // 角色列表
     const [roleTypeList,setRoleTypeList] = useState([]);
     // 下拉框状态
@@ -63,15 +63,18 @@ const ModifyUser = ({drawerOpen,setDrawerOpen,modifyUserId,modifyUserInfo,sendNo
                 setLoading(false);
                 setDrawerOpen(false);
                 setTimeout(()=>{
-                    window.location.reload();
+                    loadUserNum();
+                    loadAllUsers();
                 },200)
             }
            else{
             setLoading(false);
             sendNotification('error',message);
+            setDrawerOpen(false);
            }
         } catch (error) {
             setLoading(false);
+            setDrawerOpen(false);
             console.log(error.message)
         }
     }
@@ -125,7 +128,7 @@ const ModifyUser = ({drawerOpen,setDrawerOpen,modifyUserId,modifyUserInfo,sendNo
                 <Input title='不可修改' disabled={true}/>
                 </Form.Item>
                 <Form.Item 
-                label="角色："
+                label="权限："
                 name="roleType"
                 initialValue={modifyUserInfo.roleTypeId}
                 >

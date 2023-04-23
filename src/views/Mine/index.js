@@ -141,7 +141,7 @@ const Mine = ({sendNotification}) => {
                             active
                         />
                         }
-                        endMessage={<Divider plain>没有更多订单啦 🤐</Divider>}
+                        endMessage={<Divider plain>{orderNum>0?'没有更多订单啦 🤐':'快去下单吧 🤐'}</Divider>}
                         scrollableTarget="content"
                         >
                             <ConfigProvider renderEmpty={renderEmpty}>
@@ -153,7 +153,9 @@ const Mine = ({sendNotification}) => {
                                     actions={item.orderState==='payed'?
                                     [<h3>待使用</h3>]:item.orderState==='unpay'?
                                     [<a onClick={()=>{handleToPay(item.orderId)}}>去付款</a>]:item.orderState==='canceled'?
-                                    [<h3>已取消</h3>]:<></>}
+                                    [<h3>已取消</h3>]:item.orderState==='used'?
+                                    [<a title='即将开放'>去评价</a>]:item.orderState==='finished'?
+                                    [<h3>已完成</h3>]:<></>}
                                     >
                                     <List.Item.Meta
                                         avatar={<Avatar src={item.orderDetail.comboImgUrl} />}
@@ -161,11 +163,8 @@ const Mine = ({sendNotification}) => {
                                         description={
                                         <div>
                                             <Divider dashed />
-                                            {/* <img src="" alt=""> */}
                                             <p>商家地址：{item.orderDetail.location}</p>
                                             <p>套餐类型：{item.orderDetail.comboTypeName}</p> 
-                                            {/* <p>{item.orderDetail.comboIntro}</p> */}
-                                            {/* <p>支付方式：余额支付</p> */}
                                             <p>下单时间：{item.orderTime}</p>
                                             <p>订单编号：{item.orderId}</p>
                                             <br/>

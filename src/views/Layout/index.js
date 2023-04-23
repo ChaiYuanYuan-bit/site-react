@@ -183,7 +183,7 @@ export default () => {
             </Content>
             <div className='footer'>
             <div>本网站为：携程前端训练营-结营大作业</div>
-            <div>Create by Group：“SHU高材生”  |  Group Member： 柴园园 & 卞钟晗</div>
+            <div>Team Name：“SHU高材生”  |  Team Members： 柴园园 & 卞钟晗</div>
             </div>
           </Layout>
       </Layout>

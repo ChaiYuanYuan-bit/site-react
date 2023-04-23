@@ -45,6 +45,7 @@ const OrderManage = () => {
             });
             if(success)
             {
+                console.log(orderNum)
                 setOrderNum(orderNum);
             }
             else{
@@ -72,8 +73,9 @@ const OrderManage = () => {
             {
                 params = {...params,"orderTime_gte":searchInput.orderTime[0],"orderTime_lte":searchInput.orderTime[1]};
             }
-            let data = await $getOrders(params)
-            data = data.map(item=>({
+            const data = await $getOrders(params)
+            console.log(data)
+            const new_data = data.map(item=>({
                 key:item.id,
                 id:item.id,
                 orderInfo:{
@@ -101,7 +103,8 @@ const OrderManage = () => {
                 },
                 orderState:item.orderStateName,
             }))
-            setAllOrders(data)
+            // setAllOrders([])
+            setAllOrders(new_data)
         } catch (error) {
             console.log(error.message)
         }
@@ -161,7 +164,7 @@ const OrderManage = () => {
                 <div>
                     <p>用户ID：{userInfo.userId}</p>
                     <p>用户名称：{userInfo.username}</p>
-                    <p>用户类型：{userInfo.roleTypeName}</p>
+                    <p>用户权限：{userInfo.roleTypeName}</p>
                 </div>
             </>
           ))
@@ -199,7 +202,7 @@ const OrderManage = () => {
             key: 'orderState',
             align:'center',
             render:((orderState)=>(
-                <Tag color={orderState==='待付款'?'#faad14' :orderState==='待使用'?'#b7eb8f':orderState==='已取消'?'#d9d9d9':orderState==='待评价'?'#e6f4ff':'#52c41a'
+                <Tag color={orderState==='待付款'?'#faad14' :orderState==='待使用'?'#b7eb8f':orderState==='已取消'?'#d9d9d9':orderState==='待评价'?'#FF8C00':'#52c41a'
             }>{orderState}</Tag>
             ))
           }
@@ -212,7 +215,7 @@ const OrderManage = () => {
                     <Panel header="操作提示" key='1'>
                         <p>*订单状态有：待付款，待使用，已取消，待评价，已完成</p>
                         <p>*待付款订单取消后则为已关闭，待付款订单支付后则为待使用，待使用订单核销后即为待评价，待评价订单评价完成后即为已完成。</p>
-                        <p>*查询方式有：（不区分大小写）商家名称检索，用户名称检索，订单号检索。</p>
+                        <p>*查询条件有：角色类型筛选、商品类型筛选、（不区分大小写）用户名称检索、下单时间检索、商家名称检索、订单号检索。</p>
                     </Panel>
                 </Collapse>
                 </div>
@@ -223,7 +226,7 @@ const OrderManage = () => {
                 >
                     <div >
                     <Form.Item label="角色类型" name="roleTypeName"
-
+                        // initialValue={searchInput.roleTypeName}
                     >
                      <Select 
                      defaultValue={searchInput.roleTypeName}
@@ -231,7 +234,7 @@ const OrderManage = () => {
                         {value:'管理员',label:'管理员'},
                         {value:'普通员工',label:'普通员工'},
                         {value:'未授权',label:'未授权'},]}
-                    onChange={value=>{setSearchInput({...searchInput,roleTypeName:value})}}
+                    onChange={value=>{setPageIndex(1);setSearchInput({...searchInput,roleTypeName:value})}}
                     />
                     </Form.Item>
                     <Form.Item
@@ -245,30 +248,30 @@ const OrderManage = () => {
                         {value:'hotels',label:'酒店'},
                         {value:'scenics',label:'景点'},
                         {value:'food',label:'美食'},]}
-                    onChange={value=>{setSearchInput({...searchInput,goodsType:value})}}
+                    onChange={value=>{setPageIndex(1);setSearchInput({...searchInput,goodsType:value})}}
                     />
                     </Form.Item>
                     <Form.Item
                     label="用户名称"
                     name="userName">
-                     <Input allowClear placeholder="请输入用户名称" onChange={event=>setSearchInput({...searchInput,userName:event.target.value.trim()})}/>
+                     <Input allowClear placeholder="请输入用户名称" onChange={event=>{setPageIndex(1);setSearchInput({...searchInput,userName:event.target.value.trim()})}}/>
                     </Form.Item>
                     </div>
                     <div className='form-right'>
                     <Form.Item
                     label="下单时间"
                     name="orderTime">
-                      <RangePicker placeholder={['开始时间','结束时间']} showTime={{format: 'HH:mm'}} format="YYYY-MM-DD HH:mm" onChange={(_,dataString)=>{setSearchInput({...searchInput,orderTime:dataString})}}/>
+                      <RangePicker placeholder={['开始时间','结束时间']} showTime={{format: 'HH:mm'}} format="YYYY-MM-DD HH:mm" onChange={(_,dataString)=>{setPageIndex(1);setSearchInput({...searchInput,orderTime:dataString})}}/>
                     </Form.Item>
                     <Form.Item
                     label="订单搜索"
                     name="orderSearch">
-                     <Input allowClear placeholder="请输入订单编号" onChange={event=>setSearchInput({...searchInput,orderId:event.target.value.trim()})}/>
+                     <Input allowClear placeholder="请输入订单编号" onChange={event=>{setPageIndex(1);setSearchInput({...searchInput,orderId:event.target.value.trim()})}}/>
                     </Form.Item>
                     <Form.Item
                     label="商家名称"
                     name="storeName">
-                     <Input allowClear placeholder="请输入商家名称" onChange={event=>setSearchInput({...searchInput,storeName:event.target.value.trim()})}/>
+                     <Input allowClear placeholder="请输入商家名称" onChange={event=>{setPageIndex(1);setSearchInput({...searchInput,storeName:event.target.value.trim()})}}/>
                     </Form.Item>
                     </div>
                     <Button onClick={handleResetInput} className='reset-btn' type='primary'>重置搜索</Button>

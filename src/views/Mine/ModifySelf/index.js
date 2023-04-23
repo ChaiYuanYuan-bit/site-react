@@ -166,7 +166,7 @@ const ModifySelf = ({drawerOpen,setDrawerOpen,sendNotification}) => {
                 <Input allowClear onChange={(event)=>{setInputEmail(event.target.value.trim())}}/>
                 </Form.Item>
                 <Form.Item 
-                label="角色："
+                label="权限："
                 name="roleType"
                 initialValue={userInfo.roleType.roleTypeId}
                 >

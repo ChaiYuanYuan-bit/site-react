@@ -1,7 +1,7 @@
 import React from 'react';
-import { useEffect,useState } from 'react';
+import { useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AiFillCloseCircle,AiFillLeftCircle,AiFillRightCircle} from "react-icons/ai";
+import { AiFillCloseCircle,AiFillLeftCircle} from "react-icons/ai";
 import './MaskLayout.scss'
 
 const MaskLayout = (props) => {
