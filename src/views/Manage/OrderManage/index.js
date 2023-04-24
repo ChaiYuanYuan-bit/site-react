@@ -1,6 +1,5 @@
 import React,{ useEffect, useState }  from 'react';
-import { Outlet,useNavigate} from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { Outlet} from 'react-router-dom';
 import { Tabs,Table,Tag,Select,Input,ConfigProvider,Form,Collapse,Pagination,DatePicker,Button } from 'antd';
 import { $getOrderNum,$getOrders,$getStateType } from '../../../api/orders';
 import {renderEmpty} from '../../../utils/emptyRender'
@@ -46,6 +45,7 @@ const OrderManage = () => {
             });
             if(success)
             {
+                console.log(orderNum)
                 setOrderNum(orderNum);
             }
             else{
@@ -73,8 +73,10 @@ const OrderManage = () => {
             {
                 params = {...params,"orderTime_gte":searchInput.orderTime[0],"orderTime_lte":searchInput.orderTime[1]};
             }
-            let data = await $getOrders(params)
-            data = data.map(item=>({
+            const data = await $getOrders(params)
+            console.log(data)
+            const new_data = data.map(item=>({
+                key:item.id,
                 id:item.id,
                 orderInfo:{
                     orderId:item.orderId,
@@ -101,7 +103,8 @@ const OrderManage = () => {
                 },
                 orderState:item.orderStateName,
             }))
-            setAllOrders(data)
+            // setAllOrders([])
+            setAllOrders(new_data)
         } catch (error) {
             console.log(error.message)
         }
@@ -117,9 +120,7 @@ const OrderManage = () => {
     }
 
     const handleTagChange = (value)=>{
-        // console.log(value)
         setCurrentStateType(value);
-        
     }
     //页脚
     const onPageChange = (current) => {
@@ -149,8 +150,7 @@ const OrderManage = () => {
                 <div style={{maxWidth:'350px'}}>
                     <p>订单编号：{orderInfo.orderId}</p>
                     <p>下单时间：{orderInfo.orderTime}</p>
-                    {orderState==='待使用'?<p>付款时间：{orderInfo.finishTime}</p>:
-                    orderState==='已取消'?<p>取消时间：{orderInfo.finishTime}</p>:<></>}
+                    {orderState==='待使用'?<p>付款时间：{orderInfo.finishTime}</p>:orderState==='已取消'?<p>取消时间：{orderInfo.finishTime}</p>:<></>}
                 </div>
             </>
           ))
@@ -164,7 +164,7 @@ const OrderManage = () => {
                 <div>
                     <p>用户ID：{userInfo.userId}</p>
                     <p>用户名称：{userInfo.username}</p>
-                    <p>用户类型：{userInfo.roleTypeName}</p>
+                    <p>用户权限：{userInfo.roleTypeName}</p>
                 </div>
             </>
           ))
@@ -177,14 +177,10 @@ const OrderManage = () => {
                 <>
                     <div  style={{maxWidth:'350px'}}>
                         <p>商家名称：{goodsInfo.storeName}</p>
-                        <p>{goodsInfo.storeType==='hotels'?`房间类型：${goodsInfo.comboTypeName}`:
-                        `套餐类型：${goodsInfo.comboTypeName}`}</p>
-                        <p>{goodsInfo.storeType==='hotels'?`房间价格：${goodsInfo.comboPrice} 元`:
-                        `套餐价格：${goodsInfo.comboPrice} 元`}</p>
-                        <p>{goodsInfo.storeType==='hotels'?`房间数量：${goodsInfo.count} 间`:
-                        goodsInfo.storeType==='scenics'?`套餐数量：${goodsInfo.count} 张`:`套餐数量：${goodsInfo.count} 份`}</p>
-                        <p>{goodsInfo.storeType==='hotels'?`住房日期：${goodsInfo.dataRange[0]} 至 ${goodsInfo.dataRange[1]}，${goodsInfo.days+1}天${goodsInfo.days}晚`:
-                        `使用时间：${goodsInfo.dataRange[0]} 至 ${goodsInfo.dataRange[1]}`}</p>
+                        <p>{goodsInfo.storeType==='hotels'?`房间类型：${goodsInfo.comboTypeName}`:`套餐类型：${goodsInfo.comboTypeName}`}</p>
+                        <p>{goodsInfo.storeType==='hotels'?`房间价格：${goodsInfo.comboPrice} 元`:`套餐价格：${goodsInfo.comboPrice} 元`}</p>
+                        <p>{goodsInfo.storeType==='hotels'?`房间数量：${goodsInfo.count} 间`:goodsInfo.storeType==='scenics'?`套餐数量：${goodsInfo.count} 张`:`套餐数量：${goodsInfo.count} 份`}</p>
+                        <p>{goodsInfo.storeType==='hotels'?`住房日期：${goodsInfo.dataRange[0]} 至 ${goodsInfo.dataRange[1]}，${goodsInfo.days+1}天${goodsInfo.days}晚`:`使用时间：${goodsInfo.dataRange[0]} 至 ${goodsInfo.dataRange[1]}`}</p>
                     </div>
                 </>
             ))
@@ -206,10 +202,7 @@ const OrderManage = () => {
             key: 'orderState',
             align:'center',
             render:((orderState)=>(
-                <Tag color={orderState==='待付款'?'#faad14' :
-                orderState==='待使用'?'#b7eb8f':
-                orderState==='已取消'?'#d9d9d9':
-                orderState==='待评价'?'#e6f4ff':'#52c41a'
+                <Tag color={orderState==='待付款'?'#faad14' :orderState==='待使用'?'#b7eb8f':orderState==='已取消'?'#d9d9d9':orderState==='待评价'?'#FF8C00':'#52c41a'
             }>{orderState}</Tag>
             ))
           }
@@ -222,7 +215,7 @@ const OrderManage = () => {
                     <Panel header="操作提示" key='1'>
                         <p>*订单状态有：待付款，待使用，已取消，待评价，已完成</p>
                         <p>*待付款订单取消后则为已关闭，待付款订单支付后则为待使用，待使用订单核销后即为待评价，待评价订单评价完成后即为已完成。</p>
-                        <p>*查询方式有：（不区分大小写）商家名称检索，用户名称检索，订单号检索。</p>
+                        <p>*查询条件有：角色类型筛选、商品类型筛选、（不区分大小写）用户名称检索、下单时间检索、商家名称检索、订单号检索。</p>
                     </Panel>
                 </Collapse>
                 </div>
@@ -232,99 +225,56 @@ const OrderManage = () => {
                 form={form}
                 >
                     <div >
-                    <Form.Item
-                    label="角色类型"
-                    name="roleTypeName"
+                    <Form.Item label="角色类型" name="roleTypeName"
+                        // initialValue={searchInput.roleTypeName}
                     >
                      <Select 
                      defaultValue={searchInput.roleTypeName}
-                    options={[
-                        {
-                            value:'all',label:'全部'
-                        },
-                        {
-                            value:'管理员',label:'管理员'
-                        },
-                        {
-                            value:'普通员工',label:'普通员工'
-                        },
-                        {
-                            value:'未授权',label:'未授权'
-                        },
-                    ]}
-                    onChange={value=>{setSearchInput({...searchInput,roleTypeName:value})}}
+                    options={[{value:'all',label:'全部'},
+                        {value:'管理员',label:'管理员'},
+                        {value:'普通员工',label:'普通员工'},
+                        {value:'未授权',label:'未授权'},]}
+                    onChange={value=>{setPageIndex(1);setSearchInput({...searchInput,roleTypeName:value})}}
                     />
                     </Form.Item>
                     <Form.Item
                     label="商品类型"
                     name="goodsType"
+                    // initialValue={searchInput.goodsType}
                     >
                     <Select 
                     defaultValue={searchInput.goodsType}
-                    options={[
-                        {
-                            value:'all',label:'全部'
-                        },
-                        {
-                            value:'hotels',label:'酒店'
-                        },
-                        {
-                            value:'scenics',label:'景点'
-                        },
-                        {
-                            value:'food',label:'美食'
-                        },
-                    ]}
-                    onChange={value=>{setSearchInput({...searchInput,goodsType:value})}}
+                    options={[{value:'all',label:'全部'},
+                        {value:'hotels',label:'酒店'},
+                        {value:'scenics',label:'景点'},
+                        {value:'food',label:'美食'},]}
+                    onChange={value=>{setPageIndex(1);setSearchInput({...searchInput,goodsType:value})}}
                     />
                     </Form.Item>
                     <Form.Item
                     label="用户名称"
-                    name="userName"
-                    >
-                     <Input 
-                    allowClear
-                    placeholder="请输入用户名称"
-                    onChange={event=>setSearchInput({...searchInput,userName:event.target.value.trim()})}
-                    />
+                    name="userName">
+                     <Input allowClear placeholder="请输入用户名称" onChange={event=>{setPageIndex(1);setSearchInput({...searchInput,userName:event.target.value.trim()})}}/>
                     </Form.Item>
                     </div>
                     <div className='form-right'>
                     <Form.Item
                     label="下单时间"
-                    name="orderTime"
-                    >
-                      <RangePicker
-                        placeholder={['开始时间','结束时间']}
-                        showTime={{
-                            format: 'HH:mm',
-                        }}
-                        format="YYYY-MM-DD HH:mm"
-                        onChange={(_,dataString)=>{setSearchInput({...searchInput,orderTime:dataString})}}
-                        />
+                    name="orderTime">
+                      <RangePicker placeholder={['开始时间','结束时间']} showTime={{format: 'HH:mm'}} format="YYYY-MM-DD HH:mm" onChange={(_,dataString)=>{setPageIndex(1);setSearchInput({...searchInput,orderTime:dataString})}}/>
                     </Form.Item>
                     <Form.Item
                     label="订单搜索"
-                    name="orderSearch"
-                    >
-                     <Input 
-                    allowClear
-                    placeholder="请输入订单编号"
-                    onChange={event=>setSearchInput({...searchInput,orderId:event.target.value.trim()})}
-                    />
+                    name="orderSearch">
+                     <Input allowClear placeholder="请输入订单编号" onChange={event=>{setPageIndex(1);setSearchInput({...searchInput,orderId:event.target.value.trim()})}}/>
                     </Form.Item>
                     <Form.Item
                     label="商家名称"
-                    name="storeName"
-                    >
-                     <Input 
-                    allowClear
-                    placeholder="请输入商家名称"
-                    onChange={event=>setSearchInput({...searchInput,storeName:event.target.value.trim()})}
-                    />
+                    name="storeName">
+                     <Input allowClear placeholder="请输入商家名称" onChange={event=>{setPageIndex(1);setSearchInput({...searchInput,storeName:event.target.value.trim()})}}/>
                     </Form.Item>
                     </div>
-                    <Button onClick={handleResetInput} className='reset-btn'>重置搜索</Button>
+                    <Button onClick={handleResetInput} className='reset-btn' type='primary'>重置搜索</Button>
                 </Form></div>
                 <Tabs className='tab'
                 tabBarGutter={50}
@@ -332,35 +282,19 @@ const OrderManage = () => {
                 onChange={handleTagChange}
                 items={ stateTypeList.map((item) => {
                     return {
-                    label: (
-                        <span>
-                        {item.description}
-                        </span>
-                    ),
+                    label: (<span>{item.description}</span>),
                     key: item.state,
                     };
                 })}/>
                 <div className='content'>
                     <div id='manager-orderInfo-content-list'>
                         <ConfigProvider renderEmpty={renderEmpty}>
-                            <Table 
-                            scroll={{x: "100%"}}
-                            columns={columns} 
-                            dataSource={allOrders} 
-                            pagination={false}
-                            />
+                            <Table scroll={{x: "100%"}} columns={columns} dataSource={allOrders} pagination={false}/>
                         </ConfigProvider>
                     </div>
                 </div>
                 <div className='content-footer'>
-                    <Pagination 
-                        showTotal={(total) => `共 ${total} 项`}
-                        onChange={onPageChange}
-                        showSizeChanger
-                        onShowSizeChange={onShowSizeChange}
-                        defaultPageSize={pageSize}
-                        defaultCurrent={pageIndex} 
-                        total={orderNum} />
+                    <Pagination showTotal={(total) => `共 ${total} 项`}onChange={onPageChange} showSizeChanger onShowSizeChange={onShowSizeChange} defaultPageSize={pageSize} current={pageIndex} total={orderNum} />
                 </div>
             </div>
             <Outlet/>

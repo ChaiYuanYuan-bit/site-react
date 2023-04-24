@@ -1,9 +1,8 @@
 import React,{ useEffect, useState }  from 'react';
-import { Outlet,useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { Tag,Tabs,Space,Select,Table,Input,Tooltip,ConfigProvider,Button,Form,Pagination,Drawer,Collapse } from 'antd';
-import { $getRole } from '../../../api/roleApi';
-import {$getUserNum,$getAllUsers} from '../../../api/userApi'
+import { Outlet } from 'react-router-dom';
+import { Tag,Tabs,Space,Select,Table,Input,ConfigProvider,Form,Pagination,Collapse } from 'antd';
+import { $getRole } from '../../../api/role';
+import {$getUserNum,$getAllUsers} from '../../../api/user'
 import {renderEmpty} from '../../../utils/emptyRender'
 import ModifyUser from './ModifyUser';
 import './UserManage.scss'
@@ -27,7 +26,7 @@ const UserManage = ({sendNotification}) => {
     // 当前页码
     const [pageIndex,setPageIndex] = useState(1);
     // 默认显示条数
-    const [pageSize,setpageSize] = useState(15);
+    const [pageSize,setpageSize] = useState(10);
     // 抽屉状态
     const [drawerOpen, setDrawerOpen] = useState(false);
     // 所选用户信息
@@ -171,7 +170,7 @@ const UserManage = ({sendNotification}) => {
           },
           
         {
-          title: '角色',
+          title: '权限',
           key: 'tags',
           dataIndex: 'tags',
           align:'center',
@@ -260,22 +259,12 @@ const UserManage = ({sendNotification}) => {
                     label="查询"
                     name="search"
                     >
-                     <Input 
-                    allowClear
-                    value={inputState}
-                    placeholder="搜索"
-                    onChange={onInputChange}
-                    disabled={searchType==='all'?true:false}
+                     <Input allowClearvalue={inputState} placeholder="搜索" onChange={onInputChange} disabled={searchType==='all'?true:false}
                     />
                     </Form.Item>
                 </Form></span>
                 </div>
-
-                <Tabs className='tab'
-                tabBarGutter={50}
-                defaultActiveKey={currentUserType}
-                onChange={handleTagChange}
-                items={ userType.map((item) => {
+                <Tabs className='tab'tabBarGutter={50} defaultActiveKey={currentUserType} onChange={handleTagChange} items={ userType.map((item) => {
                     return {
                     label: (
                         <span>
@@ -288,31 +277,16 @@ const UserManage = ({sendNotification}) => {
                 <div className='content'>
                     <div id='manager-userInfo-content-list'>
                     <ConfigProvider renderEmpty={renderEmpty}>
-                        <Table 
-                        columns={columns} 
-                        dataSource={allUserInfo} 
-                        pagination={false}
+                        <Table  columns={columns}  dataSource={allUserInfo}  pagination={false}
                         />
                     </ConfigProvider>
                     </div>
                 </div>
                 <div className='content-footer'>
-                        <Pagination 
-                        showTotal={(total) => `共 ${total} 项`}
-                        onChange={onPageChange}
-                        showSizeChanger
-                        onShowSizeChange={onShowSizeChange}
-                        defaultPageSize={pageSize}
-                        defaultCurrent={pageIndex} 
-                        total={userNum} />
+                        <Pagination showTotal={(total) => `共 ${total} 项`} onChange={onPageChange} showSizeChanger onShowSizeChange={onShowSizeChange} defaultPageSize={pageSize} current={pageIndex}  total={userNum} />
                 </div>
             </div>
-            <ModifyUser 
-            sendNotification = {sendNotification}
-            drawerOpen={drawerOpen} 
-            setDrawerOpen={setDrawerOpen}
-            modifyUserId = {modifyUserId}
-            modifyUserInfo = {modifyUserInfo}
+            <ModifyUser sendNotification={sendNotification} drawerOpen={drawerOpen} setDrawerOpen={setDrawerOpen} modifyUserId={modifyUserId} modifyUserInfo={modifyUserInfo} loadUserNum={loadUserNum} loadAllUsers={loadAllUsers}
             />
             <Outlet/>
         </>

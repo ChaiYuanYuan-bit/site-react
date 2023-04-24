@@ -1,10 +1,10 @@
 import { useRoutes } from "react-router-dom";
-import { useEffect,useState } from "react";
+import { useEffect } from "react";
 import { useDispatch } from 'react-redux';
 import jwtDecode from "jwt-decode";
 import { setInfo } from "./redux/UserInfo";
 import { setMsg } from "./redux/Notification";
-import { $getOne } from "./api/userApi";
+import { $getOne } from "./api/user";
 import GlobalNotification from './components/GlobalNotification'
 import routes from "./routes";
 
@@ -44,7 +44,7 @@ function App() {
     dispatch(setMsg({msg:{type,description}}));
     setTimeout(()=>{
       clearNotification();
-    },50)
+    },200)
   }
   // 重置全局消息框
   const clearNotification = ()=>{
@@ -55,7 +55,7 @@ function App() {
 },[]);
   
   //路由组件
-  const element = useRoutes(routes({loadUserInfo,sendNotification}));
+  const element = useRoutes(routes({sendNotification}));
   return (
     <>
       {element}

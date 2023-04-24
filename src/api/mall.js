@@ -7,7 +7,7 @@ export const $getGoodsType = async ()=>{
     return data;
 };
 
-//获取商品类型
+//获取所有商品
 export const $getItems = async ({goodsType,queryList})=>{
     let final_data;
     if(queryList)

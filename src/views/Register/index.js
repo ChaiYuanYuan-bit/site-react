@@ -3,7 +3,7 @@ import {Button,Form, Input, Select} from 'antd'
 import {LeftOutlined} from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import { pwd_regex, phone_regex } from '../../config';
-import { $getRole,$regUser } from '../../api/roleApi';
+import { $getRole,$regUser } from '../../api/role';
 import encrypt from '../../utils/encrypt'
 import "./Register.scss";
 
@@ -32,7 +32,7 @@ const Register = ({sendNotification}) => {
             let data = await $getRole();
             setRoleType(data);
             let roleType = data.map(item=>({value:item.id,label:item.roleName}));
-            setShowRoleType(roleType);
+            setShowRoleType(roleType.filter(item=>item.label!=='未授权'));
         }
         catch(err){
             sendNotification('error',err.message);
