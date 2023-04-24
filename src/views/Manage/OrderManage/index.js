@@ -45,7 +45,6 @@ const OrderManage = () => {
             });
             if(success)
             {
-                console.log(orderNum)
                 setOrderNum(orderNum);
             }
             else{
@@ -74,7 +73,6 @@ const OrderManage = () => {
                 params = {...params,"orderTime_gte":searchInput.orderTime[0],"orderTime_lte":searchInput.orderTime[1]};
             }
             const data = await $getOrders(params)
-            console.log(data)
             const new_data = data.map(item=>({
                 key:item.id,
                 id:item.id,
