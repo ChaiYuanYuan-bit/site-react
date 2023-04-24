@@ -4,6 +4,10 @@
 
 为了满足企业员工的购买需求，需要开发一套用于内部员工使用的购物站点。角色主要有普通员工、管理员和未授权角色。普通员工登陆后可进行在线购物，购买路径为，列表页->详情页->下单页->支付页，还可以在“我的-订单信息“查看订单信息。管理员角色登陆后可以进行正常购物和查看个人订单信息，此外还可以看到用户管理和订单管理页面。在用户管理页面，管理员可以控制用户访问此系统的权限。订单管理页面则可以看到所有的下单列表。
 
+## 汇报文档
+
+[https://zweq0kdheg6.feishu.cn/docx/F3NKdK8RDoxjeoxGBPFcaBWDnah](https://zweq0kdheg6.feishu.cn/docx/F3NKdK8RDoxjeoxGBPFcaBWDnah)
+
 # Preview
 
 ![登录](./README/1.png)
