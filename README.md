@@ -10,9 +10,9 @@
 
 ## 技术栈
 
-**前端：**React18 + Router6 + Redux + Axios + scss + Ant-design
+**前端：** React18 + Router6 + Redux + Axios + scss + Ant-design
 
-**后端：**Node.js + Express + Json-Server + nodemon
+**后端：** Node.js + Express + Json-Server + nodemon
 
 [项目详细说明文档](https://zweq0kdheg6.feishu.cn/docx/F3NKdK8RDoxjeoxGBPFcaBWDnah)
 
