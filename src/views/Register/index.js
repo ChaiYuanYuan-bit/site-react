@@ -32,7 +32,7 @@ const Register = ({sendNotification}) => {
             let data = await $getRole();
             setRoleType(data);
             let roleType = data.map(item=>({value:item.id,label:item.roleName}));
-            setShowRoleType(roleType);
+            setShowRoleType(roleType.filter(item=>item.label!=='未授权'));
         }
         catch(err){
             sendNotification('error',err.message);

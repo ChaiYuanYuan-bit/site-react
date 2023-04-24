@@ -26,7 +26,7 @@ const UserManage = ({sendNotification}) => {
     // 当前页码
     const [pageIndex,setPageIndex] = useState(1);
     // 默认显示条数
-    const [pageSize,setpageSize] = useState(15);
+    const [pageSize,setpageSize] = useState(10);
     // 抽屉状态
     const [drawerOpen, setDrawerOpen] = useState(false);
     // 所选用户信息
@@ -170,7 +170,7 @@ const UserManage = ({sendNotification}) => {
           },
           
         {
-          title: '角色',
+          title: '权限',
           key: 'tags',
           dataIndex: 'tags',
           align:'center',
@@ -286,7 +286,7 @@ const UserManage = ({sendNotification}) => {
                         <Pagination showTotal={(total) => `共 ${total} 项`} onChange={onPageChange} showSizeChanger onShowSizeChange={onShowSizeChange} defaultPageSize={pageSize} current={pageIndex}  total={userNum} />
                 </div>
             </div>
-            <ModifyUser  sendNotification = {sendNotification} drawerOpen={drawerOpen}  setDrawerOpen={setDrawerOpen} modifyUserId = {modifyUserId} modifyUserInfo = {modifyUserInfo}
+            <ModifyUser sendNotification={sendNotification} drawerOpen={drawerOpen} setDrawerOpen={setDrawerOpen} modifyUserId={modifyUserId} modifyUserInfo={modifyUserInfo} loadUserNum={loadUserNum} loadAllUsers={loadAllUsers}
             />
             <Outlet/>
         </>

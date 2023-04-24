@@ -1,0 +1,57 @@
+.notfound-background
+{
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-image: url("http://localhost:3000/login-bg.png");
+    background-color:#ccc;
+    transition: opacity .3s;
+    overflow-y: auto;
+    z-index: 100;
+    .main-content{
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        z-index: 200;
+        width: 100%;
+        height: 100%;
+        .content{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            h1{
+                font-size: 8em;
+                display: flex;
+                align-items: center;
+            }
+            .back{
+                position: relative;
+                flex-direction: column;
+                cursor: pointer;
+                .center-icon{
+                    margin-left: 20px;
+                    width: 180px;
+                    height: 180px;
+                    transform:rotate(-10deg);
+                }
+                .back-text{
+                    position: absolute;
+                    z-index: 1000;
+                    color: white;
+                    transform:rotate(-10deg);
+                    top: 30%;
+                    left: 38%;
+                    text-align: center;
+                    letter-spacing: 0.1em;
+                }
+            }
+        }
+    }
+}
