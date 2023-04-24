@@ -103,7 +103,6 @@ const ModifyUser = ({drawerOpen,setDrawerOpen,modifyUserId,modifyUserInfo,sendNo
                 style={{
                     maxWidth: 600,
                   }}
-                // onFinish={onFinish}
                 autoComplete="off"
                 >
                 <Form.Item 
@@ -168,7 +167,6 @@ const ModifyUser = ({drawerOpen,setDrawerOpen,modifyUserId,modifyUserInfo,sendNo
                     <Button
                     type="primary"
                     disabled={selectValue!==modifyUserInfo.roleTypeId||numberValue!==modifyUserInfo.balance?false:true} 
-                    // htmlType="submit"
                     loading={loading}
                     onClick={()=>{setPopConfirmOpen(true)}}
                     >

@@ -101,7 +101,6 @@ const OrderManage = () => {
                 },
                 orderState:item.orderStateName,
             }))
-            // setAllOrders([])
             setAllOrders(new_data)
         } catch (error) {
             console.log(error.message)
@@ -224,7 +223,6 @@ const OrderManage = () => {
                 >
                     <div >
                     <Form.Item label="角色类型" name="roleTypeName"
-                        // initialValue={searchInput.roleTypeName}
                     >
                      <Select 
                      defaultValue={searchInput.roleTypeName}
@@ -238,7 +236,6 @@ const OrderManage = () => {
                     <Form.Item
                     label="商品类型"
                     name="goodsType"
-                    // initialValue={searchInput.goodsType}
                     >
                     <Select 
                     defaultValue={searchInput.goodsType}
