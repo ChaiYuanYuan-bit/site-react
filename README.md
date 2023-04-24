@@ -21,9 +21,27 @@
 1. install [Node.js](https://nodejs.org/en)
 2. clone code
 ```
-$ git clone https://github.com/ChaiYuanYuan-bit/site-react.git
+$ git clone --recursive https://github.com/ChaiYuanYuan-bit/site-react.git
 ```
-3. install package
+3. install site-react packages
 ```
-$ cd site
+$ cd site-react
+$ npm i
 ```
+4. install site-server packages
+```
+$ cd site-server
+$ npm i
+```
+5. run site-server
+```
+$ npm start
+```
+6. run site-react
+```
+$ cd..
+$ npm start
+```
+## Admin Account
+账户：admin
+密码：123321
