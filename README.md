@@ -42,6 +42,6 @@ $ npm start
 $ cd..
 $ npm start
 ```
-## Admin Account
+## Login Account
 账户：admin
 密码：123321
