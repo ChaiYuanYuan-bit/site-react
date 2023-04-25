@@ -27,9 +27,10 @@
             flex-direction: row;
             align-items: center;
             h1{
-                font-size: 8em;
+                font-size: 6em;
                 display: flex;
                 align-items: center;
+                color: #fff;
             }
             .back{
                 position: relative;
@@ -39,15 +40,16 @@
                     margin-left: 20px;
                     width: 180px;
                     height: 180px;
-                    transform:rotate(-10deg);
+                    transform:rotate(-20deg);
+                    color: #fff;
                 }
                 .back-text{
                     position: absolute;
                     z-index: 1000;
-                    color: white;
-                    transform:rotate(-10deg);
+                    color: black;
+                    transform:rotate(-20deg);
                     top: 30%;
-                    left: 38%;
+                    left: 32%;
                     text-align: center;
                     letter-spacing: 0.1em;
                 }

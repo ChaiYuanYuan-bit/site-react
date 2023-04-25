@@ -148,9 +148,7 @@ export default () => {
             collapsed={collapsed} 
             className='sider'
             >
-              <div className="logo">
-                {/* EIS商城 &nbsp; <ShoppingCartOutlined rotate={330} style={{ fontSize: '22px', color: '#91caff' }}/> */}
-              </div>
+              <div className="logo"></div>
               <Menu
                 style={{ backgroundColor: 'white', }}
                 mode="inline"
