@@ -28,7 +28,7 @@ const Detail = () => {
     // 获取路由参数
     const [search,setSearch] = useSearchParams();
     // 错误展示信息
-    const errMsg = '无法加载商品详情，请稍后再试！( 即将返回 )';
+    const errMsg = '无法加载商品详情，请稍后再试！';
     // 路由跳转
     const navigate = useNavigate();
 
@@ -56,21 +56,13 @@ const Detail = () => {
         // console.log(error);
         //有错误就返回上一页
         setDetailLoadState(-1);
-        navigate(-1);
-        setTimeout(()=>{
-          navigate(-1);
-        },2500);
       }
-    }
-    // 返回事件处理
-    const handleBack = ()=>{
-      navigate(-1);
     }
     // 关闭详情页
     const handleClose = ()=>{
-      navigate(-1,{
-        replace:true
-      });
+        navigate(-1,{
+          replace:true
+        });
     }
     // 屏蔽部分日期
     const disabledDate = (current) => {
@@ -131,7 +123,6 @@ const Detail = () => {
     }
     return (
         <MaskLayout 
-        onBack = {handleBack} 
         onClose = {handleClose}
         hiddenBack={true} 
         >
