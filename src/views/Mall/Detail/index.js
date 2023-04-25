@@ -53,8 +53,6 @@ const Detail = () => {
         // 初始化当前所选套餐
         setCurrentCombo(data.detail.comboType?data.detail.comboType[0]:{});
       } catch (error) {
-        // console.log(error);
-        //有错误就返回上一页
         setDetailLoadState(-1);
       }
     }
